@@ -20,6 +20,9 @@ public class CameraMove : MonoBehaviour
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
 
+    public float multipleX = 1.0f;
+    public float multipleY = 1.0f;
+
     private void Start()
     {
         cameraTransform = GetComponent<Transform>();
@@ -49,8 +52,16 @@ public class CameraMove : MonoBehaviour
     /// </summary>
     private void ThirdCamera()
     {
-        float objTargetRotationAngle = objTargetTransform.eulerAngles.y;
-        float objHeight = objTargetTransform.position.y + height;
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+        rotationX += mouseX * multipleX;
+        rotationY += mouseY * multipleY;
+        rotationY = Mathf.Clamp(rotationY, -5.0f, 1.5f);
+        Debug.Log(rotationY);
+
+        float objTargetRotationAngle = objTargetTransform.eulerAngles.y + rotationX;
+        float objHeight = objTargetTransform.position.y + height - rotationY;
         float nowRotationAngle = cameraTransform.eulerAngles.y;
         float nowHeight = cameraTransform.position.y;
 
@@ -63,14 +74,9 @@ public class CameraMove : MonoBehaviour
         cameraTransform.position -= nowRotate * Vector3.forward * distance;
         cameraTransform.position = new Vector3(cameraTransform.position.x, nowHeight, cameraTransform.position.z);
 
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
 
-        rotationX += mouseX * Time.deltaTime;
-        rotationY += mouseY * Time.deltaTime;
 
         cameraTransform.LookAt(objTargetTransform);
-        cameraTransform.eulerAngles += new Vector3(-rotationY, rotationX, 0);
     }
 
 

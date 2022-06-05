@@ -7,15 +7,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	[SerializeField]
 	private int _level = 5;
 	[SerializeField]
-	private Material _defaultMaterial;
-	[SerializeField]
-	private Material _selectMaterial;
-	private MeshRenderer _meshRenderer;
-
-	private void Start()
-	{
-		_meshRenderer = GetComponent<MeshRenderer>();
-	}
+	private GameObject _selection =	null;
 
 	public void CheckCapture(int level)
 	{
@@ -29,17 +21,42 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
+	public void KeyESkill()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void KeyRSkill()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void MonsterAI()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void MouseLButtonSkill()
+	{
+		throw new System.NotImplementedException();
+	}
+
+	public void MouseRButtonSkill()
+	{
+		throw new System.NotImplementedException();
+	}
 
 	public void SelectMonster()
 	{
 		Debug.Log("선택");
-		_meshRenderer.material = _selectMaterial;
+		_selection.gameObject.SetActive(true);
 
 	}
 
 	public void UnSelectMonster()
 	{
 		Debug.Log("선택 취소");
-		_meshRenderer.material = _defaultMaterial;
+		_selection.gameObject.SetActive(false);
 	}
+
 }
