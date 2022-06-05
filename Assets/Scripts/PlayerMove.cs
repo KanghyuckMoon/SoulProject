@@ -31,22 +31,35 @@ public class PlayerMove : MonoBehaviour
 	private CharacterController _characterController;
 
 	private IMonster _selectMonster = null;
+	private IMonster _captureMonster = null;
+	private bool _isCapture = false;
+	private Collider _collider = null;
 
 	private void Start()
 	{
 		//카메라 캐싱
 		_mainCamera = Camera.main;
+		_collider = GetComponent<Collider>();
 		_characterController = GetComponent<CharacterController>();
 	}
 
 	private void Update()
 	{
-		Move();
-		SetGravity();
-		TryCapture();
-		BodyDirectChange();
+		if(_isCapture)
+		{
+			MonsterMove();
+		}
+		else
+		{
+			Move();
+			SetGravity();
+			TryCapture();
+			BodyDirectChange();
+		}
 	}
 
+	//빙의 전
+	
 	/// <summary>
 	/// 이동함수
 	/// </summary>
@@ -147,7 +160,12 @@ public class PlayerMove : MonoBehaviour
 			{
 				if (_selectMonster != null)
 				{
-					_selectMonster.CheckCapture(1);
+					if(_selectMonster.CheckCapture(1))
+					{
+						_captureMonster = _selectMonster;
+						_collider.enabled = false;
+						_isCapture = true;
+					}
 				}
 			}
 		}
@@ -158,4 +176,31 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
+	//빙의 후
+
+	/// <summary>
+	/// 몬스터를 이동시킴
+	/// </summary>
+	private void MonsterMove()
+	{
+		float inputX = Input.GetAxis("Horizontal");
+		float inputY = Input.GetAxis("Vertical");
+
+		transform.position = _captureMonster.Transform.position;
+
+		Vector3 forward = _mainCamera.transform.TransformDirection(Vector3.forward);
+		forward.y = 0;
+		Vector3 right = new Vector3(forward.z, 0, -forward.x);
+
+		//캐릭터 이동방향
+		Vector3 targetDirect = inputX * right + inputY * forward;
+
+		if (inputY >= 0)
+		{
+			_moveDirect = Vector3.RotateTowards(_moveDirect, targetDirect, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
+			_moveDirect = _moveDirect.normalized;
+		}
+
+		_captureMonster.MonsterMove(targetDirect);
+	}
 }

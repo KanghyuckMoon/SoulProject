@@ -9,54 +9,114 @@ public class MonsterBase : MonoBehaviour, IMonster
 	[SerializeField]
 	private GameObject _selection =	null;
 
-	public void CheckCapture(int level)
+	public bool IsSelect 
+	{
+		get
+		{
+			return _isSelect;
+		}
+		set
+		{
+			_isSelect = value;
+		}
+	}
+
+	public Transform Transform
+	{
+		get
+		{
+			return transform;
+		}
+		set
+		{
+
+		}
+	}
+
+	private bool _isSelect = false;
+
+	public void Update()
+	{
+		if(!IsSelect)
+		{
+			MonsterAI();
+		}
+	}
+
+	public bool CheckCapture(int level)
 	{
 		if (_level <= level)
 		{
 			Debug.Log("빙의 가능");
+			return true;
 		}
 		else
 		{
 			Debug.Log("빙의 불가능");
+			return false;
 		}
 	}
 
-	public void KeyESkill()
+	public bool KeyESkill()
 	{
-		throw new System.NotImplementedException();
+		if (IsSelect)
+		{
+			return false;
+		}
+		return true;
 	}
 
-	public void KeyRSkill()
+	public bool KeyRSkill()
 	{
-		throw new System.NotImplementedException();
+		if (IsSelect)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public void MonsterAI()
 	{
-		throw new System.NotImplementedException();
+		
 	}
 
-	public void MouseLButtonSkill()
+	public bool MouseLButtonSkill()
 	{
-		throw new System.NotImplementedException();
+		if (IsSelect)
+		{
+			return false;
+		}
+		return true;
 	}
 
-	public void MouseRButtonSkill()
+	public bool MouseRButtonSkill()
 	{
-		throw new System.NotImplementedException();
+		if (IsSelect)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public void SelectMonster()
 	{
-		Debug.Log("선택");
 		_selection.gameObject.SetActive(true);
+		IsSelect = true;
 
 	}
 
 	public void UnSelectMonster()
 	{
-		Debug.Log("선택 취소");
 		_selection.gameObject.SetActive(false);
+		IsSelect = false;
 	}
 
+	public bool MonsterMove(Vector3 targetVector)
+	{
+		if (IsSelect)
+		{
+			return false;
+		}
+		return true;
+	}
 }

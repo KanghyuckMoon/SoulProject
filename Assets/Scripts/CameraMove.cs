@@ -58,7 +58,6 @@ public class CameraMove : MonoBehaviour
         rotationX += mouseX * multipleX;
         rotationY += mouseY * multipleY;
         rotationY = Mathf.Clamp(rotationY, -5.0f, 1.5f);
-        Debug.Log(rotationY);
 
         float objTargetRotationAngle = objTargetTransform.eulerAngles.y + rotationX;
         float objHeight = objTargetTransform.position.y + height - rotationY;

@@ -1195,7 +1195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 972a50e71619c6a478211c67060bc5bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 5
+  _level: 0
   _selection: {fileID: 1894787938}
 --- !u!65 &705776493
 BoxCollider:
