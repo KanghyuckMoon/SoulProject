@@ -73,7 +73,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 		set
 		{
-			IsCapture = value;
+			_isCapture = value;
 		}
 	}
 

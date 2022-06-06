@@ -39,7 +39,10 @@ public class AttackCollider : MonoBehaviour, IAttack
 		}
 	}
 
+	[SerializeField]
 	private bool _isPlayer = false; //플레이어의 몬스터인지
+	[SerializeField]
 	private GameObject _effect = null; //이펙트
+	[SerializeField]
 	private int _damage = 10; //데미지
 }
