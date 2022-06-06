@@ -48,6 +48,14 @@ public class PlayerMove : MonoBehaviour
 		if(_isCapture)
 		{
 			MonsterMove();
+			SkillE();
+			SkillR();
+			SkillMLB();
+			SkillMRB();
+			if(Input.GetKeyDown(KeyCode.Q))
+			{
+				OutCaptureMonster();
+			}
 		}
 		else
 		{
@@ -186,7 +194,7 @@ public class PlayerMove : MonoBehaviour
 		float inputX = Input.GetAxis("Horizontal");
 		float inputY = Input.GetAxis("Vertical");
 
-		transform.position = _captureMonster.Transform.position;
+		transform.position = _captureMonster.Position;
 
 		Vector3 forward = _mainCamera.transform.TransformDirection(Vector3.forward);
 		forward.y = 0;
@@ -202,5 +210,60 @@ public class PlayerMove : MonoBehaviour
 		}
 
 		_captureMonster.MonsterMove(targetDirect);
+	}
+
+	/// <summary>
+	/// E 스킬
+	/// </summary>
+	private void SkillE()
+	{
+		if(Input.GetKeyDown(KeyCode.E))
+		{
+			_captureMonster.KeyESkill();
+		}
+	}
+
+	/// <summary>
+	/// R 스킬
+	/// </summary>
+	private void SkillR()
+	{
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			_captureMonster.KeyRSkill();
+		}
+	}
+
+	/// <summary>
+	/// 마우스 왼쪽 버튼 스킬
+	/// </summary>
+	private void SkillMLB()
+	{
+		if(Input.GetMouseButtonDown(0))
+		{
+			_captureMonster.MouseLButtonSkill();
+		}
+	}
+
+	/// <summary>
+	/// 마우스 오른쪽 버튼 스킬
+	/// </summary>
+	private void SkillMRB()
+	{
+		if (Input.GetMouseButtonDown(1))
+		{
+			_captureMonster.MouseRButtonSkill();
+		}
+	}
+
+	/// <summary>
+	/// 빙의해제
+	/// </summary>
+	private void OutCaptureMonster()
+	{
+		_captureMonster = null;
+		_selectMonster = null;
+		_isCapture = false;
+		_collider.enabled = true;
 	}
 }

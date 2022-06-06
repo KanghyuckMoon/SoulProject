@@ -16,6 +16,12 @@ interface IMonster
 		set;
 	}
 
+	public Vector3 Position
+	{
+		get;
+		set;
+	}
+
 	/// <summary>
 	/// 빙의가 가능한지 체크
 	/// </summary>
