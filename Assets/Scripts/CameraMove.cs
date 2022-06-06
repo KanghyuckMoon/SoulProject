@@ -31,6 +31,9 @@ public class CameraMove : MonoBehaviour
         {
             objTargetTransform = objTarget.transform;
         }
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void LateUpdate()
