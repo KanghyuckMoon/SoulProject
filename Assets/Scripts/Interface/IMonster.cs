@@ -41,6 +41,16 @@ interface IMonster
 	bool CheckCapture(int level);
 
 	/// <summary>
+	/// 빙의
+	/// </summary>
+	void Capture();
+
+	/// <summary>
+	/// 빙의 해제
+	/// </summary>
+	void UnCapture();
+
+	/// <summary>
 	/// 몬스터가 선택될 때
 	/// </summary>
 	void SelectMonster();

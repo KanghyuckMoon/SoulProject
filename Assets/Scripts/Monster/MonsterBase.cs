@@ -103,6 +103,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	//참조하는 속성
 	private CharacterController _characterController = null;
 	private Animator _animator = null;
+	private IAttack[] _iAttacks = null;
 
 	//속성
 	private bool _isSelect = false; //선택되었는지
@@ -112,11 +113,11 @@ public class MonsterBase : MonoBehaviour, IMonster
 	private Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
 
 
-
 	private void Start()
 	{
 		_characterController = GetComponent<CharacterController>();
 		_animator = GetComponent<Animator>();
+		_iAttacks = GetComponentsInChildren<IAttack>(true);
 	}
 
 	public void Update()
@@ -296,7 +297,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		if (other.gameObject.CompareTag("ATK"))
 		{
 			var iAttack = other.GetComponent<IAttack>();
-			if(iAttack.IsPlayer != _isSelect)
+			if(iAttack.IsPlayer != _isCapture)
 			{
 				//공격받음
 				Damaged(iAttack);
@@ -311,7 +312,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	private void Damaged(IAttack iAttack)
 	{
 		_hp -= iAttack.Damage;
-		Instantiate(iAttack.Effect, transform.position, Quaternion.identity);
+		Instantiate(iAttack.Effect, _centerPivot.position, Quaternion.identity);
 		if (_hp > 0)
 		{
 			_monsterState = MonsterState.Damage;
@@ -319,6 +320,32 @@ public class MonsterBase : MonoBehaviour, IMonster
 		else
 		{
 			_monsterState = MonsterState.Die;
+		}
+	}
+
+	/// <summary>
+	/// 빙의
+	/// </summary>
+	public void Capture()
+	{
+		_isCapture = true;
+		int count = _iAttacks.Length;
+		for (int i = 0; i < count; i++)
+		{
+			_iAttacks[i].IsPlayer = true;
+		}
+	}
+
+	/// <summary>
+	/// 빙의 해제
+	/// </summary>
+	public void UnCapture()
+	{
+		_isCapture = false;
+		int count = _iAttacks.Length;
+		for (int i = 0; i < count; i++)
+		{
+			_iAttacks[i].IsPlayer = false;
 		}
 	}
 }

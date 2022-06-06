@@ -174,7 +174,7 @@ public class PlayerMove : MonoBehaviour
 					{
 						_isCantAnything = true;
 						_captureMonster = _selectMonster;
-						_captureMonster.IsCapture = true;
+						_captureMonster.Capture();
 						_collider.enabled = false;
 						_isCapture = true;
 						HOTween.Init(true, true, true);
@@ -267,7 +267,7 @@ public class PlayerMove : MonoBehaviour
 	/// </summary>
 	private void OutCaptureMonster()
 	{
-		_captureMonster.IsCapture = false;
+		_captureMonster.UnCapture();
 		_captureMonster = null;
 		_selectMonster = null;
 		_isCapture = false;
