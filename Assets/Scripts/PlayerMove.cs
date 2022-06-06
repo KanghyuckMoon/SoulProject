@@ -1,39 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Holoville.HOTween;
 
 public class PlayerMove : MonoBehaviour
 {
-	//이동 속도
+	//인스펙터에서 설정할 수 있는 변수들
 	[SerializeField]
-	private float _moveSpeed = 0f;
+	private float _moveSpeed = 0f; //이동속도
 	[SerializeField]
-	private float _gravitySpeed = 0f;
-	//방향 회전속도
+	private float _gravitySpeed = 0f; //중력 받는 속도
 	[SerializeField]
-	private float _rotateSpeed = 100.0f;
+	private float _rotateSpeed = 100.0f; //방향 회전속도
 	[SerializeField]
-	private float _bodyRotateSpeed = 50.0f;
-
-	private Camera _mainCamera = null;
-
-	//캐릭터 현재 이동 방향 초깃값
-	private Vector3 _moveDirect = Vector3.zero;
-	private Vector3 _gravityDirect = Vector3.zero;
-
-
+	private float _bodyRotateSpeed = 50.0f; //몸통 회전 속도
 	[Range(0.01f, 1f)]
-	[Tooltip("가변 증가 값")]
-	public float velocityChangeSpeed = 0.01f;
-	//캐릭터 현재 이동 속도 초깃값 
-	private Vector3 currentVelocitySpeed = Vector3.zero;
+	public float _velocityChangeSpeed = 0.01f; //가변 증가값
 
-	private CharacterController _characterController;
+	//참조하는 변수
+	private Camera _mainCamera = null; //메인 카메라
+	private IMonster _selectMonster = null; //마우스로 선택한 몬스터
+	private IMonster _captureMonster = null; //빙의한 몬스터
+	private Collider _collider = null; //피격판정
+	private CharacterController _characterController; //캐릭터 컨트롤러
 
-	private IMonster _selectMonster = null;
-	private IMonster _captureMonster = null;
-	private bool _isCapture = false;
-	private Collider _collider = null;
+	//속성
+	private Vector3 currentVelocitySpeed = Vector3.zero; //이동속도 초깃값
+	private bool _isCapture = false; //빙의중인 상태
+	private bool _isCantAnything = false; //아무 것도 할 수 없는 상태
+	private Vector3 _moveDirect = Vector3.zero; //캐릭터 현재 이동방향 초깃값
+	private Vector3 _gravityDirect = Vector3.zero; //현재 중력 크기 초깃값
+	private Tweener _tweener = null; //트위너
 
 	private void Start()
 	{
@@ -45,6 +42,11 @@ public class PlayerMove : MonoBehaviour
 
 	private void Update()
 	{
+		if(_isCantAnything)
+		{
+			return;
+		}
+
 		if(_isCapture)
 		{
 			MonsterMove();
@@ -118,7 +120,7 @@ public class PlayerMove : MonoBehaviour
 		{
 			Vector3 retVelocity = _characterController.velocity;
 			retVelocity.y = 0;
-			currentVelocitySpeed = Vector3.Lerp(currentVelocitySpeed, retVelocity, velocityChangeSpeed * Time.fixedDeltaTime);
+			currentVelocitySpeed = Vector3.Lerp(currentVelocitySpeed, retVelocity, _velocityChangeSpeed * Time.fixedDeltaTime);
 		}
 
 		return currentVelocitySpeed.magnitude;
@@ -170,9 +172,12 @@ public class PlayerMove : MonoBehaviour
 				{
 					if(_selectMonster.CheckCapture(1))
 					{
+						_isCantAnything = true;
 						_captureMonster = _selectMonster;
 						_collider.enabled = false;
 						_isCapture = true;
+						HOTween.Init(true, true, true);
+						HOTween.To(transform, 0.5f, new TweenParms().Prop("position", _captureMonster.Position).OnComplete(() => _isCantAnything = false));
 					}
 				}
 			}
