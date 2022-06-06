@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class MonsterBase : MonoBehaviour, IMonster
 {
-	[SerializeField]
-	private int _level = 5;
-	[SerializeField]
-	private GameObject _selection =	null;
+	//몬스터 상태
+	public enum MonsterState
+	{
+		None,
+		Idle,
+		Move,
+		Wait,
+		GoTarget,
+		Attack,
+		Damage,
+		Die,
+	}
 
-	private CharacterController _characterController = null;
-	public bool IsSelect 
+	//프로퍼티
+	public bool IsSelect
 	{
 		get
 		{
@@ -21,7 +29,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 			_isSelect = value;
 		}
 	}
-
 	public Transform Transform
 	{
 		get
@@ -46,28 +53,65 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
-	private bool _isSelect = false;
+	public int HP
+	{
+		get
+		{
+			return _hp;
+		}
+		set
+		{
+			_hp = value;
+		}
+	}
 
+	public bool IsCapture
+	{
+		get
+		{
+			return _isCapture;
+		}
+		set
+		{
+			IsCapture = value;
+		}
+	}
+
+	//인스펙터에서 확인할 수 있는 속성
 	[SerializeField]
-	private Transform _centerPivot;
-	//캐릭터 현재 이동 방향 초깃값
-	private Vector3 _moveDirect = Vector3.zero;
-	private Vector3 _gravityDirect = Vector3.zero;
+	private MonsterState _monsterState = MonsterState.None; //몬스터 상태
 	[SerializeField]
-	private float _moveSpeed = 0f;
+	private int _level = 5; //초기 레벨
 	[SerializeField]
-	private float _gravitySpeed = 0f;
-	//방향 회전속도
+	private GameObject _selection = null; //선택될 때 킬 쉐이더 오브젝트
 	[SerializeField]
-	private float _rotateSpeed = 100.0f;
+	private Transform _centerPivot; //중심점 트랜스폼
 	[SerializeField]
-	private float _bodyRotateSpeed = 50.0f;
+	private float _moveSpeed = 0f; //이동속도
+	[SerializeField]
+	private float _gravitySpeed = 0f; //중력속도
+	[SerializeField]
+	private float _rotateSpeed = 100.0f; //방향 회전속도
+	[SerializeField]
+	private float _bodyRotateSpeed = 50.0f; //몸통 회전속도
 	[Range(0.01f, 1f)]
-	[Tooltip("가변 증가 값")]
-	public float velocityChangeSpeed = 0.01f;
-	//캐릭터 현재 이동 속도 초깃값 
-	private Vector3 currentVelocitySpeed = Vector3.zero;
+	[SerializeField]
+	private float velocityChangeSpeed = 0.01f; //가변 증가값
+	[SerializeField]
+	private int _hp = 100; //체력
+
+	//참조하는 속성
+	private CharacterController _characterController = null;
 	private Animator _animator = null;
+
+	//속성
+	private bool _isSelect = false; //선택되었는지
+	private bool _isCapture = false; //빙의 되었는지
+	private Vector3 _moveDirect = Vector3.zero; //이동방향
+	private Vector3 _gravityDirect = Vector3.zero; //중력 벡터
+	private Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
+
+
 
 	private void Start()
 	{
@@ -77,7 +121,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 	public void Update()
 	{
-		if(!IsSelect)
+		if(!_isCapture)
 		{
 			MonsterAI();
 		}
@@ -86,6 +130,8 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 		}
 		BodyDirectChange();
+		SetGravity();
+		SetAnimation();
 	}
 
 	public bool CheckCapture(int level)
@@ -183,6 +229,13 @@ public class MonsterBase : MonoBehaviour, IMonster
 		return true;
 	}
 
+	/// <summary>
+	/// 애니메이션 설정
+	/// </summary>
+	private void SetAnimation()
+	{
+
+	}
 
 	/// <summary>
 	/// 중력 설정
@@ -192,11 +245,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		Ray ray = new Ray(transform.position, -transform.up);
 		RaycastHit raycastHit;
 
-		if (Input.GetKey(KeyCode.Space))
-		{
-			_gravityDirect.y = _gravitySpeed;
-		}
-		else if (Physics.Raycast(ray, out raycastHit, 1.5f))
+		if (Physics.Raycast(ray, out raycastHit, 1.5f))
 		{
 			_gravityDirect.y = 0;
 		}
@@ -205,7 +254,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 			_gravityDirect.y = -_gravitySpeed;
 		}
 	}
-
 
 	/// <summary>
 	/// 몸통 돌리기
@@ -239,4 +287,38 @@ public class MonsterBase : MonoBehaviour, IMonster
 		return currentVelocitySpeed.magnitude;
 	}
 
+	/// <summary>
+	/// 공격 충돌
+	/// </summary>
+	/// <param name="other"></param>
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.CompareTag("ATK"))
+		{
+			var iAttack = other.GetComponent<IAttack>();
+			if(iAttack.IsPlayer != _isSelect)
+			{
+				//공격받음
+				Damaged(iAttack);
+			}
+		}
+	}
+
+	/// <summary>
+	/// 공격받았을 때 함수
+	/// </summary>
+	/// <param name="iAttack"></param>
+	private void Damaged(IAttack iAttack)
+	{
+		_hp -= iAttack.Damage;
+		Instantiate(iAttack.Effect, transform.position, Quaternion.identity);
+		if (_hp > 0)
+		{
+			_monsterState = MonsterState.Damage;
+		}
+		else
+		{
+			_monsterState = MonsterState.Die;
+		}
+	}
 }

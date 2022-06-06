@@ -22,6 +22,18 @@ interface IMonster
 		set;
 	}
 
+	public int HP
+	{
+		get;
+		set;
+	}
+
+	public bool IsCapture
+	{
+		get;
+		set;
+	}
+
 	/// <summary>
 	/// 빙의가 가능한지 체크
 	/// </summary>
