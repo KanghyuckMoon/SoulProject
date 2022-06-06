@@ -67,10 +67,12 @@ public class MonsterBase : MonoBehaviour, IMonster
 	public float velocityChangeSpeed = 0.01f;
 	//캐릭터 현재 이동 속도 초깃값 
 	private Vector3 currentVelocitySpeed = Vector3.zero;
+	private Animator _animator = null;
 
 	private void Start()
 	{
 		_characterController = GetComponent<CharacterController>();
+		_animator = GetComponent<Animator>();
 	}
 
 	public void Update()
@@ -100,17 +102,18 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
-	public bool KeyESkill()
+	public virtual bool KeyESkill()
 	{
 		Debug.Log("스킬E");
 		if (IsSelect)
 		{
+			_animator.SetTrigger("IsAttack");
 			return false;
 		}
 		return true;
 	}
 
-	public bool KeyRSkill()
+	public virtual bool KeyRSkill()
 	{
 		Debug.Log("스킬R");
 		if (IsSelect)
@@ -125,7 +128,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		
 	}
 
-	public bool MouseLButtonSkill()
+	public virtual bool MouseLButtonSkill()
 	{
 		Debug.Log("스킬MLB");
 		if (IsSelect)
@@ -135,7 +138,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		return true;
 	}
 
-	public bool MouseRButtonSkill()
+	public virtual bool MouseRButtonSkill()
 	{
 		Debug.Log("스킬MRB");
 		if (IsSelect)
@@ -162,7 +165,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 	{
 		if (IsSelect)
 		{
-
 			float inputX = Input.GetAxis("Horizontal");
 			float inputY = Input.GetAxis("Vertical");
 
@@ -224,12 +226,14 @@ public class MonsterBase : MonoBehaviour, IMonster
 		if (_characterController.velocity == Vector3.zero)
 		{
 			currentVelocitySpeed = Vector3.zero;
+			_animator.SetBool("IsWalk", false);
 		}
 		else
 		{
 			Vector3 retVelocity = _characterController.velocity;
 			retVelocity.y = 0;
 			currentVelocitySpeed = Vector3.Lerp(currentVelocitySpeed, retVelocity, velocityChangeSpeed * Time.fixedDeltaTime);
+			_animator.SetBool("IsWalk", true);
 		}
 
 		return currentVelocitySpeed.magnitude;

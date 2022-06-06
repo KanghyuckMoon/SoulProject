@@ -1198,9 +1198,11 @@ MonoBehaviour:
   _level: 0
   _selection: {fileID: 1894787938}
   _centerPivot: {fileID: 1894579795}
-  _moveSpeed: 20
+  _moveSpeed: 2
   _gravitySpeed: 3
   _rotateSpeed: 100
+  _bodyRotateSpeed: 50
+  velocityChangeSpeed: 0.01
 --- !u!4 &706171296
 Transform:
   m_ObjectHideFlags: 0
@@ -1852,7 +1854,7 @@ Animator:
   m_GameObject: {fileID: 705744260}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ea6ba7cb9033ed34aa257fc4a1b82eb4, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
