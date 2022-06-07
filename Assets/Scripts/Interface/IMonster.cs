@@ -28,6 +28,11 @@ interface IMonster
 		set;
 	}
 
+	public int Level
+	{
+		get;
+		set;
+	}
 	public bool IsCapture
 	{
 		get;

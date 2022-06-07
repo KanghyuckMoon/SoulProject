@@ -53,6 +53,17 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
+	public int Level
+	{
+		get
+		{
+			return _level;
+		}
+		set
+		{
+
+		}
+	}
 	public int HP
 	{
 		get
@@ -106,7 +117,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 	//참조하는 속성
 	private CharacterController _characterController = null;
-	private Animator _animator = null;
+	protected Animator _animator = null;
 	private IAttack[] _iAttacks = null;
 
 	//속성
@@ -265,22 +276,21 @@ public class MonsterBase : MonoBehaviour, IMonster
 	public virtual bool KeyESkill()
 	{
 		Debug.Log("스킬E");
-		if (IsSelect)
+		if (IsCapture)
 		{
-			_animator.SetTrigger("IsAttack");
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public virtual bool KeyRSkill()
 	{
 		Debug.Log("스킬R");
-		if (IsSelect)
+		if (IsCapture)
 		{
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public void MonsterAI()

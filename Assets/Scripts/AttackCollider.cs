@@ -30,7 +30,7 @@ public class AttackCollider : MonoBehaviour, IAttack
 	{ 
 		get
 		{
-			return _damage;
+			return _damage + (_damage * (int)Mathf.Log10(_monster.Level));
 		}
 
 		set
@@ -45,4 +45,10 @@ public class AttackCollider : MonoBehaviour, IAttack
 	private GameObject _effect = null; //이펙트
 	[SerializeField]
 	private int _damage = 10; //데미지
+	private IMonster _monster = null;
+
+	private void Start()
+	{
+		_monster = GetComponentInParent<IMonster>();
+	}
 }

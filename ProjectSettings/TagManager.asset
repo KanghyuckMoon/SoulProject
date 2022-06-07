@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - ATK
+  - Monster
   layers:
   - Default
   - TransparentFX

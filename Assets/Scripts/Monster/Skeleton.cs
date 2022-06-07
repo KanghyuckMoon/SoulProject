@@ -4,22 +4,35 @@ using UnityEngine;
 
 public class Skeleton : MonsterBase
 {
+	[SerializeField]
+	private GameObject _skillRProjectile;
+
 	public override bool KeyESkill()
 	{
 		if(base.KeyESkill())
 		{
-			return false;
+			_animator.SetTrigger("IsAttack");
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 
 	public override bool KeyRSkill()
 	{
-		Debug.Log("스킬이 존재하지 않음");
-		return base.KeyRSkill();
+		if (base.KeyRSkill())
+		{
+			FollowProjectile followProjectile = Instantiate(_skillRProjectile, transform.position, Quaternion.identity, null).GetComponent<FollowProjectile>();
+			followProjectile.Initialized(IsCapture);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		return false;
 	}
 
 	public override bool MouseLButtonSkill()
