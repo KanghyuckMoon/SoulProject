@@ -16,6 +16,14 @@ public class MonsterBase : MonoBehaviour, IMonster
 		Damage,
 		Die,
 	}
+	public enum AttackState
+	{
+		None,
+		MLB,
+		MRB,
+		E,
+		R
+	}
 
 	//프로퍼티
 	public bool IsSelect
@@ -90,7 +98,9 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 	//인스펙터에서 확인할 수 있는 속성
 	[SerializeField]
-	private MonsterState _monsterState = MonsterState.None; //몬스터 상태
+	protected MonsterState _monsterState = MonsterState.None; //몬스터 상태
+	[SerializeField]
+	protected AttackState _attackState = AttackState.None; //몬스터 상태
 	[SerializeField]
 	private int _level = 5; //초기 레벨
 	[SerializeField]
@@ -113,20 +123,20 @@ public class MonsterBase : MonoBehaviour, IMonster
 	[SerializeField]
 	private float _atkRange = 1.5f; //몬스터 공격 거리
 	[SerializeField]
-	public GameObject _targetCharacter = null; //몬스터의 타겟
+	private GameObject _targetCharacter = null; //몬스터의 타겟
 
 	//참조하는 속성
-	private CharacterController _characterController = null;
 	protected Animator _animator = null;
+	private CharacterController _characterController = null;
 	private IAttack[] _iAttacks = null;
 
 	//속성
-	private bool _isSelect = false; //선택되었는지
-	private bool _isCapture = false; //빙의 되었는지
-	private Vector3 _moveDirect = Vector3.zero; //이동방향
-	private Vector3 _gravityDirect = Vector3.zero; //중력 벡터
-	private Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
-	private Vector3 posTarget = Vector3.zero; //몬스터가 본 타겟 위치
+	protected bool _isSelect = false; //선택되었는지
+	protected bool _isCapture = false; //빙의 되었는지
+	protected Vector3 _moveDirect = Vector3.zero; //이동방향
+	protected Vector3 _gravityDirect = Vector3.zero; //중력 벡터
+	protected Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
+	protected Vector3 posTarget = Vector3.zero; //몬스터가 본 타겟 위치
 
 
 	private void Start()
@@ -134,18 +144,15 @@ public class MonsterBase : MonoBehaviour, IMonster
 		_characterController = GetComponent<CharacterController>();
 		_animator = GetComponent<Animator>();
 		_iAttacks = GetComponentsInChildren<IAttack>(true);
+		_targetCharacter = FindObjectOfType<PlayerMove>().gameObject;
+		_monsterState = MonsterState.Idle;
 	}
 
 	public void Update()
 	{
-		if(!_isCapture)
+		if(!IsCapture)
 		{
 			CheckState();
-			//MonsterAI();
-		}
-		else
-		{
-
 		}
 		BodyDirectChange();
 		SetGravity();
@@ -160,7 +167,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		switch (_monsterState)
 		{
 			case MonsterState.Idle:
-				//setIdle(); // Idle -> GoTarget or Move
+				SetIdle(); // Idle -> GoTarget or Move
 				break;
 			case MonsterState.GoTarget:
 			case MonsterState.Move:
@@ -175,6 +182,39 @@ public class MonsterBase : MonoBehaviour, IMonster
 				break;
 			default:
 				break;
+		}
+	}
+
+	/// <summary>
+	/// 해골 상태가 대기일 때 동작
+	/// </summary>
+	void SetIdle()
+	{
+		//플레이어를 감지했느냐 안 했느냐
+		if (_targetCharacter == null)
+		{
+			//임의의 이동 목표점
+			posTarget = new Vector3(transform.position.x + Random.Range(-10f, 10f),
+									transform.position.y + 1000f,
+									transform.position.z + Random.Range(-10f, 10f));
+
+
+			//레이캐스트 시작점 목표방향
+			Ray ray = new Ray(posTarget, Vector3.down);
+			RaycastHit info = new RaycastHit();
+			//충돌체가 있다면
+			if (Physics.Raycast(ray, out info, Mathf.Infinity))
+			{
+				//임의의 목표 벡터에 높이 값 추가
+				posTarget.y = info.point.y;
+			}
+			//해골 상태를 Move로
+			_monsterState = MonsterState.Move;
+		}
+		else
+		{
+			//해골 상태를 Go Target으로
+			_monsterState = MonsterState.GoTarget;
 		}
 	}
 
@@ -231,6 +271,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 		//방향은 x,z만 사용
 		direction = new Vector3(direction.x, 0f, direction.z);
+		_moveDirect = direction.normalized;
 
 		//이동량 방향 구함
 		Vector3 amount = direction * _moveSpeed * Time.deltaTime;
@@ -293,11 +334,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 		return false;
 	}
 
-	public void MonsterAI()
-	{
-		
-	}
-
 	public virtual bool MouseLButtonSkill()
 	{
 		Debug.Log("스킬MLB");
@@ -318,6 +354,11 @@ public class MonsterBase : MonoBehaviour, IMonster
 		return true;
 	}
 
+	public void MonsterAI()
+	{
+
+	}
+
 	public void SelectMonster()
 	{
 		_selection.gameObject.SetActive(true);
@@ -333,8 +374,9 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 	public bool MonsterMove(Vector3 targetVector)
 	{
-		if (IsSelect)
+		if (IsCapture)
 		{
+			_monsterState = MonsterState.Move;
 			float inputX = Input.GetAxis("Horizontal");
 			float inputY = Input.GetAxis("Vertical");
 
@@ -354,11 +396,80 @@ public class MonsterBase : MonoBehaviour, IMonster
 	}
 
 	/// <summary>
+	/// 빙의
+	/// </summary>
+	public void Capture()
+	{
+		SelectMonster();
+		_isCapture = true;
+		int count = _iAttacks.Length;
+		for (int i = 0; i < count; i++)
+		{
+			_iAttacks[i].IsPlayer = true;
+		}
+	}
+
+	/// <summary>
+	/// 빙의 해제
+	/// </summary>
+	public void UnCapture()
+	{
+		UnSelectMonster();
+		_isCapture = false;
+		int count = _iAttacks.Length;
+		for (int i = 0; i < count; i++)
+		{
+			_iAttacks[i].IsPlayer = false;
+		}
+	}
+
+	/// <summary>
 	/// 애니메이션 설정
 	/// </summary>
 	private void SetAnimation()
 	{
-
+		switch (_monsterState)
+		{
+			case MonsterState.Idle:
+				_animator.SetBool("IsWalk", false);
+				break;
+			case MonsterState.GoTarget:
+			case MonsterState.Move:
+				if (GetVelocitySpd() <= 0)
+				{
+					_animator.SetBool("IsWalk", false);
+				}
+				else
+				{
+					_animator.SetBool("IsWalk", true);
+				}
+				break;
+			case MonsterState.Attack:
+				switch (_attackState)
+				{
+					case AttackState.None:
+						break;
+					case AttackState.MLB:
+						break;
+					case AttackState.MRB:
+						break;
+					case AttackState.E:
+						_animator.SetTrigger("IsAttack");
+						break;
+					case AttackState.R:
+						break;
+				}
+				_animator.SetBool("IsWalk", false);
+				break;
+			case MonsterState.Damage:
+				_animator.SetBool("IsWalk", false);
+				break;
+			case MonsterState.Die:
+				_animator.SetBool("IsWalk", false);
+				break;
+			default:
+				break;
+		}
 	}
 
 	/// <summary>
@@ -398,14 +509,12 @@ public class MonsterBase : MonoBehaviour, IMonster
 		if (_characterController.velocity == Vector3.zero)
 		{
 			currentVelocitySpeed = Vector3.zero;
-			_animator.SetBool("IsWalk", false);
 		}
 		else
 		{
 			Vector3 retVelocity = _characterController.velocity;
 			retVelocity.y = 0;
 			currentVelocitySpeed = Vector3.Lerp(currentVelocitySpeed, retVelocity, velocityChangeSpeed * Time.fixedDeltaTime);
-			_animator.SetBool("IsWalk", true);
 		}
 
 		return currentVelocitySpeed.magnitude;
@@ -446,29 +555,4 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
-	/// <summary>
-	/// 빙의
-	/// </summary>
-	public void Capture()
-	{
-		_isCapture = true;
-		int count = _iAttacks.Length;
-		for (int i = 0; i < count; i++)
-		{
-			_iAttacks[i].IsPlayer = true;
-		}
-	}
-
-	/// <summary>
-	/// 빙의 해제
-	/// </summary>
-	public void UnCapture()
-	{
-		_isCapture = false;
-		int count = _iAttacks.Length;
-		for (int i = 0; i < count; i++)
-		{
-			_iAttacks[i].IsPlayer = false;
-		}
-	}
 }

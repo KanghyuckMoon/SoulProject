@@ -11,11 +11,14 @@ public class Skeleton : MonsterBase
 	{
 		if(base.KeyESkill())
 		{
-			_animator.SetTrigger("IsAttack");
+			_monsterState = MonsterState.Attack;
+			_attackState = AttackState.E;
 			return true;
 		}
 		else
 		{
+			_monsterState = MonsterState.Attack;
+			_attackState = AttackState.E;
 			return false;
 		}
 	}
@@ -32,7 +35,6 @@ public class Skeleton : MonsterBase
 		{
 			return false;
 		}
-		return false;
 	}
 
 	public override bool MouseLButtonSkill()
