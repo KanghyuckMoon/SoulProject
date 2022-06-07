@@ -128,6 +128,8 @@ public class MonsterBase : MonoBehaviour, IMonster
 	private GameObject _targetCharacter = null; //몬스터의 타겟
 	[SerializeField]
 	private float _viewAngle; //시야각
+	[SerializeField]
+	private float _groundHeight; //땅에서부터 떨어질 높이
 
 	//참조하는 속성
 	protected Animator _animator = null;
@@ -282,7 +284,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		_moveDirect = direction.normalized;
 
 		//이동량 방향 구함
-		Vector3 amount = direction * _moveSpeed * Time.deltaTime;
+		Vector3 amount = direction * _moveSpeed * Time.deltaTime + _gravityDirect;
 
 		//월드 좌표로 이동
 		_characterController.Move(amount);
@@ -541,7 +543,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		Ray ray = new Ray(transform.position, -transform.up);
 		RaycastHit raycastHit;
 
-		if (Physics.Raycast(ray, out raycastHit, 1.5f))
+		if (Physics.Raycast(ray, out raycastHit, _groundHeight))
 		{
 			_gravityDirect.y = 0;
 		}
