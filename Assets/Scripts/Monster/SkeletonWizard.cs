@@ -13,14 +13,8 @@ public class SkeletonWizard : MonsterBase
 
 	public override bool KeyRSkill()
 	{
-		if (base.KeyRSkill())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		Debug.Log("스킬이 존재하지 않음");
+		return base.KeyRSkill();
 	}
 
 	public override bool MouseLButtonSkill()

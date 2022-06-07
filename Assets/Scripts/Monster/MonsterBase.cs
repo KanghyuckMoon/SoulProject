@@ -396,7 +396,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	{
 		if (IsCapture)
 		{
-			if(_monsterState == MonsterState.Wait || _monsterState == MonsterState.Damage)
+			if(_monsterState == MonsterState.Wait || _monsterState == MonsterState.Damage || _monsterState == MonsterState.Attack)
 			{
 				return false;
 			}
@@ -478,7 +478,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 			case MonsterState.Attack:
 				if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
 				{
-					_isAttack = false;
+					StartCoroutine(SetWait(0.3f));
 				}
 				if(_isAttack)
 				{
@@ -628,6 +628,10 @@ public class MonsterBase : MonoBehaviour, IMonster
 		return targetAngle;
 	}
 
+	/// <summary>
+	/// 상태 변경
+	/// </summary>
+	/// <param name="monsterState"></param>
 	public void ChangeState(MonsterState monsterState)
 	{
 		_monsterState = monsterState;
