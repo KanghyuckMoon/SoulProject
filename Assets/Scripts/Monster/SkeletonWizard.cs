@@ -27,13 +27,13 @@ public class SkeletonWizard : MonsterBase
 	{
 		if (base.KeyESkill())
 		{
-			_monsterState = MonsterState.Attack;
+			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.MLB;
 			return true;
 		}
 		else
 		{
-			_monsterState = MonsterState.Attack;
+			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.MLB;
 			return false;
 		}

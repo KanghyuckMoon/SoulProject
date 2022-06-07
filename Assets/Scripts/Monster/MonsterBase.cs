@@ -153,7 +153,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		_iAttacks = GetComponentsInChildren<IAttack>(true);
 		_playerMove = FindObjectOfType<PlayerMove>();
 		_targetCharacter = _playerMove.gameObject;
-		_monsterState = MonsterState.Idle;
+		ChangeState(MonsterState.Idle);
 	}
 
 	public void Update()
@@ -217,12 +217,12 @@ public class MonsterBase : MonoBehaviour, IMonster
 				posTarget.y = info.point.y;
 			}
 			//해골 상태를 Move로
-			_monsterState = MonsterState.Move;
+			ChangeState(MonsterState.Move);
 		}
 		else
 		{
 			//해골 상태를 Go Target으로
-			_monsterState = MonsterState.GoTarget;
+			ChangeState(MonsterState.GoTarget);
 		}
 	}
 
@@ -263,7 +263,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 					float angle = GetTargetToAngle();
 					if (distance.magnitude < _atkRange && angle < _viewAngle / 2)
 					{
-						_monsterState = MonsterState.Attack;
+						ChangeState(MonsterState.Attack);
 						_attackState = AttackState.MLB;
 						return;
 					}
@@ -301,7 +301,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		float angle = GetTargetToAngle();
 		if ((distance > _atkRange + 0.5f || angle >= _viewAngle / 2) && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f )
 		{
-			_monsterState = MonsterState.GoTarget;
+			ChangeState(MonsterState.GoTarget);
 		}
 
 	}
@@ -313,11 +313,11 @@ public class MonsterBase : MonoBehaviour, IMonster
 	IEnumerator SetWait(float time)
 	{
 		//대기 상태로 변경
-		_monsterState = MonsterState.Wait;
+		ChangeState(MonsterState.Wait);
 		//대기시간 작동
 		yield return new WaitForSeconds(time);
 		//Idle로 돌려준다
-		_monsterState = MonsterState.Idle;
+		ChangeState(MonsterState.Idle);
 	}
 
 	public bool CheckCapture(int level)
@@ -396,7 +396,11 @@ public class MonsterBase : MonoBehaviour, IMonster
 	{
 		if (IsCapture)
 		{
-			_monsterState = MonsterState.Move;
+			if(_monsterState == MonsterState.Wait || _monsterState == MonsterState.Damage)
+			{
+				return false;
+			}
+			ChangeState(MonsterState.Move);
 			float inputX = Input.GetAxis("Horizontal");
 			float inputY = Input.GetAxis("Vertical");
 
@@ -421,7 +425,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	public void Capture()
 	{
 		SelectMonster();
-		_monsterState = MonsterState.Idle;
+		ChangeState(MonsterState.Idle);
 		_isCapture = true;
 		int count = _iAttacks.Length;
 		for (int i = 0; i < count; i++)
@@ -594,13 +598,13 @@ public class MonsterBase : MonoBehaviour, IMonster
 		Instantiate(iAttack.Effect, _centerPivot.position, Quaternion.identity);
 		if (_hp > 0)
 		{
-			_monsterState = MonsterState.Damage;
+			ChangeState(MonsterState.Damage);
 		}
 		else
 		{
 			if(_monsterState != MonsterState.Die)
 			{
-				_monsterState = MonsterState.Die;
+				ChangeState(MonsterState.Die);
 				if(IsCapture)
 				{
 					_playerMove.OutCaptureMonster();	
@@ -624,4 +628,8 @@ public class MonsterBase : MonoBehaviour, IMonster
 		return targetAngle;
 	}
 
+	public void ChangeState(MonsterState monsterState)
+	{
+		_monsterState = monsterState;
+	}
 }
