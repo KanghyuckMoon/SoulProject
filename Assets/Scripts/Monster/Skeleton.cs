@@ -29,7 +29,7 @@ public class Skeleton : MonsterBase
 
 	public override bool MouseLButtonSkill()
 	{
-		if (base.KeyESkill())
+		if (base.MouseLButtonSkill())
 		{
 			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.MLB;

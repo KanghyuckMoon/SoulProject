@@ -476,9 +476,15 @@ public class MonsterBase : MonoBehaviour, IMonster
 				}
 				break;
 			case MonsterState.Attack:
-				if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+				if (_isDie)
 				{
+					break;
+				}
+				if (_isAttack && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+				{
+					_isAttack = false;
 					StartCoroutine(SetWait(0.3f));
+					break;
 				}
 				if(_isAttack)
 				{
@@ -505,6 +511,10 @@ public class MonsterBase : MonoBehaviour, IMonster
 				_animator.SetBool("IsWalk", false);
 				break;
 			case MonsterState.Damage:
+				if (_isDie)
+				{
+					break;
+				}
 				_isAttack = false;
 				_animator.SetTrigger("IsDamage");
 				StartCoroutine(SetWait(1f));
