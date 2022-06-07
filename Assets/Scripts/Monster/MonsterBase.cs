@@ -438,7 +438,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		UnSelectMonster();
 		if(_monsterState != MonsterState.Die)
 		{
-			_monsterState = MonsterState.Idle;
+			StartCoroutine(SetWait(1f));
 		}
 		_isCapture = false;
 		int count = _iAttacks.Length;
@@ -486,13 +486,16 @@ public class MonsterBase : MonoBehaviour, IMonster
 					case AttackState.None:
 						break;
 					case AttackState.MLB:
+						_animator.SetTrigger("IsAttackMLB");
 						break;
 					case AttackState.MRB:
+						_animator.SetTrigger("IsAttackMRB");
 						break;
 					case AttackState.E:
-						_animator.SetTrigger("IsAttack");
+						_animator.SetTrigger("IsAttackE");
 						break;
 					case AttackState.R:
+						_animator.SetTrigger("IsAttackR");
 						break;
 				}
 				_animator.SetBool("IsWalk", false);

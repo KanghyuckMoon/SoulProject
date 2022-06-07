@@ -9,18 +9,8 @@ public class Skeleton : MonsterBase
 
 	public override bool KeyESkill()
 	{
-		if(base.KeyESkill())
-		{
-			_monsterState = MonsterState.Attack;
-			_attackState = AttackState.E;
-			return true;
-		}
-		else
-		{
-			_monsterState = MonsterState.Attack;
-			_attackState = AttackState.E;
-			return false;
-		}
+		Debug.Log("스킬이 존재하지 않음");
+		return base.KeyESkill();
 	}
 
 	public override bool KeyRSkill()
@@ -39,8 +29,18 @@ public class Skeleton : MonsterBase
 
 	public override bool MouseLButtonSkill()
 	{
-		Debug.Log("스킬이 존재하지 않음");
-		return base.MouseLButtonSkill();
+		if (base.KeyESkill())
+		{
+			_monsterState = MonsterState.Attack;
+			_attackState = AttackState.MLB;
+			return true;
+		}
+		else
+		{
+			_monsterState = MonsterState.Attack;
+			_attackState = AttackState.MLB;
+			return false;
+		}
 	}
 
 	public override bool MouseRButtonSkill()
