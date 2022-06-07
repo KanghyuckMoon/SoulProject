@@ -264,7 +264,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 					if (distance.magnitude < _atkRange && angle < _viewAngle / 2)
 					{
 						_monsterState = MonsterState.Attack;
-						_attackState = AttackState.E;
+						_attackState = AttackState.MLB;
 						return;
 					}
 
