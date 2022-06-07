@@ -1383,6 +1383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monsterState: 0
+  _attackState: 0
   _level: 0
   _selection: {fileID: 2085715349936681478}
   _centerPivot: {fileID: 2085715349936990007}
@@ -1392,7 +1393,7 @@ MonoBehaviour:
   _bodyRotateSpeed: 50
   velocityChangeSpeed: 0.01
   _hp: 100
-  _atkRange: 1.5
+  _atkRange: 2
   _targetCharacter: {fileID: 0}
   _skillRProjectile: {fileID: 8197893559453319277, guid: 0ec6861fbb0b6c6418a4051d79539c1d, type: 3}
 --- !u!1 &2085715349229982946

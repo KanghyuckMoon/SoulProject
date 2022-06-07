@@ -100,6 +100,8 @@ public class MonsterBase : MonoBehaviour, IMonster
 	[SerializeField]
 	protected MonsterState _monsterState = MonsterState.None; //몬스터 상태
 	[SerializeField]
+	protected MonsterState _beforeMonsterState = MonsterState.None; //몬스터 상태
+	[SerializeField]
 	protected AttackState _attackState = AttackState.None; //몬스터 상태
 	[SerializeField]
 	private int _level = 5; //초기 레벨
@@ -124,11 +126,14 @@ public class MonsterBase : MonoBehaviour, IMonster
 	private float _atkRange = 1.5f; //몬스터 공격 거리
 	[SerializeField]
 	private GameObject _targetCharacter = null; //몬스터의 타겟
+	[SerializeField]
+	private float _viewAngle; //시야각
 
 	//참조하는 속성
 	protected Animator _animator = null;
 	private CharacterController _characterController = null;
 	private IAttack[] _iAttacks = null;
+	private PlayerMove _playerMove = null;
 
 	//속성
 	protected bool _isSelect = false; //선택되었는지
@@ -137,6 +142,8 @@ public class MonsterBase : MonoBehaviour, IMonster
 	protected Vector3 _gravityDirect = Vector3.zero; //중력 벡터
 	protected Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
 	protected Vector3 posTarget = Vector3.zero; //몬스터가 본 타겟 위치
+	private bool _isAttack; //공격중일 때
+	private bool _isDie; //죽었을 때
 
 
 	private void Start()
@@ -144,7 +151,8 @@ public class MonsterBase : MonoBehaviour, IMonster
 		_characterController = GetComponent<CharacterController>();
 		_animator = GetComponent<Animator>();
 		_iAttacks = GetComponentsInChildren<IAttack>(true);
-		_targetCharacter = FindObjectOfType<PlayerMove>().gameObject;
+		_playerMove = FindObjectOfType<PlayerMove>();
+		_targetCharacter = _playerMove.gameObject;
 		_monsterState = MonsterState.Idle;
 	}
 
@@ -174,7 +182,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 				SetMove();
 				break;
 			case MonsterState.Attack:
-				//setAttack();
+				SetAttack();
 				break;
 			case MonsterState.Damage:
 				break;
@@ -239,7 +247,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 					if (distance.magnitude < _atkRange)
 					{
-						StartCoroutine(SetWait());
+						StartCoroutine(SetWait(0.5f));
 						return;
 					}
 
@@ -252,11 +260,11 @@ public class MonsterBase : MonoBehaviour, IMonster
 				{
 					//타겟 위치와 해골 위치 차이 구하기
 					distance = _targetCharacter.transform.position - transform.position;
-
-
-					if (distance.magnitude < _atkRange)
+					float angle = GetTargetToAngle();
+					if (distance.magnitude < _atkRange && angle < _viewAngle / 2)
 					{
 						_monsterState = MonsterState.Attack;
+						_attackState = AttackState.E;
 						return;
 					}
 
@@ -285,24 +293,36 @@ public class MonsterBase : MonoBehaviour, IMonster
 	}
 
 	/// <summary>
+	/// 해골 공격모드
+	/// </summary>
+	void SetAttack()
+	{
+		float distance = Vector3.Distance(_targetCharacter.transform.position, transform.position);
+		float angle = GetTargetToAngle();
+		if ((distance > _atkRange + 0.5f || angle >= _viewAngle / 2) && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f )
+		{
+			_monsterState = MonsterState.GoTarget;
+		}
+
+	}
+
+	/// <summary>
 	/// 정지 상태 코루틴 함수
 	/// </summary>
 	/// <returns></returns>
-	IEnumerator SetWait()
+	IEnumerator SetWait(float time)
 	{
 		//대기 상태로 변경
 		_monsterState = MonsterState.Wait;
-		//대기 시간 설정
-		float timeWait = Random.Range(1f, 3f);
 		//대기시간 작동
-		yield return new WaitForSeconds(timeWait);
+		yield return new WaitForSeconds(time);
 		//Idle로 돌려준다
 		_monsterState = MonsterState.Idle;
 	}
 
 	public bool CheckCapture(int level)
 	{
-		if (_level <= level)
+		if (_level <= level && _hp > 0)
 		{
 			Debug.Log("빙의 가능");
 			return true;
@@ -401,6 +421,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	public void Capture()
 	{
 		SelectMonster();
+		_monsterState = MonsterState.Idle;
 		_isCapture = true;
 		int count = _iAttacks.Length;
 		for (int i = 0; i < count; i++)
@@ -415,6 +436,10 @@ public class MonsterBase : MonoBehaviour, IMonster
 	public void UnCapture()
 	{
 		UnSelectMonster();
+		if(_monsterState != MonsterState.Die)
+		{
+			_monsterState = MonsterState.Idle;
+		}
 		_isCapture = false;
 		int count = _iAttacks.Length;
 		for (int i = 0; i < count; i++)
@@ -431,10 +456,12 @@ public class MonsterBase : MonoBehaviour, IMonster
 		switch (_monsterState)
 		{
 			case MonsterState.Idle:
+				_isAttack = false;
 				_animator.SetBool("IsWalk", false);
 				break;
 			case MonsterState.GoTarget:
 			case MonsterState.Move:
+				_isAttack = false;
 				if (GetVelocitySpd() <= 0)
 				{
 					_animator.SetBool("IsWalk", false);
@@ -445,6 +472,15 @@ public class MonsterBase : MonoBehaviour, IMonster
 				}
 				break;
 			case MonsterState.Attack:
+				if(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
+				{
+					_isAttack = false;
+				}
+				if(_isAttack)
+				{
+					break;
+				}
+				_isAttack = true;
 				switch (_attackState)
 				{
 					case AttackState.None:
@@ -462,10 +498,18 @@ public class MonsterBase : MonoBehaviour, IMonster
 				_animator.SetBool("IsWalk", false);
 				break;
 			case MonsterState.Damage:
-				_animator.SetBool("IsWalk", false);
+				_isAttack = false;
+				_animator.SetTrigger("IsDamage");
+				StartCoroutine(SetWait(1f));
 				break;
 			case MonsterState.Die:
-				_animator.SetBool("IsWalk", false);
+				if(_isDie)
+				{
+					break;
+				}
+				_isDie = true;
+				_isAttack = false;
+				_animator.SetTrigger("IsDie");
 				break;
 			default:
 				break;
@@ -551,8 +595,30 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 		else
 		{
-			_monsterState = MonsterState.Die;
+			if(_monsterState != MonsterState.Die)
+			{
+				_monsterState = MonsterState.Die;
+				if(IsCapture)
+				{
+					_playerMove.OutCaptureMonster();	
+				}
+			}
 		}
+	}
+
+	/// <summary>
+	/// 타겟을 향한 각도
+	/// </summary>
+	/// <returns></returns>
+	private float GetTargetToAngle()
+	{
+		Vector3 targetPos = _targetCharacter.transform.position;
+		Vector3 currentPos = transform.position;
+		targetPos.y = 0;
+		currentPos.y = 0;
+		Vector3 dirToTarget = (targetPos - currentPos).normalized;
+		float targetAngle = Mathf.Acos(Vector3.Dot(transform.forward, dirToTarget)) * Mathf.Rad2Deg;
+		return targetAngle;
 	}
 
 }

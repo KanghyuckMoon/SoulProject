@@ -163,9 +163,14 @@ public class PlayerMove : MonoBehaviour
 
 		if (Physics.Raycast(ray, out raycastHit, 100))
 		{
-			_selectMonster = raycastHit.collider.gameObject.GetComponent<IMonster>();
+			var monster = raycastHit.collider.gameObject.GetComponent<IMonster>();
+			if (_selectMonster != null & monster != _selectMonster)
+			{
+				_selectMonster.UnSelectMonster();
+			}
+			_selectMonster = monster;
 			_selectMonster?.SelectMonster();
-			
+
 			if (Input.GetMouseButtonDown(0))
 			{
 				if (_selectMonster != null)
@@ -191,6 +196,18 @@ public class PlayerMove : MonoBehaviour
 	}
 
 	//빙의 후
+
+	/// <summary>
+	/// 빙의해제
+	/// </summary>
+	public void OutCaptureMonster()
+	{
+		_captureMonster.UnCapture();
+		_captureMonster = null;
+		_selectMonster = null;
+		_isCapture = false;
+		_collider.enabled = true;
+	}
 
 	/// <summary>
 	/// 몬스터를 이동시킴
@@ -262,15 +279,4 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
-	/// <summary>
-	/// 빙의해제
-	/// </summary>
-	private void OutCaptureMonster()
-	{
-		_captureMonster.UnCapture();
-		_captureMonster = null;
-		_selectMonster = null;
-		_isCapture = false;
-		_collider.enabled = true;
-	}
 }
