@@ -151,7 +151,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	private void Start()
 	{
 		_characterController = GetComponent<CharacterController>();
-		_animator = GetComponent<Animator>();
+		_animator = GetComponentInChildren<Animator>();
 		_iAttacks = GetComponentsInChildren<IAttack>(true);
 		_playerMove = FindObjectOfType<PlayerMove>();
 		_targetCharacter = _playerMove.gameObject;
