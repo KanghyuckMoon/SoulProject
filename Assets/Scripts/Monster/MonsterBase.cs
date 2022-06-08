@@ -148,7 +148,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	private bool _isDie; //Á×¾úÀ» ¶§
 
 
-	private void Start()
+	public virtual void Start()
 	{
 		_characterController = GetComponent<CharacterController>();
 		_animator = GetComponentInChildren<Animator>();
