@@ -2691,6 +2691,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Soul
       objectReference: {fileID: 0}
+    - target: {fileID: 982753854348841312, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 982753854349080280, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
       propertyPath: m_RootOrder
       value: 18
@@ -2701,7 +2705,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 982753854349080280, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.43
       objectReference: {fileID: 0}
     - target: {fileID: 982753854349080280, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
       propertyPath: m_LocalPosition.z

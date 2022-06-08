@@ -154,7 +154,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 		_animator = GetComponentInChildren<Animator>();
 		_iAttacks = GetComponentsInChildren<IAttack>(true);
 		_playerMove = FindObjectOfType<PlayerMove>();
-		_targetCharacter = _playerMove.gameObject;
 		ChangeState(MonsterState.Idle);
 	}
 
@@ -638,6 +637,20 @@ public class MonsterBase : MonoBehaviour, IMonster
 		Vector3 dirToTarget = (targetPos - currentPos).normalized;
 		float targetAngle = Mathf.Acos(Vector3.Dot(transform.forward, dirToTarget)) * Mathf.Rad2Deg;
 		return targetAngle;
+	}
+
+	/// <summary>
+	/// Å¸°Ù Ã£À½
+	/// </summary>
+	/// <param name="target"></param>
+	private void OnCheckTarget(GameObject target)
+	{
+		if(_targetCharacter == null)
+		{
+			_targetCharacter = target;
+			_monsterState = MonsterState.GoTarget;
+		}
+
 	}
 
 	/// <summary>
