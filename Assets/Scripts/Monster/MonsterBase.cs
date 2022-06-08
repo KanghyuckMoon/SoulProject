@@ -159,6 +159,10 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 	public void Update()
 	{
+		if(_isDie)
+		{
+			return;
+		}
 		if(!IsCapture)
 		{
 			CheckState();
