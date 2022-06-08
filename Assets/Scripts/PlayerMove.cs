@@ -9,6 +9,10 @@ public class PlayerMove : MonoBehaviour
 	[SerializeField]
 	private int _hp = 30;
 	[SerializeField]
+	private int _level = 1;
+	[SerializeField]
+	private int _exp = 0;
+	[SerializeField]
 	private float _moveSpeed = 0f; //이동속도
 	[SerializeField]
 	private float _gravitySpeed = 0f; //중력 받는 속도
@@ -23,7 +27,7 @@ public class PlayerMove : MonoBehaviour
 	private Camera _mainCamera = null; //메인 카메라
 	private IMonster _selectMonster = null; //마우스로 선택한 몬스터
 	private IMonster _captureMonster = null; //빙의한 몬스터
-	private Collider _collider = null; //피격판정
+	private CapsuleCollider _collider = null; //피격판정
 	private CharacterController _characterController; //캐릭터 컨트롤러
 
 	//속성
@@ -38,7 +42,7 @@ public class PlayerMove : MonoBehaviour
 	{
 		//카메라 캐싱
 		_mainCamera = Camera.main;
-		_collider = GetComponent<Collider>();
+		_collider = GetComponent<CapsuleCollider>();
 		_characterController = GetComponent<CharacterController>();
 	}
 
@@ -71,6 +75,24 @@ public class PlayerMove : MonoBehaviour
 	}
 
 	//빙의 전
+
+	public void AddExp(int exp)
+	{
+		_exp += exp;
+		if(_exp > _level * 10)
+		{
+			LevelUP();
+		}
+	}
+
+	/// <summary>
+	/// 레벨업
+	/// </summary>
+	private void LevelUP()
+	{
+		++_level;
+		_exp = 0;
+	}
 	
 	/// <summary>
 	/// 이동함수
@@ -182,7 +204,8 @@ public class PlayerMove : MonoBehaviour
 						_isCantAnything = true;
 						_captureMonster = _selectMonster;
 						_captureMonster.Capture();
-						_collider.enabled = false;
+						_collider.enabled = true;
+						_characterController.enabled = false;
 						_isCapture = true;
 						HOTween.Init(true, true, true);
 						HOTween.To(transform, 0.5f, new TweenParms().Prop("position", _captureMonster.Position).OnComplete(() => _isCantAnything = false));
@@ -204,11 +227,12 @@ public class PlayerMove : MonoBehaviour
 	/// </summary>
 	public void OutCaptureMonster()
 	{
+		_isCapture = false;
 		_captureMonster.UnCapture();
 		_captureMonster = null;
 		_selectMonster = null;
-		_isCapture = false;
-		_collider.enabled = true;
+		_collider.enabled = false;
+		_characterController.enabled = true;
 	}
 
 	/// <summary>

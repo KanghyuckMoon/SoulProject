@@ -620,6 +620,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 			if(_monsterState != MonsterState.Die)
 			{
 				ChangeState(MonsterState.Die);
+				_playerMove.AddExp(10);
 				if(IsCapture)
 				{
 					_playerMove.OutCaptureMonster();	
