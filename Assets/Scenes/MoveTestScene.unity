@@ -841,6 +841,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dragon
       objectReference: {fileID: 0}
+    - target: {fileID: 1443327365081416391, guid: 3ff3157c7a648b842826417a7df4e08a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ff3157c7a648b842826417a7df4e08a, type: 3}
 --- !u!1001 &5958361083798947079

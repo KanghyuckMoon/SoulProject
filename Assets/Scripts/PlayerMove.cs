@@ -7,6 +7,8 @@ public class PlayerMove : MonoBehaviour
 {
 	//인스펙터에서 설정할 수 있는 변수들
 	[SerializeField]
+	private int _hp = 30;
+	[SerializeField]
 	private float _moveSpeed = 0f; //이동속도
 	[SerializeField]
 	private float _gravitySpeed = 0f; //중력 받는 속도
@@ -279,4 +281,26 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.CompareTag("ATK"))
+		{
+			var iAttack = other.GetComponent<IAttack>();
+			if (!iAttack.IsPlayer)
+			{
+				//공격받음
+				Damaged(iAttack);
+			}
+		}
+	}
+
+	private void Damaged(IAttack iAttack)
+	{
+		_hp -= iAttack.Damage;
+		Instantiate(iAttack.Effect, transform.position, Quaternion.identity);
+		if (_hp <= 0)
+		{
+			gameObject.SetActive(false);
+		}
+	}
 }
