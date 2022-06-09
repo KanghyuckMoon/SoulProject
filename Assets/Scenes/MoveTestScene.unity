@@ -519,10 +519,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Orc
       objectReference: {fileID: 0}
-    - target: {fileID: 1227015581287006358, guid: 8e052c0a680702a4ebd1a5eae96ac371, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e052c0a680702a4ebd1a5eae96ac371, type: 3}
 --- !u!1 &1984584005 stripped
@@ -658,10 +654,6 @@ PrefabInstance:
     - target: {fileID: 1533023043300311040, guid: c776fed505b652440ad47bf65bb354fa, type: 3}
       propertyPath: m_Name
       value: Ghoul
-      objectReference: {fileID: 0}
-    - target: {fileID: 1533023043300311040, guid: c776fed505b652440ad47bf65bb354fa, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1534915808528363762, guid: c776fed505b652440ad47bf65bb354fa, type: 3}
       propertyPath: m_RootOrder

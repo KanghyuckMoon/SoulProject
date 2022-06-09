@@ -335,6 +335,11 @@ public class PlayerMove : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("ATK"))
 		{
+			if(_isCapture)
+			{
+				return;
+			}
+
 			var iAttack = other.GetComponent<IAttack>();
 			if (!iAttack.IsPlayer)
 			{

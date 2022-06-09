@@ -1751,7 +1751,7 @@ MonoBehaviour:
   _bodyRotateSpeed: 50
   velocityChangeSpeed: 0.01
   _hp: 100
-  _atkRange: 1.5
+  _atkRange: 5
   _targetCharacter: {fileID: 0}
   _viewAngle: 30
   _groundHeight: 0.5
