@@ -10,5 +10,5 @@ interface IItem
 		set;
 	}
 
-	void UseItem();
+	void UseItem(PlayerMove player);
 }

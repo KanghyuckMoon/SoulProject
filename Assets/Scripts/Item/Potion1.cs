@@ -17,10 +17,11 @@ public class Potion1 : IItem
 	}
 	private int _count;
 
-	public void UseItem()
+	public void UseItem(PlayerMove player)
 	{
 		if(_count > 0)
 		{
+			player.AddHP(10);
 			--_count;
 			Debug.Log("포션 1 사용");
 		}

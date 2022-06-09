@@ -17,7 +17,7 @@ public class Potion3 : IItem
 	}
 	private int _count;
 
-	public void UseItem()
+	public void UseItem(PlayerMove player)
 	{
 		if(_count > 0)
 		{

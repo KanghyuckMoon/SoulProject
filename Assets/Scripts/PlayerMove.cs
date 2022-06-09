@@ -76,6 +76,19 @@ public class PlayerMove : MonoBehaviour
 
 	//빙의 전
 
+	/// <summary>
+	/// 체력 증가
+	/// </summary>
+	/// <param name="hp"></param>
+	public void AddHP(int hp)
+	{
+		_hp += hp;
+	}
+
+	/// <summary>
+	/// 경험치 증가
+	/// </summary>
+	/// <param name="exp"></param>
 	public void AddExp(int exp)
 	{
 		_exp += exp;
@@ -221,6 +234,19 @@ public class PlayerMove : MonoBehaviour
 	}
 
 	//빙의 후
+
+	/// <summary>
+	/// 빙의 몬스터 체력 증가
+	/// </summary>
+	/// <param name="hp"></param>
+	public void AddMonsterHP(int hp)
+	{
+		if(_captureMonster != null)
+		{
+			_captureMonster.HP += hp;
+		}
+	}
+
 
 	/// <summary>
 	/// 빙의해제
