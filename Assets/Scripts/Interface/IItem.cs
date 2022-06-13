@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IItem
+public interface IItem
 {
 	public int Count
 	{
@@ -10,5 +10,16 @@ interface IItem
 		set;
 	}
 
+	public string Name
+	{
+		get;
+	}
+	public string Description
+	{
+		get;
+	}
+
 	void UseItem(PlayerMove player);
+
+	void AddCount(int add);
 }

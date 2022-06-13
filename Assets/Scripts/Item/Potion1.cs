@@ -15,6 +15,22 @@ public class Potion1 : IItem
 			_count = value;
 		}
 	}
+
+	public string Name 
+	{
+		get
+		{
+			return "Postion1";
+		}
+	}
+	public string Description
+	{
+		get
+		{
+			return "첫번째 포션";
+		}
+	}
+
 	private int _count;
 
 	public void UseItem(PlayerMove player)
@@ -29,5 +45,10 @@ public class Potion1 : IItem
 		{
 			Debug.Log("포션이 없습니다");
 		}
+	}
+
+	public void AddCount(int add)
+	{
+		_count += add;
 	}
 }
