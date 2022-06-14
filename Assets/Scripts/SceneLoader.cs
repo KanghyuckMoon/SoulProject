@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class OptionLoad : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
         SceneManager.LoadScene("OptionScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("NoticeScene", LoadSceneMode.Additive);
     }
 }

@@ -29,6 +29,18 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
+	public NoticeManager NoticeManager
+	{
+		get
+		{
+			if (_noticeManager == null)
+			{
+				_noticeManager = FindObjectOfType<NoticeManager>();
+			}
+			return _noticeManager;
+		}
+	}
+
 	//인스펙터에서 설정할 수 있는 변수들
 	[SerializeField]
 	private int _hp = 30;
@@ -55,6 +67,7 @@ public class PlayerMove : MonoBehaviour
 	private CharacterController _characterController; //캐릭터 컨트롤러
 	private ItemInventory _itemInventory; //아이템 인벤토리
 	private MoneyInventory _moneyInventory; //돈 인벤토리
+	private NoticeManager _noticeManager; //발견 매니저
 
 	//속성
 	private Vector3 currentVelocitySpeed = Vector3.zero; //이동속도 초깃값
@@ -388,7 +401,9 @@ public class PlayerMove : MonoBehaviour
 		}
 		else if(other.gameObject.CompareTag("Item"))
 		{
-			ItemInventory.AddItem(other.GetComponent<ItemObject>().Item);
+			IItem item = other.GetComponent<ItemObject>().Item;
+			ItemInventory.AddItem(item);
+			NoticeManager.Notice(item);
 		}
 	}
 

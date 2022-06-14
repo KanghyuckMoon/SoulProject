@@ -9,7 +9,6 @@ public interface IItem
 		get;
 		set;
 	}
-
 	public string Name
 	{
 		get;

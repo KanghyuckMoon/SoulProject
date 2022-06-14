@@ -92,7 +92,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 			_isCapture = value;
 		}
 	}
-
 	public MoneyInventory MoneyInventory
 	{
 		get
@@ -104,6 +103,18 @@ public class MonsterBase : MonoBehaviour, IMonster
 			return _moneyInventory;
 		}
 	}
+	public NoticeManager NoticeManager
+	{
+		get
+		{
+			if(_noticeManager == null)
+			{
+				_noticeManager = FindObjectOfType<NoticeManager>();
+			}
+			return _noticeManager;
+		}
+	}
+
 
 	//인스펙터에서 확인할 수 있는 속성
 	[SerializeField]
@@ -146,6 +157,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	private IAttack[] _iAttacks = null;
 	private PlayerMove _playerMove = null;
 	private MoneyInventory _moneyInventory = null;
+	private NoticeManager _noticeManager = null;
 
 	//속성
 	protected bool _isSelect = false; //선택되었는지
@@ -631,6 +643,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 			{
 				ChangeState(MonsterState.Die);
 				MoneyInventory.AddMoney(10);
+				NoticeManager.Notice(10);
 				_playerMove.AddExp(10);
 				if(IsCapture)
 				{
