@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OptionManager : MonoBehaviour
 {
@@ -14,6 +15,19 @@ public class OptionManager : MonoBehaviour
 	[SerializeField]
 	private GameObject _monsterPanel;
 
+	[SerializeField]
+	private Button _inventoryButton;
+	[SerializeField]
+	private Button _soulButton;
+	[SerializeField]
+	private Button _monsterButton;
+
+	private void Start()
+	{
+		_inventoryButton.onClick.AddListener(() => InventoryPanelActive());
+		_soulButton.onClick.AddListener(() => SoulPanelActive());
+		_monsterButton.onClick.AddListener(() => MonsterPanelActive());
+	}
 	private void Update()
 	{
 		if(Input.GetKeyDown(KeyCode.I))

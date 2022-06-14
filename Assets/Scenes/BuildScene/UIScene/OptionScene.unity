@@ -1007,6 +1007,9 @@ MonoBehaviour:
   _inventoryPanel: {fileID: 1415692969}
   _soulPanel: {fileID: 1525876487}
   _monsterPanel: {fileID: 426317038}
+  _inventoryButton: {fileID: 1728844429}
+  _soulButton: {fileID: 1055958495}
+  _monsterButton: {fileID: 1495749687}
 --- !u!1 &566317979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,7 +2878,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1292903728
 MonoBehaviour:
   m_ObjectHideFlags: 0

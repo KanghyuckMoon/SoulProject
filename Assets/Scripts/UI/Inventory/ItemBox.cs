@@ -39,6 +39,7 @@ public class ItemBox : MonoBehaviour
 		_itemImage.sprite = Resources.Load<Sprite>($"Item/{_iItem.Name}");
 		_button.onClick.RemoveAllListeners();
 		_button.onClick.AddListener(() => action(this));
+		gameObject.SetActive(true);
 	}
 
 	public void UpdateUI()
