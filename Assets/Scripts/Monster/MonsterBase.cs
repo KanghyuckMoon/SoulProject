@@ -48,7 +48,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 		}
 	}
-
 	public Vector3 Position
 	{
 		get
@@ -60,7 +59,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 
 		}
 	}
-
 	public int Level
 	{
 		get
@@ -83,7 +81,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 			_hp = value;
 		}
 	}
-
 	public bool IsCapture
 	{
 		get
@@ -93,6 +90,18 @@ public class MonsterBase : MonoBehaviour, IMonster
 		set
 		{
 			_isCapture = value;
+		}
+	}
+
+	public MoneyInventory MoneyInventory
+	{
+		get
+		{
+			if(_moneyInventory == null)
+			{
+				_moneyInventory = FindObjectOfType<MoneyInventory>();
+			}
+			return _moneyInventory;
 		}
 	}
 
@@ -136,6 +145,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	private CharacterController _characterController = null;
 	private IAttack[] _iAttacks = null;
 	private PlayerMove _playerMove = null;
+	private MoneyInventory _moneyInventory = null;
 
 	//속성
 	protected bool _isSelect = false; //선택되었는지
@@ -620,6 +630,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 			if(_monsterState != MonsterState.Die)
 			{
 				ChangeState(MonsterState.Die);
+				MoneyInventory.AddMoney(10);
 				_playerMove.AddExp(10);
 				if(IsCapture)
 				{

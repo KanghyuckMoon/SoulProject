@@ -18,10 +18,17 @@ public class MoneyInventory : MonoBehaviour
 	private int _crystal;
 
 	[ContextMenu("µ·UI ¾÷µ¥ÀÌÆ®")]
-	public void UpdateUI()
+	private void UpdateUI()
 	{
 		_moneyText.text = $"{_money}";
 		_crystalText.text = $"{_crystal}";
+	}
+
+	public void AddMoney(int add)
+	{
+		_money += add;
+
+		UpdateUI();
 	}
 
 }
