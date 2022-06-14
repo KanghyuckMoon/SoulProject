@@ -9,5 +9,6 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene("OptionScene", LoadSceneMode.Additive);
         SceneManager.LoadScene("NoticeScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("OverWorldUIScene", LoadSceneMode.Additive);
     }
 }

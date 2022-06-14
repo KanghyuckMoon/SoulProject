@@ -28,7 +28,6 @@ public class PlayerMove : MonoBehaviour
 			return _moneyInventory;
 		}
 	}
-
 	public NoticeManager NoticeManager
 	{
 		get
@@ -38,6 +37,18 @@ public class PlayerMove : MonoBehaviour
 				_noticeManager = FindObjectOfType<NoticeManager>();
 			}
 			return _noticeManager;
+		}
+	}
+
+	public OverWorldUIManager OverWorldUIManager
+	{
+		get
+		{
+			if (_overWorldUIManager == null)
+			{
+				_overWorldUIManager = FindObjectOfType<OverWorldUIManager>();
+			}
+			return _overWorldUIManager;
 		}
 	}
 
@@ -68,6 +79,8 @@ public class PlayerMove : MonoBehaviour
 	private ItemInventory _itemInventory; //아이템 인벤토리
 	private MoneyInventory _moneyInventory; //돈 인벤토리
 	private NoticeManager _noticeManager; //발견 매니저
+	private OverWorldUIManager _overWorldUIManager; //맵 UI
+	private ItemObject _selectItemObj; //선택된 아이템
 
 	//속성
 	private Vector3 currentVelocitySpeed = Vector3.zero; //이동속도 초깃값
@@ -76,6 +89,7 @@ public class PlayerMove : MonoBehaviour
 	private Vector3 _moveDirect = Vector3.zero; //캐릭터 현재 이동방향 초깃값
 	private Vector3 _gravityDirect = Vector3.zero; //현재 중력 크기 초깃값
 	private Tweener _tweener = null; //트위너
+	private float _itemDetectRange = 3f; // 아이템 감지 범위
 
 	private void Start()
 	{
@@ -111,6 +125,21 @@ public class PlayerMove : MonoBehaviour
 			TryCapture();
 			BodyDirectChange();
 		}
+		if(_selectItemObj != null)
+		{
+			OverWorldUIManager?.Setting(_selectItemObj);
+			if(Input.GetKeyDown(KeyCode.F))
+			{
+				IItem item = _selectItemObj.Item;
+				ItemInventory?.AddItem(item);
+				NoticeManager?.Notice(item);
+			}
+		}
+		else
+		{
+			OverWorldUIManager?.NoneSetting();
+		}
+		ItemDetect();
 	}
 
 	//빙의 전
@@ -272,6 +301,35 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// 가장 가까운 아이템 찾기
+	/// </summary>
+	private void ItemDetect()
+	{
+		var items = GameObject.FindGameObjectsWithTag("Item");
+		float minRange = float.MaxValue;
+		GameObject itemObject = null;
+		for(int i = 0; i < items.Length; ++i)
+		{
+			Vector3 vector = items[i].transform.position - transform.position;
+			float currentRange = vector.sqrMagnitude;
+			if(minRange > currentRange)
+			{
+				minRange = currentRange;
+				itemObject = items[i];
+			}
+		}
+
+		if(minRange < _itemDetectRange)
+		{
+			_selectItemObj = itemObject.GetComponent<ItemObject>();
+		}
+		else
+		{
+			_selectItemObj = null;
+		}
+	}
+
 	//빙의 후
 
 	/// <summary>
@@ -401,9 +459,6 @@ public class PlayerMove : MonoBehaviour
 		}
 		else if(other.gameObject.CompareTag("Item"))
 		{
-			IItem item = other.GetComponent<ItemObject>().Item;
-			ItemInventory.AddItem(item);
-			NoticeManager.Notice(item);
 		}
 	}
 

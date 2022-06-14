@@ -12,9 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/BuildScene/HomeScene.unity
     guid: 9774c60a2ec4c434e89d529f2da78d1b
   - enabled: 1
-    path: Assets/Scenes/BuildScene/OptionScene.unity
+    path: Assets/Scenes/BuildScene/UIScene/OptionScene.unity
     guid: ad0fdbd989577aa4c9d7ad115fd080f1
   - enabled: 1
-    path: Assets/Scenes/BuildScene/NoticeScene.unity
+    path: Assets/Scenes/BuildScene/UIScene/NoticeScene.unity
     guid: a905a5dacc2c1344ab7104a317cb9ff5
+  - enabled: 1
+    path: Assets/Scenes/BuildScene/UIScene/BattleUIScene.unity
+    guid: 651426442b8a73a46b2edcbfa77de522
+  - enabled: 1
+    path: Assets/Scenes/BuildScene/UIScene/OverWorldUIScene.unity
+    guid: ca75f2a90662438468e5e403523e8acf
   m_configObjects: {}
