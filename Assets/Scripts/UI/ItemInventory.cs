@@ -67,6 +67,7 @@ public class ItemInventory : MonoBehaviour
 			ItemBox itembox = PoolItemBox();
 			itembox.Setting(iItem, OnItemInfomation);
 			_itemBoxs.Add(itembox);
+			_items.Add(iItem);
 		}
 	}
 

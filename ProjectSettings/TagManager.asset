@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ATK
   - Monster
+  - Item
   layers:
   - Default
   - TransparentFX

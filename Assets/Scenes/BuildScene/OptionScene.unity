@@ -653,6 +653,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _optionCanvas: {fileID: 1292903730}
+  _inventoryPanel: {fileID: 1415692969}
+  _soulPanel: {fileID: 1525876487}
+  _monsterPanel: {fileID: 426317038}
 --- !u!1 &566317979
 GameObject:
   m_ObjectHideFlags: 0

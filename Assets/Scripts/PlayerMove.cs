@@ -5,6 +5,30 @@ using Holoville.HOTween;
 
 public class PlayerMove : MonoBehaviour
 {
+	//프로퍼티
+	public ItemInventory ItemInventory
+	{
+		get
+		{
+			if(_itemInventory == null)
+			{
+				_itemInventory = FindObjectOfType<ItemInventory>();
+			}
+			return _itemInventory;
+		}
+	}
+	public MoneyInventory MoneyInventory
+	{
+		get
+		{
+			if (_moneyInventory == null)
+			{
+				_moneyInventory = FindObjectOfType<MoneyInventory>();
+			}
+			return _moneyInventory;
+		}
+	}
+
 	//인스펙터에서 설정할 수 있는 변수들
 	[SerializeField]
 	private int _hp = 30;
@@ -29,6 +53,8 @@ public class PlayerMove : MonoBehaviour
 	private IMonster _captureMonster = null; //빙의한 몬스터
 	private CapsuleCollider _collider = null; //피격판정
 	private CharacterController _characterController; //캐릭터 컨트롤러
+	private ItemInventory _itemInventory; //아이템 인벤토리
+	private MoneyInventory _moneyInventory; //돈 인벤토리
 
 	//속성
 	private Vector3 currentVelocitySpeed = Vector3.zero; //이동속도 초깃값
@@ -330,6 +356,19 @@ public class PlayerMove : MonoBehaviour
 			_captureMonster.MouseRButtonSkill();
 		}
 	}
+	/// <summary>
+	/// 공격받음
+	/// </summary>
+	/// <param name="iAttack"></param>
+	private void Damaged(IAttack iAttack)
+	{
+		_hp -= iAttack.Damage;
+		Instantiate(iAttack.Effect, transform.position, Quaternion.identity);
+		if (_hp <= 0)
+		{
+			gameObject.SetActive(false);
+		}
+	}
 
 	private void OnTriggerEnter(Collider other)
 	{
@@ -347,15 +386,10 @@ public class PlayerMove : MonoBehaviour
 				Damaged(iAttack);
 			}
 		}
-	}
-
-	private void Damaged(IAttack iAttack)
-	{
-		_hp -= iAttack.Damage;
-		Instantiate(iAttack.Effect, transform.position, Quaternion.identity);
-		if (_hp <= 0)
+		else if(other.gameObject.CompareTag("Item"))
 		{
-			gameObject.SetActive(false);
+			ItemInventory.AddItem(other.GetComponent<ItemObject>().Item);
 		}
 	}
+
 }

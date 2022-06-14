@@ -17,6 +17,11 @@ public class ItemInfomation : MonoBehaviour
 	[SerializeField]
 	private Image _itemImage;
 
+	private void Start()
+	{
+		NoneSetting();
+	}
+
 	public void Setting(ItemBox itemBox)
 	{
 		_itemBox = itemBox;
