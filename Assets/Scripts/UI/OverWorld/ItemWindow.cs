@@ -18,12 +18,12 @@ public class ItemWindow : MonoBehaviour
 	}
 
 
-	public void Setting(ItemObject itemObj)
+	public void Setting(IInteraction obj)
 	{
-		Vector3 point = _mianCamera.WorldToScreenPoint(itemObj.transform.position);
+		Vector3 point = _mianCamera.WorldToScreenPoint(obj.Transform.position);
 		point.y += 150;
 		_rectTransform.position = point;
-		_nameText.text = itemObj.Item.Name;
+		_nameText.text = obj.InteractionName;
 		gameObject.SetActive(true);
 	}
 

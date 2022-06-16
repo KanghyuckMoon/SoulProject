@@ -8,11 +8,11 @@ public class Potion3 : IItem
 	{
 		get
 		{
-			return _count;
+			return _itemData._count;
 		}
 		set
 		{
-			_count = value;
+			_itemData._count = value;
 		}
 	}
 	public string Name
@@ -29,13 +29,27 @@ public class Potion3 : IItem
 			return "세번째 포션";
 		}
 	}
-	private int _count;
+	public EItem ItemType
+	{
+		get
+		{
+			return EItem.Postion3;
+		}
+	}
+	public ItemData ItemData
+	{
+		get
+		{
+			return _itemData;
+		}
+	}
+	private ItemData _itemData;
 
 	public void UseItem(PlayerMove player)
 	{
-		if(_count > 0)
+		if(Count > 0)
 		{
-			--_count;
+			--Count;
 			Debug.Log("포션 3 사용");
 		}
 		else
@@ -45,6 +59,10 @@ public class Potion3 : IItem
 	}
 	public void AddCount(int add)
 	{
-		_count += add;
+		Count += add;
+	}
+	public void SetItemData(ItemData itemData)
+	{
+		_itemData = itemData;
 	}
 }

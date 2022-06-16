@@ -13,10 +13,22 @@ public interface IItem
 	{
 		get;
 	}
+
+	public EItem ItemType
+	{
+		get;
+	}
 	public string Description
 	{
 		get;
 	}
+	public ItemData ItemData
+	{
+		get;
+	}
+
+
+	void SetItemData(ItemData itemData);
 
 	void UseItem(PlayerMove player);
 

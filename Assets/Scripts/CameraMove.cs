@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraMove : MonoBehaviour
 {
@@ -8,7 +9,6 @@ public class CameraMove : MonoBehaviour
     public GameObject objTarget = null;
     private Transform cameraTransform = null;
     private Transform objTargetTransform = null;
-
 
     //추가된 높이
     public float height = 1.75f;
@@ -23,6 +23,8 @@ public class CameraMove : MonoBehaviour
     public float multipleX = 1.0f;
     public float multipleY = 1.0f;
 
+    private bool _isAnimation = false;
+
     private void Start()
     {
         cameraTransform = GetComponent<Transform>();
@@ -35,7 +37,6 @@ public class CameraMove : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
-
     private void LateUpdate()
     {
         if (objTarget == null)
@@ -47,8 +48,31 @@ public class CameraMove : MonoBehaviour
             objTargetTransform = objTarget.transform;
         }
 
-        ThirdCamera();
+        if(_isAnimation)
+		{
+
+		}
+        else
+		{
+            ThirdCamera();
+		}
     }
+
+    public void AnimationCamera(Vector3 position, Vector3 forward)
+	{
+        _isAnimation = true;
+        Vector3 movePositoin = position + (forward * 2f);
+        Vector3 lookRotation = (position - movePositoin).normalized;
+        Vector3 rotationVector = Quaternion.LookRotation(lookRotation).eulerAngles;
+
+        transform.DOMove(movePositoin, 0.5f).SetUpdate(true);
+        transform.DORotate(rotationVector, 0.5f).SetUpdate(true);
+    }
+
+    public void EndAnimationCamera()
+	{
+        _isAnimation = false;
+	}
 
     /// <summary>
     /// 3인칭 카메라

@@ -16,4 +16,13 @@ public class ItemObject : MonoBehaviour
 	}
 
 	protected IItem _item;
+
+	private void Start()
+	{
+		ItemData itemData= new ItemData();
+		itemData._itemType = EItem.Postion1;
+		itemData._count = 3;
+		_item = new Potion1();
+		_item.SetItemData(itemData);
+	}
 }

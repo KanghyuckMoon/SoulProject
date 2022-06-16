@@ -9,10 +9,10 @@ public class OverWorldUIManager : MonoBehaviour
 	[SerializeField]
 	private ItemWindow _itemWindow;
 
-	public void Setting(ItemObject itemObj)
+	public void Setting(IInteraction obj)
 	{
-		_interactionUI.Setting();
-		_itemWindow.Setting(itemObj);
+		_interactionUI.Setting(obj);
+		_itemWindow.Setting(obj);
 	}
 
 	public void NoneSetting()

@@ -8,6 +8,8 @@ public class MoneyInventory : MonoBehaviour
 {
 	//µ·
 	[SerializeField]
+	private Canvas _moneyCanvas;
+	[SerializeField]
 	private TextMeshProUGUI _moneyText;
 	[SerializeField]
 	private TextMeshProUGUI _crystalText;
@@ -24,6 +26,10 @@ public class MoneyInventory : MonoBehaviour
 		_crystalText.text = $"{_crystal}";
 	}
 
+	public void SetActiveMoenyCanvas(bool isboolean)
+	{
+		_moneyCanvas.gameObject.SetActive(isboolean);
+	}
 	public void AddMoney(int add)
 	{
 		_money += add;

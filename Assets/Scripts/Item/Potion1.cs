@@ -8,11 +8,11 @@ public class Potion1 : IItem
 	{
 		get
 		{
-			return _count;
+			return _itemData._count;
 		}
 		set
 		{
-			_count = value;
+			_itemData._count = value;
 		}
 	}
 
@@ -30,15 +30,30 @@ public class Potion1 : IItem
 			return "첫번째 포션";
 		}
 	}
+	public EItem ItemType
+	{
+		get
+		{
+			return EItem.Postion1;
+		}
+	}
 
-	private int _count;
+	public ItemData ItemData
+	{
+		get
+		{
+			return _itemData;
+		}
+	}
+
+	private ItemData _itemData = null;
 
 	public void UseItem(PlayerMove player)
 	{
-		if(_count > 0)
+		if(Count > 0)
 		{
 			player.AddHP(10);
-			--_count;
+			Count--;
 			Debug.Log("포션 1 사용");
 		}
 		else
@@ -49,6 +64,11 @@ public class Potion1 : IItem
 
 	public void AddCount(int add)
 	{
-		_count += add;
+		Count += add;
+	}
+
+	public void SetItemData(ItemData itemData)
+	{
+		_itemData = itemData;
 	}
 }

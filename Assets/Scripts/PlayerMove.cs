@@ -80,7 +80,7 @@ public class PlayerMove : MonoBehaviour
 	private MoneyInventory _moneyInventory; //돈 인벤토리
 	private NoticeManager _noticeManager; //발견 매니저
 	private OverWorldUIManager _overWorldUIManager; //맵 UI
-	private ItemObject _selectItemObj; //선택된 아이템
+	private IInteraction _selectObj; //선택된 오브젝트
 
 	//속성
 	private Vector3 currentVelocitySpeed = Vector3.zero; //이동속도 초깃값
@@ -125,21 +125,25 @@ public class PlayerMove : MonoBehaviour
 			TryCapture();
 			BodyDirectChange();
 		}
-		if(_selectItemObj != null)
+		if(_selectObj != null)
 		{
-			OverWorldUIManager?.Setting(_selectItemObj);
+			OverWorldUIManager?.Setting(_selectObj);
 			if(Input.GetKeyDown(KeyCode.F))
 			{
-				IItem item = _selectItemObj.Item;
-				ItemInventory?.AddItem(item);
-				NoticeManager?.Notice(item);
+				_selectObj.Interaction(this);
 			}
 		}
 		else
 		{
 			OverWorldUIManager?.NoneSetting();
 		}
-		ItemDetect();
+		InteractionDetect();
+	}
+
+	public void AddItem(IItem item)
+	{
+		ItemInventory?.AddItem(item);
+		NoticeManager?.Notice(item);
 	}
 
 	//빙의 전
@@ -282,14 +286,14 @@ public class PlayerMove : MonoBehaviour
 				{
 					if(_selectMonster.CheckCapture(1))
 					{
-						_isCantAnything = true;
+						SetIsCanAnything(true);
 						_captureMonster = _selectMonster;
 						_captureMonster.Capture();
 						_collider.enabled = true;
 						_characterController.enabled = false;
 						_isCapture = true;
 						HOTween.Init(true, true, true);
-						HOTween.To(transform, 0.5f, new TweenParms().Prop("position", _captureMonster.Position).OnComplete(() => _isCantAnything = false));
+						HOTween.To(transform, 0.5f, new TweenParms().Prop("position", _captureMonster.Position).OnComplete(() => SetIsCanAnything(false)));
 					}
 				}
 			}
@@ -302,9 +306,9 @@ public class PlayerMove : MonoBehaviour
 	}
 
 	/// <summary>
-	/// 가장 가까운 아이템 찾기
+	/// 가장 가까운 상호작용 찾기
 	/// </summary>
-	private void ItemDetect()
+	private void InteractionDetect()
 	{
 		var items = GameObject.FindGameObjectsWithTag("Item");
 		float minRange = float.MaxValue;
@@ -322,11 +326,11 @@ public class PlayerMove : MonoBehaviour
 
 		if(minRange < _itemDetectRange)
 		{
-			_selectItemObj = itemObject.GetComponent<ItemObject>();
+			_selectObj = itemObject.GetComponent<IInteraction>();
 		}
 		else
 		{
-			_selectItemObj = null;
+			_selectObj = null;
 		}
 	}
 
@@ -441,6 +445,14 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// 아무것도 못하는 상태 설정
+	/// </summary>
+	/// <param name="isboolean"></param>
+	public void SetIsCanAnything(bool isboolean)
+	{
+		_isCantAnything = isboolean;
+	}
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.CompareTag("ATK"))

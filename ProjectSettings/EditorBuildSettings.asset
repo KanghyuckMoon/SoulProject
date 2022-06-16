@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BuildScene/UIScene/OverWorldUIScene.unity
     guid: ca75f2a90662438468e5e403523e8acf
+  - enabled: 1
+    path: Assets/Scenes/BuildScene/UIScene/ShopScene.unity
+    guid: f0f0995b8736f9a46a57a7acf0100af1
   m_configObjects: {}

@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b53d5d3d575fcc14784d77cace1fa4d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eventTrigger: {fileID: 0}
+  _eventTrigger: {fileID: 5258535231066477247}
   _itemImage: {fileID: 3057876671867450870}
   _countText: {fileID: 3057876672180846558}
 --- !u!114 &5258535231066477247

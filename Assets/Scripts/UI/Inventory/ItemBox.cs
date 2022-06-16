@@ -37,10 +37,8 @@ public class ItemBox : MonoBehaviour
 
 	public void Setting(IItem iItem, Action<ItemBox> clickAction, Action<ItemBox> onAction)
 	{
-		_iItem = iItem;
-		_countText.text = $"{_iItem.Count}";
-		_itemImage.sprite = Resources.Load<Sprite>($"Item/{_iItem.Name}");
-		_clickAction = clickAction;
+		UpdateUI(iItem);
+		   _clickAction = clickAction;
 		_onAction = onAction;
 		gameObject.SetActive(true);
 	}
@@ -55,11 +53,10 @@ public class ItemBox : MonoBehaviour
 		_onAction.Invoke(this);
 	}
 
-	public void UpdateUI()
+	public void UpdateUI(IItem iItem)
 	{
-		if(_iItem != null)
-		{
-			_countText.text = $"{_iItem.Count}";
-		}
+		_iItem = iItem;
+		_countText.text = $"{_iItem.Count}";
+		_itemImage.sprite = Resources.Load<Sprite>($"Item/{_iItem.Name}");
 	}
 }

@@ -2,13 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Postion1Obj : ItemObject 
+public class Postion1Obj : ItemObject, IInteraction
 {
-	private void Start()
+	public string InteractionName
 	{
-		_item = new Potion1()
+		get
 		{
-			Count = _count,
-		};
+			return "포션1";
+		}
+	}
+
+	public string InteractionActionName
+	{
+		get
+		{
+			return "줍기";
+		}
+	}
+
+	public Transform Transform
+	{
+		get
+		{
+			return transform;
+		}
+	}
+
+	public void Interaction(PlayerMove player)
+	{
+		player.AddItem(_item);
 	}
 }

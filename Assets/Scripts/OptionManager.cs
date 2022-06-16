@@ -7,6 +7,8 @@ public class OptionManager : MonoBehaviour
 {
 	[SerializeField]
 	private Canvas _optionCanvas = null;
+	[SerializeField]
+	private MoneyInventory _moneyInventory = null;
 
 	[SerializeField]
 	private GameObject _inventoryPanel;
@@ -71,8 +73,8 @@ public class OptionManager : MonoBehaviour
 	private void CanvasActive()
 	{
 		_optionCanvas.gameObject.SetActive(!_optionCanvas.gameObject.activeSelf);
+		_moneyInventory.SetActiveMoenyCanvas(_optionCanvas.gameObject.activeSelf);
 		Time.timeScale = _optionCanvas.gameObject.activeSelf ? 0 : 1;
-
 
 		if (_optionCanvas.gameObject.activeSelf)
 		{

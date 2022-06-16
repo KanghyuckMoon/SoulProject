@@ -8,11 +8,11 @@ public class Potion2 : IItem
 	{
 		get
 		{
-			return _count;
+			return _itemData._count;
 		}
 		set
 		{
-			_count = value;
+			_itemData._count = value;
 		}
 	}
 	public string Name
@@ -31,14 +31,28 @@ public class Potion2 : IItem
 		}
 	}
 
-	private int _count;
+	public EItem ItemType
+	{
+		get
+		{
+			return EItem.Postion2;
+		}
+	}
+
+	public ItemData ItemData
+	{
+		get
+		{
+			return _itemData;
+		}
+	}
+
+	private ItemData _itemData;
 
 	public void UseItem(PlayerMove player)
 	{
-		if(_count > 0)
+		if(Count > 0)
 		{
-			//player.AddMonsterHP(10);
-			//--_count;
 			Debug.Log("포션 2 사용");
 		}
 		else
@@ -48,6 +62,10 @@ public class Potion2 : IItem
 	}
 	public void AddCount(int add)
 	{
-		_count += add;
+		Count += add;
+	}
+	public void SetItemData(ItemData itemData)
+	{
+		_itemData = itemData;
 	}
 }

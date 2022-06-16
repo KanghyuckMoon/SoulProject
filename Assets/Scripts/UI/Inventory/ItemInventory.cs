@@ -19,7 +19,6 @@ public class ItemInventory : MonoBehaviour
 		}
 	}
 
-	private List<IItem> _items = new List<IItem>();
 	private List<ItemBox> _itemBoxs = new List<ItemBox>();
 	private PlayerMove _playerMove = new PlayerMove();
 
@@ -32,51 +31,38 @@ public class ItemInventory : MonoBehaviour
 	private ItemInfomation _itemInfomation;
 	[SerializeField]
 	private ItemUsePanel _itemUsePanel;
-
-
-	private void Start()
-	{
-		Potion1 potion1 = new Potion1();
-		potion1.Count = 3;
-		Potion2 potion2 = new Potion2();
-		potion2.Count = 3;
-		Potion3 potion3 = new Potion3();
-		potion3.Count = 3;
-		AddItem(potion1);
-		AddItem(potion2);
-		AddItem(potion3);
-	}
+	[SerializeField]
+	private ItemSetSO _items;
 
 	public void RemoveItem(ItemBox itembox)
 	{
-		_items.Remove(_items.Find(x => x.Name == itembox.Item.Name));
+		_items.RemoveItem(itembox.Item.ItemType);
 		_itemBoxs.Remove(itembox);
 		itembox.gameObject.SetActive(false);
 	}
 
 	public void AddItem(IItem iItem)
 	{
-		IItem item = _items.Find(x => x.Name == iItem.Name);
-		if(item != null)
-		{
-			item.AddCount(iItem.Count);
-			_itemBoxs.Find(x => x.Item == item).UpdateUI();
-		}
-		else
-		{
-			ItemBox itembox = PoolItemBox();
-			itembox.Setting(iItem, OnItemInfomationAndUsePanel, OnItemInfomation);
-			_itemBoxs.Add(itembox);
-			_items.Add(iItem);
-		}
+		_items.AddItem(iItem.ItemType, iItem.Count);
+		IItem item = _items.FindItem(iItem.ItemType);
+		ItemBox itembox = _itemBoxs.Find(x => x.Item.ItemType == item.ItemType);
+		UpdateUI();
 	}
 
 	public void UpdateUI()
 	{
-		int count = _itemBoxs.Count;
-		for (int i = 0; i < count; ++i)
+		_itemBoxs.Clear();
+		for (int i = 0; i < _itemBoxParent.childCount; ++i)
 		{
-			_itemBoxs[i].UpdateUI();
+			_itemBoxParent.GetChild(i).gameObject.SetActive(false);
+		}
+
+		List<IItem> items = _items.GetIItemList();
+		int itemCount = items.Count;
+		for (int i = 0; i < itemCount; ++i)
+		{
+			ItemBox itemBox = PoolItemBox();
+			itemBox.Setting(items[i], OnItemInfomationAndUsePanel, OnItemInfomation);
 		}
 		_itemInfomation.UpdateUI();
 	}
