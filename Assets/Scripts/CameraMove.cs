@@ -5,6 +5,14 @@ using DG.Tweening;
 
 public class CameraMove : MonoBehaviour
 {
+    public bool IsLookOn
+	{
+        get
+		{
+            return _isLookOn;
+		}
+	}
+
 
     public GameObject objTarget = null;
     private Transform cameraTransform = null;
@@ -22,8 +30,11 @@ public class CameraMove : MonoBehaviour
 
     public float multipleX = 1.0f;
     public float multipleY = 1.0f;
+    public float _lookOnSpeed = 1.0f;
 
     private bool _isAnimation = false;
+    private bool _isLookOn = false;
+    private Transform _lookOnObject = null;
 
     private void Start()
     {
@@ -54,7 +65,14 @@ public class CameraMove : MonoBehaviour
 		}
         else
 		{
-            ThirdCamera();
+            if(_isLookOn)
+			{
+                ThirdLookOnCamera();
+            }
+            else
+			{
+                ThirdCamera();
+			}
 		}
     }
 
@@ -100,10 +118,46 @@ public class CameraMove : MonoBehaviour
         cameraTransform.position -= nowRotate * Vector3.forward * distance;
         cameraTransform.position = new Vector3(cameraTransform.position.x, nowHeight, cameraTransform.position.z);
 
-
-
         cameraTransform.LookAt(objTargetTransform);
     }
 
+    /// <summary>
+    /// 록온한다
+    /// </summary>
+    /// <param name="Target"></param>
+    public void SetLookOn(Transform target)
+	{
+		_lookOnObject = target;
+        _isLookOn = true;
+    }
 
+    /// <summary>
+    /// 록온 해제
+    /// </summary>
+    /// <param name="Target"></param>
+    public void SetLookOff()
+    {
+        _lookOnObject = null;
+        _isLookOn = false;
+    }
+
+    /// <summary>
+    /// 3인칭 록온 카메라
+    /// </summary>
+    private void ThirdLookOnCamera()
+    {
+        Vector3 rotationVector = (_lookOnObject.position - objTarget.transform.position).normalized;
+        rotationVector.y = 0;
+        float objHeight = objTargetTransform.position.y + height;
+        float nowHeight = cameraTransform.position.y;
+
+        nowHeight = Mathf.Lerp(nowHeight, objHeight, heightDamp * Time.deltaTime);
+
+        Vector3 velocity = Vector3.zero;
+        cameraTransform.forward = Vector3.SmoothDamp(cameraTransform.forward, rotationVector,ref velocity, _lookOnSpeed * Time.deltaTime);
+        cameraTransform.position = objTargetTransform.position;
+        cameraTransform.position -= rotationVector * distance;
+        cameraTransform.position = new Vector3(cameraTransform.position.x, nowHeight, cameraTransform.position.z);
+
+    }
 }

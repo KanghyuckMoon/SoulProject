@@ -72,6 +72,7 @@ public class PlayerMove : MonoBehaviour
 
 	//참조하는 변수
 	private Camera _mainCamera = null; //메인 카메라
+	private CameraMove _cameraMove = null; //메인 카메라
 	private IMonster _selectMonster = null; //마우스로 선택한 몬스터
 	private IMonster _captureMonster = null; //빙의한 몬스터
 	private CapsuleCollider _collider = null; //피격판정
@@ -95,6 +96,7 @@ public class PlayerMove : MonoBehaviour
 	{
 		//카메라 캐싱
 		_mainCamera = Camera.main;
+		_cameraMove = _mainCamera.GetComponent<CameraMove>();
 		_collider = GetComponent<CapsuleCollider>();
 		_characterController = GetComponent<CharacterController>();
 	}
@@ -125,7 +127,22 @@ public class PlayerMove : MonoBehaviour
 			TryCapture();
 			BodyDirectChange();
 		}
-		if(_selectObj != null)
+		if (Input.GetKeyDown(KeyCode.T))
+		{
+			if (_cameraMove.IsLookOn)
+			{
+				_cameraMove.SetLookOff();
+			}
+			else
+			{
+				if (_selectObj != null)
+				{
+					_cameraMove.SetLookOn(_selectObj.Transform);
+				}
+			}
+		}
+
+		if (_selectObj != null)
 		{
 			OverWorldUIManager?.Setting(_selectObj);
 			if(Input.GetKeyDown(KeyCode.F))
