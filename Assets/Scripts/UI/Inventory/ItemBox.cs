@@ -24,22 +24,35 @@ public class ItemBox : MonoBehaviour
 	}
 
 	[SerializeField]
+	private EventTrigger _eventTrigger;
+	[SerializeField]
 	private Image _itemImage;
 	[SerializeField]
 	private TextMeshProUGUI _countText;
 	[SerializeField]
 	private IItem _iItem;
-	[SerializeField]
-	private Button _button;
 
-	public void Setting(IItem iItem, Action<ItemBox> action)
+	private Action<ItemBox> _clickAction;
+	private Action<ItemBox> _onAction;
+
+	public void Setting(IItem iItem, Action<ItemBox> clickAction, Action<ItemBox> onAction)
 	{
 		_iItem = iItem;
 		_countText.text = $"{_iItem.Count}";
 		_itemImage.sprite = Resources.Load<Sprite>($"Item/{_iItem.Name}");
-		_button.onClick.RemoveAllListeners();
-		_button.onClick.AddListener(() => action(this));
+		_clickAction = clickAction;
+		_onAction = onAction;
 		gameObject.SetActive(true);
+	}
+
+	public void OnClick()
+	{
+		_clickAction.Invoke(this);
+	}
+
+	public void OnMouseOn()
+	{
+		_onAction.Invoke(this);
 	}
 
 	public void UpdateUI()

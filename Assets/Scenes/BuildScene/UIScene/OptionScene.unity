@@ -2637,7 +2637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e80fb7cbab68164e8fe5ba3f5199a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemBox: {fileID: 3057876672910139353, guid: a3f56325e40bef84b9ea3cec5c52dde5, type: 3}
+  _itemBoxPrefeb: {fileID: 3057876672910139353, guid: a3f56325e40bef84b9ea3cec5c52dde5, type: 3}
   _itemBoxParent: {fileID: 1283189407}
   _itemInfomation: {fileID: 581465747}
   _itemUsePanel: {fileID: 977319108}

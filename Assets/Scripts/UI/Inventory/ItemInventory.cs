@@ -25,7 +25,7 @@ public class ItemInventory : MonoBehaviour
 
 	//인벤토리 패널 관련
 	[SerializeField]
-	private GameObject _itemBox;
+	private GameObject _itemBoxPrefeb;
 	[SerializeField]
 	private Transform _itemBoxParent;
 	[SerializeField]
@@ -65,7 +65,7 @@ public class ItemInventory : MonoBehaviour
 		else
 		{
 			ItemBox itembox = PoolItemBox();
-			itembox.Setting(iItem, OnItemInfomation);
+			itembox.Setting(iItem, OnItemInfomationAndUsePanel, OnItemInfomation);
 			_itemBoxs.Add(itembox);
 			_items.Add(iItem);
 		}
@@ -81,7 +81,12 @@ public class ItemInventory : MonoBehaviour
 		_itemInfomation.UpdateUI();
 	}
 
-	private void OnItemInfomation(ItemBox itembox)
+	public void OnItemInfomation(ItemBox itembox)
+	{
+		_itemInfomation.Setting(itembox);
+	}
+
+	private void OnItemInfomationAndUsePanel(ItemBox itembox)
 	{
 		_itemInfomation.Setting(itembox);
 		_itemUsePanel.Setting(itembox);
@@ -96,6 +101,6 @@ public class ItemInventory : MonoBehaviour
 				return _itemBoxParent.GetChild(i).GetComponent<ItemBox>();
 			}
 		}
-		return Instantiate(_itemBox, _itemBoxParent).GetComponent<ItemBox>();
+		return Instantiate(_itemBoxPrefeb, _itemBoxParent).GetComponent<ItemBox>();
 	}
 }
