@@ -1099,10 +1099,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1984584010, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 982753854348841312, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
       propertyPath: m_Name
       value: Soul

@@ -28,6 +28,15 @@ public class NoticeItem : MonoBehaviour
 		gameObject.SetActive(true);
 		StartCoroutine(WaitClose());
 	}
+	public void Setting(IItem item, int count)
+	{
+		transform.SetAsLastSibling();
+		_itemImage.sprite = Resources.Load<Sprite>($"Item/{item.Name}");
+		_nameText.text = item.Name;
+		_countText.text = $"x{count}";
+		gameObject.SetActive(true);
+		StartCoroutine(WaitClose());
+	}
 
 	public void Setting(int money)
 	{

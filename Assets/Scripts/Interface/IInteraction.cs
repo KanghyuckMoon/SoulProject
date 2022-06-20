@@ -29,5 +29,5 @@ public interface IInteraction
 	/// 상호작용
 	/// </summary>
 	/// <param name="player"></param>
-	void Interaction(PlayerMove player);
+	void Interaction(Player player);
 }

@@ -657,10 +657,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 				MoneyInventory.AddMoney(10);
 				NoticeManager.Notice(10);
 				_playerMove.AddExp(10);
-				if(IsCapture)
-				{
-					_playerMove.OutCaptureMonster();	
-				}
 			}
 		}
 	}

@@ -62,7 +62,7 @@ public class ItemInventory : MonoBehaviour
 		for (int i = 0; i < itemCount; ++i)
 		{
 			ItemBox itemBox = PoolItemBox();
-			itemBox.Setting(items[i], OnItemInfomationAndUsePanel, OnItemInfomation);
+			itemBox.Setting(items[i], OnItemInfomationAndUsePanel, OnItemInfomation, false);
 		}
 		_itemInfomation.UpdateUI();
 	}

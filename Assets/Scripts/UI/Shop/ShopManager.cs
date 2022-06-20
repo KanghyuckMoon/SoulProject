@@ -31,7 +31,7 @@ public class ShopManager : MonoBehaviour
 	[SerializeField]
 	private ItemSetSO _sellItems;
 
-	private PlayerMove _player = null;
+	private Player _player = null;
 	private Merchant _merchant = null;
 
 	public void Update()
@@ -45,12 +45,12 @@ public class ShopManager : MonoBehaviour
 		}
 	}
 
-	public void Setting(PlayerMove player, Merchant merchant, ItemSetSO itemSetSO)
+	public void Setting(Player player, Merchant merchant, ItemSetSO itemSetSO)
 	{
 		_player = player;
 		_merchant = merchant;
 		_buyItems = itemSetSO.GetIItemList();
-		_player.SetIsCanAnything(true);
+		_player.IsCantAnything = true;
 		SetActiveCanvas(true);
 		UpdateUI(true);
 	}
@@ -58,7 +58,7 @@ public class ShopManager : MonoBehaviour
 	public void NoneSetting()
 	{
 		_merchant.EndTrade();
-		_player.SetIsCanAnything(false);
+		_player.IsCantAnything = false;
 		SetActiveCanvas(false);
 	}
 
@@ -94,7 +94,7 @@ public class ShopManager : MonoBehaviour
 			for (int i = 0; i < itemCount; ++i)
 			{
 				ItemBox itembox = PoolItemBox();
-				itembox.Setting(_buyItems[i], BuyItem, OnItemInfomation);
+				itembox.Setting(_buyItems[i], BuyItem, OnItemInfomation, true);
 				_itemBoxs.Add(itembox);
 			}
 		}
@@ -134,7 +134,7 @@ public class ShopManager : MonoBehaviour
 
 	private void BuyItem(ItemBox item)
 	{
-		Debug.Log("아이템 구매");
+		_player.AddItem(item.Item);
 	}
 
 	private void SellItem(ItemBox item)
@@ -142,6 +142,10 @@ public class ShopManager : MonoBehaviour
 		Debug.Log("아이템 판매");
 	}
 
+	/// <summary>
+	/// 아이템 박스 풀링
+	/// </summary>
+	/// <returns></returns>
 	private ItemBox PoolItemBox()
 	{
 		for (int i = 0; i < _itemBoxParent.childCount; ++i)

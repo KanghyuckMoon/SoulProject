@@ -61,7 +61,7 @@ public class Merchant : MonoBehaviour, IInteraction
 	private ShopManager _shopManager;
 	private CameraMove _cameraMove;
 
-	public void Interaction(PlayerMove player)
+	public void Interaction(Player player)
 	{
 		ShopManager.Setting(player, this, _itemSetSO);
 		CameraMove.AnimationCamera(_headPos.position, transform.forward);

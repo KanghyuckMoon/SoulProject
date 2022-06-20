@@ -35,9 +35,9 @@ public class ItemBox : MonoBehaviour
 	private Action<ItemBox> _clickAction;
 	private Action<ItemBox> _onAction;
 
-	public void Setting(IItem iItem, Action<ItemBox> clickAction, Action<ItemBox> onAction)
+	public void Setting(IItem iItem, Action<ItemBox> clickAction, Action<ItemBox> onAction, bool isShop = false)
 	{
-		UpdateUI(iItem);
+		UpdateUI(iItem, isShop);
 		   _clickAction = clickAction;
 		_onAction = onAction;
 		gameObject.SetActive(true);
@@ -53,10 +53,17 @@ public class ItemBox : MonoBehaviour
 		_onAction.Invoke(this);
 	}
 
-	public void UpdateUI(IItem iItem)
+	public void UpdateUI(IItem iItem, bool isShop)
 	{
 		_iItem = iItem;
-		_countText.text = $"{_iItem.Count}";
+		if(isShop)
+		{
+			_countText.text = $"";
+		}
+		else
+		{
+			_countText.text = $"{_iItem.Count}";
+		}
 		_itemImage.sprite = Resources.Load<Sprite>($"Item/{_iItem.Name}");
 	}
 }

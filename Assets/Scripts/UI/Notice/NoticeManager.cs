@@ -19,6 +19,15 @@ public class NoticeManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// ¾ÆÀÌÅÛ È¹µæ½Ã ¾Ë¶÷
+	/// </summary>
+	/// <param name="item"></param>
+	public void Notice(IItem item, int count)
+	{
+		PoolItemBox().Setting(item, count);
+	}
+
+	/// <summary>
 	/// µ· È¹µæ½Ã ¾Ë¶÷
 	/// </summary>
 	/// <param name="item"></param>

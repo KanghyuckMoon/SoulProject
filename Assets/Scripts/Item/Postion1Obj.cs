@@ -28,7 +28,7 @@ public class Postion1Obj : ItemObject, IInteraction
 		}
 	}
 
-	public void Interaction(PlayerMove player)
+	public void Interaction(Player player)
 	{
 		player.AddItem(_item);
 	}
