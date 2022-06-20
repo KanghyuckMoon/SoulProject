@@ -115,6 +115,18 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
+	public GameObject GameObject
+	{
+		get
+		{
+			return gameObject;
+		}
+		set
+		{
+
+		}
+	}
+
 
 	//인스펙터에서 확인할 수 있는 속성
 	[SerializeField]

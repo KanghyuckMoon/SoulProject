@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,7 +41,6 @@ public class PlayerMove : MonoBehaviour
 			return _noticeManager;
 		}
 	}
-
 	public OverWorldUIManager OverWorldUIManager
 	{
 		get
@@ -51,6 +52,15 @@ public class PlayerMove : MonoBehaviour
 			return _overWorldUIManager;
 		}
 	}
+	public BattleUICanvas BattleUICanvas
+	{
+		get
+		{
+			_battleUICanvas ??= FindObjectOfType<BattleUICanvas>();
+			return _battleUICanvas;
+		}
+	}
+
 
 	//인스펙터에서 설정할 수 있는 변수들
 	[SerializeField]
@@ -82,6 +92,8 @@ public class PlayerMove : MonoBehaviour
 	private NoticeManager _noticeManager; //발견 매니저
 	private OverWorldUIManager _overWorldUIManager; //맵 UI
 	private IInteraction _selectObj; //선택된 오브젝트
+	private IMonster _targettingMonster; //선택된 몬스터
+	private BattleUICanvas _battleUICanvas; //배틀UI캔버스
 
 	//속성
 	private Vector3 currentVelocitySpeed = Vector3.zero; //이동속도 초깃값
@@ -91,6 +103,7 @@ public class PlayerMove : MonoBehaviour
 	private Vector3 _gravityDirect = Vector3.zero; //현재 중력 크기 초깃값
 	private Tweener _tweener = null; //트위너
 	private float _itemDetectRange = 3f; // 아이템 감지 범위
+	private float _monsterDetectRange = 1000f; //몬스터 감지 범위
 
 	private void Start()
 	{
@@ -127,21 +140,27 @@ public class PlayerMove : MonoBehaviour
 			TryCapture();
 			BodyDirectChange();
 		}
+		
+		//록온 기능
 		if (Input.GetKeyDown(KeyCode.T))
 		{
 			if (_cameraMove.IsLookOn)
 			{
 				_cameraMove.SetLookOff();
+				BattleUICanvas?.NoneSetting();
+				_targettingMonster = null;
 			}
 			else
 			{
-				if (_selectObj != null)
+				MonsterDetect();
+				if (_targettingMonster != null)
 				{
-					_cameraMove.SetLookOn(_selectObj.Transform);
+					_cameraMove.SetLookOn(_targettingMonster.Transform);
 				}
 			}
 		}
 
+		//상호작용
 		if (_selectObj != null)
 		{
 			OverWorldUIManager?.Setting(_selectObj);
@@ -154,6 +173,19 @@ public class PlayerMove : MonoBehaviour
 		{
 			OverWorldUIManager?.NoneSetting();
 		}
+
+		//록온 기능 UI
+		if (_cameraMove.IsLookOn && _targettingMonster != null)
+		{
+			BattleUICanvas?.Setting(_targettingMonster);
+		}
+		else
+		{
+			BattleUICanvas?.NoneSetting();
+		}
+
+
+
 		InteractionDetect();
 	}
 
@@ -306,6 +338,12 @@ public class PlayerMove : MonoBehaviour
 						SetIsCanAnything(true);
 						_captureMonster = _selectMonster;
 						_captureMonster.Capture();
+						if(_captureMonster == _targettingMonster)
+						{
+							_cameraMove.SetLookOff();
+							BattleUICanvas?.NoneSetting();
+						}
+
 						_collider.enabled = true;
 						_characterController.enabled = false;
 						_isCapture = true;
@@ -349,6 +387,58 @@ public class PlayerMove : MonoBehaviour
 		{
 			_selectObj = null;
 		}
+	}
+
+	/// <summary>
+	/// 가장 가까운 몬스터 찾기
+	/// </summary>
+	private void MonsterDetect()
+	{
+		var items = GameObject.FindGameObjectsWithTag("Monster");
+		if(_captureMonster != null)
+		{
+			items = items.Where(x => x != _captureMonster.GameObject).ToArray();
+			items = items.Where(x => IsTargetVisible(Camera.main, x.transform)).ToArray();
+		}
+		float minRange = float.MaxValue;
+		GameObject itemObject = null;
+		for (int i = 0; i < items.Length; ++i)
+		{
+			Vector3 vector = items[i].transform.position - transform.position;
+			float currentRange = vector.sqrMagnitude;
+			if (minRange > currentRange)
+			{
+				minRange = currentRange;
+				itemObject = items[i];
+			}
+		}
+
+		if (minRange < _monsterDetectRange)
+		{
+			_targettingMonster = itemObject.GetComponent<IMonster>();
+		}
+		else
+		{
+			_targettingMonster = null;
+		}
+	}
+
+	/// <summary>
+	/// 카메라 안에 들었는지 판단
+	/// </summary>
+	/// <param name="_camera"></param>
+	/// <param name="_transform"></param>
+	/// <returns></returns>
+	public bool IsTargetVisible(Camera _camera, Transform _transform)
+	{
+		var planes = GeometryUtility.CalculateFrustumPlanes(_camera);
+		var point = _transform.position;
+		foreach (var plane in planes)
+		{
+			if (plane.GetDistanceToPoint(point) < 0)
+				return false;
+		}
+		return true;
 	}
 
 	//빙의 후

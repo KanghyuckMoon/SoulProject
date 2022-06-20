@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface IMonster
+public interface IMonster
 {
 	public bool IsSelect 
 	{
@@ -11,6 +11,12 @@ interface IMonster
 	}
 
 	public Transform Transform
+	{
+		get;
+		set;
+	}
+
+	public GameObject GameObject
 	{
 		get;
 		set;

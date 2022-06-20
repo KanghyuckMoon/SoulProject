@@ -15,7 +15,6 @@ public class Potion1 : IItem
 			_itemData._count = value;
 		}
 	}
-
 	public string Name 
 	{
 		get
@@ -37,7 +36,6 @@ public class Potion1 : IItem
 			return EItem.Postion1;
 		}
 	}
-
 	public ItemData ItemData
 	{
 		get

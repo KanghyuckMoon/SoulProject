@@ -13,7 +13,6 @@ public interface IItem
 	{
 		get;
 	}
-
 	public EItem ItemType
 	{
 		get;
@@ -26,8 +25,6 @@ public interface IItem
 	{
 		get;
 	}
-
-
 	void SetItemData(ItemData itemData);
 
 	void UseItem(PlayerMove player);
