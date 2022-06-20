@@ -51,6 +51,14 @@ public class PlayerLockOn : MonoBehaviour
 		{
 			_player.BattleUICanvas?.NoneSetting();
 		}
+
+		//만약 빙의한 몬스터와 타겟팅한 몬스터가 같다면 락온 해제
+		if(_player.TargettingMonster == _player.CaptureMonster)
+		{
+			_player.MainCameraMove.SetLookOff();
+			_player.BattleUICanvas?.NoneSetting();
+			_player.TargettingMonster = null;
+		}
 	}
 
 	/// <summary>
@@ -62,8 +70,8 @@ public class PlayerLockOn : MonoBehaviour
 		if (_player.CaptureMonster != null)
 		{
 			items = items.Where(x => x != _player.CaptureMonster.GameObject).ToArray();
-			items = items.Where(x => IsTargetVisible(Camera.main, x.transform)).ToArray();
 		}
+		items = items.Where(x => IsTargetVisible(Camera.main, x.transform)).ToArray();
 		float minRange = float.MaxValue;
 		GameObject itemObject = null;
 		for (int i = 0; i < items.Length; ++i)
@@ -87,8 +95,6 @@ public class PlayerLockOn : MonoBehaviour
 		}
 	}
 
-
-
 	/// <summary>
 	/// 카메라 안에 들었는지 판단
 	/// </summary>
@@ -98,13 +104,12 @@ public class PlayerLockOn : MonoBehaviour
 	public bool IsTargetVisible(Camera _camera, Transform _transform)
 	{
 		var planes = GeometryUtility.CalculateFrustumPlanes(_camera);
-		var point = _transform.position;
-		foreach (var plane in planes)
+		Vector3 viewPos = _player.MainCamera.WorldToViewportPoint(_transform.position);
+		if (viewPos.x >= 0 && viewPos.x <= 1 && viewPos.y >= 0 && viewPos.y <= 1 && viewPos.z > 0)
 		{
-			if (plane.GetDistanceToPoint(point) < 0)
-				return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 }

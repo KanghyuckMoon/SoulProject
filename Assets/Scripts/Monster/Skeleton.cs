@@ -45,7 +45,17 @@ public class Skeleton : MonsterBase
 
 	public override bool MouseRButtonSkill()
 	{
-		Debug.Log("스킬이 존재하지 않음");
-		return base.MouseRButtonSkill();
+		if (base.MouseRButtonSkill())
+		{
+			ChangeState(MonsterState.Attack);
+			_attackState = AttackState.MRB;
+			return true;
+		}
+		else
+		{
+			ChangeState(MonsterState.Attack);
+			_attackState = AttackState.MRB;
+			return false;
+		}
 	}
 }
