@@ -27,7 +27,7 @@ public interface IItem
 	}
 	void SetItemData(ItemData itemData);
 
-	void UseItem(PlayerMove player);
+	void UseItem(Player player);
 
 	void AddCount(int add);
 }

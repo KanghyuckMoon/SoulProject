@@ -46,11 +46,11 @@ public class Potion1 : IItem
 
 	private ItemData _itemData = null;
 
-	public void UseItem(PlayerMove player)
+	public void UseItem(Player player)
 	{
 		if(Count > 0)
 		{
-			player.AddHP(10);
+			player.GetComponent<PlayerStat>().AddHP(10);
 			Count--;
 			Debug.Log("포션 1 사용");
 		}

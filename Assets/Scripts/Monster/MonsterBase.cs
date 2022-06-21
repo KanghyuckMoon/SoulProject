@@ -194,6 +194,18 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
+	public Sprite Sprite
+	{
+		get
+		{
+			return _monsterSprite;
+		}
+		set
+		{
+			_monsterSprite = value;
+		}
+	}
+
 	//인스펙터에서 확인할 수 있는 속성
 	[SerializeField]
 	protected MonsterState _monsterState = MonsterState.None; //몬스터 상태
@@ -230,12 +242,22 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	private float _viewAngle; //시야각
 	[SerializeField]
 	private float _groundHeight; //땅에서부터 떨어질 높이
+	[SerializeField]
+	private Sprite _monsterSprite; //몬스터 스프라이트
+	[SerializeField]
+	protected float _coolTimeSpeedMLB = 10.0f; //마우스 좌클릭 쿨타임 증가속도
+	[SerializeField]
+	protected float _coolTimeSpeedMRB = 10.0f; //마우스 우클릭 쿨타임 증가속도
+	[SerializeField]
+	protected float _coolTimeSpeedE = 10.0f; //E 쿨타임 증가속도
+	[SerializeField]
+	protected float _coolTimeSpeedR = 10.0f; //R 쿨타임 증가속도
 
 	//참조하는 속성
 	protected Animator _animator = null;
 	private CharacterController _characterController = null;
 	private IAttack[] _iAttacks = null;
-	private PlayerMove _playerMove = null;
+	private Player _player = null;
 	private MoneyInventory _moneyInventory = null;
 	private NoticeManager _noticeManager = null;
 
@@ -251,10 +273,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	protected float _coolTimeMRB = 0.0f; //마우스 우클릭 쿨타임
 	protected float _coolTimeE = 0.0f; //E 쿨타임
 	protected float _coolTimeR = 0.0f; //R 쿨타임
-	protected float _coolTimeSpeedMLB = 10.0f; //마우스 좌클릭 쿨타임 증가속도
-	protected float _coolTimeSpeedMRB = 10.0f; //마우스 우클릭 쿨타임 증가속도
-	protected float _coolTimeSpeedE = 10.0f; //E 쿨타임 증가속도
-	protected float _coolTimeSpeedR = 10.0f; //R 쿨타임 증가속도
+
 	protected bool _canSkillMLB = false; //마우스 좌클릭 스킬을 사용 가능한지
 	protected bool _canSkillMRB = false; //마우스 우클릭 스킬을 사용 가능한지
 	protected bool _canSkillE = false; //E 스킬을 사용 가능한지
@@ -268,7 +287,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		_characterController = GetComponent<CharacterController>();
 		_animator = GetComponentInChildren<Animator>();
 		_iAttacks = GetComponentsInChildren<IAttack>(true);
-		_playerMove = FindObjectOfType<PlayerMove>();
+		_player = FindObjectOfType<Player>();
 		ChangeState(MonsterState.Idle);
 	}
 
@@ -697,7 +716,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 				ChangeState(MonsterState.Die);
 				MoneyInventory.AddMoney(10);
 				NoticeManager.Notice(10);
-				_playerMove.AddExp(10);
+				_player.GetComponent<PlayerStat>().AddExp(10);
 			}
 		}
 	}

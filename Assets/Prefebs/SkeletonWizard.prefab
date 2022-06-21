@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &128389468580101510
 Transform:
   m_ObjectHideFlags: 0
@@ -729,7 +729,7 @@ GameObject:
   - component: {fileID: 43245489845196475}
   - component: {fileID: 43245489845196472}
   - component: {fileID: 43245489845196473}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SkeletonWizard
   m_TagString: Monster
   m_Icon: {fileID: 0}
@@ -802,11 +802,13 @@ MonoBehaviour:
   _rotateSpeed: 100
   _bodyRotateSpeed: 50
   velocityChangeSpeed: 0.01
+  _maxhp: 100
   _hp: 100
   _atkRange: 4
   _targetCharacter: {fileID: 0}
   _viewAngle: 40
   _groundHeight: 0
+  _monsterSprite: {fileID: 21300000, guid: 30cb3a626f101fc44ac0d1eea528fe72, type: 3}
 --- !u!143 &43245489845196473
 CharacterController:
   m_ObjectHideFlags: 0

@@ -9,6 +9,11 @@ public interface IMonster
 		get;
 		set;
 	}
+	public Sprite Sprite
+	{
+		get;
+		set;
+	}
 	public Transform Transform
 	{
 		get;

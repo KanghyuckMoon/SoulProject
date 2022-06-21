@@ -6,13 +6,13 @@ using TMPro;
 
 public class ItemInventory : MonoBehaviour
 {
-	public PlayerMove Player
+	public Player Player
 	{
 		get
 		{
 			if(_playerMove == null)
 			{
-				_playerMove = FindObjectOfType<PlayerMove>();
+				_playerMove = FindObjectOfType<Player>();
 			}
 			return _playerMove;
 
@@ -20,7 +20,7 @@ public class ItemInventory : MonoBehaviour
 	}
 
 	private List<ItemBox> _itemBoxs = new List<ItemBox>();
-	private PlayerMove _playerMove = new PlayerMove();
+	private Player _playerMove = new Player();
 
 	//인벤토리 패널 관련
 	[SerializeField]

@@ -434,6 +434,7 @@ GameObject:
   - component: {fileID: 304061301}
   - component: {fileID: 304061303}
   - component: {fileID: 304061302}
+  - component: {fileID: 304061304}
   m_Layer: 5
   m_Name: Monster
   m_TagString: Untagged
@@ -501,6 +502,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 304061300}
   m_CullTransparentMesh: 1
+--- !u!114 &304061304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304061300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3b44f3a3aef3f45a2b511857130e36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _monsterImage: {fileID: 304061302}
+  _monsterHP: {fileID: 1140758170}
+  _levelText: {fileID: 1803872387}
 --- !u!1 &525511445
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,6 +1633,7 @@ GameObject:
   - component: {fileID: 1433811444}
   - component: {fileID: 1433811446}
   - component: {fileID: 1433811445}
+  - component: {fileID: 1433811447}
   m_Layer: 5
   m_Name: Soul
   m_TagString: Untagged
@@ -1684,6 +1701,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1433811443}
   m_CullTransparentMesh: 1
+--- !u!114 &1433811447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433811443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89cfe5ecc88f7d849824a14b85f5f3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soulImage: {fileID: 1433811445}
+  _soulHP: {fileID: 44522755}
+  _levelText: {fileID: 1206582036}
 --- !u!1 &1517426491
 GameObject:
   m_ObjectHideFlags: 0
@@ -2393,3 +2425,5 @@ MonoBehaviour:
   _lockOnUI: {fileID: 282539456}
   _monsterInfomationWindow: {fileID: 1790707372}
   _skillUI: {fileID: 1517426496}
+  _monsterInfo: {fileID: 304061304}
+  _soulInfo: {fileID: 1433811447}

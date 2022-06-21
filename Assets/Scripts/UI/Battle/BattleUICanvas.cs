@@ -10,6 +10,10 @@ public class BattleUICanvas : MonoBehaviour
 	private MonsterInfomationWindow _monsterInfomationWindow;
 	[SerializeField]
 	private SkillUI _skillUI;
+	[SerializeField]
+	private MonsterInfo _monsterInfo;
+	[SerializeField]
+	private SoulInfo _soulInfo;
 
 	public void Setting(IMonster obj)
 	{
@@ -25,6 +29,42 @@ public class BattleUICanvas : MonoBehaviour
 	{
 		_skillUI.Setting(monster);
 	}
+
+	/// <summary>
+	/// 영혼 정보 세팅
+	/// </summary>
+	/// <param name="playerStat"></param>
+	public void SettingSoulInfo(PlayerStat playerStat)
+	{
+		_soulInfo.Setting(playerStat);
+	}
+
+	/// <summary>
+	/// 영혼 정보 UI 지우기
+	/// </summary>
+	/// <param name="playerStat"></param>
+	public void NoneSettingSoulInfo()
+	{
+		_soulInfo.NoneSetting();
+	}
+
+	/// <summary>
+	/// 몬스터 정보 UI 설정
+	/// </summary>
+	/// <param name="monster"></param>
+	public void SettingMonsterInfo(IMonster monster)
+	{
+		_monsterInfo.Setting(monster);
+	}
+
+	/// <summary>
+	/// 몬스터 정보UI 설정 지우기
+	/// </summary>
+	public void NoneSettingMonsterInfo()
+	{
+		_monsterInfo.NoneSetting();
+	}
+
 
 	public void SelectMonsterUI(IMonster obj)
 	{
