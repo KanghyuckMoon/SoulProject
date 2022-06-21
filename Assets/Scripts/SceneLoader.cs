@@ -12,5 +12,6 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene("OverWorldUIScene", LoadSceneMode.Additive);
         SceneManager.LoadScene("ShopScene", LoadSceneMode.Additive);
         SceneManager.LoadScene("BattleUIScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("GameOverScene", LoadSceneMode.Additive);
     }
 }

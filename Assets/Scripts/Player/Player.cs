@@ -28,6 +28,18 @@ public class Player : MonoBehaviour
 			_characterController = value;
 		}
 	}
+	public GameOverUIManager GameOverUIManager
+	{
+		get
+		{
+			_gameOverUIManager ??= FindObjectOfType<GameOverUIManager>();
+			return _gameOverUIManager;
+		}
+		set
+		{
+			_gameOverUIManager = value;
+		}
+	}
 	public BattleUICanvas BattleUICanvas
 	{
 		get
@@ -157,6 +169,7 @@ public class Player : MonoBehaviour
 	private NoticeManager _noticeManager; //발견 매니저
 	private BattleUICanvas _battleUICanvas; //배틀UI캔버스
 	private OverWorldUIManager _overWorldUIManager; //맵 UI
+	private GameOverUIManager _gameOverUIManager; //게임오버UI
 	private IMonster _selectMonster = null; //마우스로 선택한 몬스터
 	private IMonster _captureMonster = null; //빙의한 몬스터
 	private IMonster _targettingMonster; //타겟팅된 몬스터

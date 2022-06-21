@@ -67,24 +67,6 @@ public class PlayerStat : MonoBehaviour
 		_player = GetComponent<Player>();
 	}
 
-	public void Update()
-	{
-		if(_player.IsCantAnything)
-		{
-			return;
-		}
-
-		if(HP > 0)
-		{
-			_player.BattleUICanvas?.SettingSoulInfo(this);
-		}
-		else
-		{
-			_player.BattleUICanvas?.NoneSettingSoulInfo();
-		}
-
-	}
-
 	/// <summary>
 	/// 체력 증가
 	/// </summary>
@@ -125,11 +107,14 @@ public class PlayerStat : MonoBehaviour
 	{
 		_hp -= iAttack.Damage;
 		Instantiate(iAttack.Effect, transform.position, Quaternion.identity);
+		_player.BattleUICanvas?.SettingSoulInfo(this);
 		if (_hp <= 0)
 		{
+			_player.GameOverUIManager.Setting();
 			gameObject.SetActive(false);
 		}
 	}
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.gameObject.CompareTag("ATK"))
