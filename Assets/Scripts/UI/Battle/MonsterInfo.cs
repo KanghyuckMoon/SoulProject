@@ -17,7 +17,7 @@ public class MonsterInfo : MonoBehaviour
 	{
 		_monsterImage.sprite = monster.Sprite;
 		_monsterHP.sprite = monster.Sprite;
-		_monsterHP.fillAmount = (float)monster.HP / monster.MaxHP;
+		_monsterHP.fillAmount = (float)(monster.MaxHP - monster.HP) / monster.MaxHP;
 		_levelText.text = $"LV.{monster.Level}";
 		gameObject.SetActive(true);
 	}

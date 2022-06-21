@@ -16,7 +16,7 @@ public class SoulInfo : MonoBehaviour
 
 	public void Setting(PlayerStat playerStat)
 	{
-		_soulHP.fillAmount = (float)playerStat.HP / playerStat.MaxHP;
+		_soulHP.fillAmount = (float)(playerStat.MaxHP - playerStat.HP) / playerStat.MaxHP;
 		_levelText.text = $"LV.{playerStat.Level}";
 		gameObject.SetActive(true);
 	}

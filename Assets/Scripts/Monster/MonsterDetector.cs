@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class MonsterDetector : MonoBehaviour
 {
-	public string targetTag = "Player";
-
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.tag == targetTag)
+		if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
 		{
 			gameObject.SendMessageUpwards("OnCheckTarget", other.gameObject, SendMessageOptions.DontRequireReceiver);
 		}

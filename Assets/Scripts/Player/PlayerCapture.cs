@@ -26,6 +26,7 @@ public class PlayerCapture : MonoBehaviour
 			if(_player.CaptureMonster.HP <= 0)
 			{
 				OutCaptureMonster();
+				return;
 			}
 			_player.BattleUICanvas?.SettingSkillUI(_player.CaptureMonster);
 			_player.BattleUICanvas?.SettingMonsterInfo(_player.CaptureMonster);
