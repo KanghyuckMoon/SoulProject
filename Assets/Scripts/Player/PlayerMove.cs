@@ -66,11 +66,8 @@ public class PlayerMove : MonoBehaviour
 		//캐릭터 이동방향
 		Vector3 targetDirect = inputX * right + inputY * forward;
 
-		if(inputY >= 0)
-		{
-			_moveDirect = Vector3.RotateTowards(_moveDirect, targetDirect, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
-			_moveDirect = _moveDirect.normalized;
-		}
+		_moveDirect = Vector3.RotateTowards(_moveDirect, targetDirect, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
+		_moveDirect = _moveDirect.normalized;
 
 		Vector3 amount = (targetDirect * _moveSpeed * Time.deltaTime) + (_gravityDirect * Time.deltaTime);
 
@@ -161,13 +158,10 @@ public class PlayerMove : MonoBehaviour
 		//캐릭터 이동방향
 		Vector3 targetDirect = inputX * right + inputY * forward;
 
-		if (inputY >= 0)
-		{
-			_moveDirect = Vector3.RotateTowards(_moveDirect, targetDirect, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
-			_moveDirect = _moveDirect.normalized;
-		}
+		_moveDirect = Vector3.RotateTowards(_moveDirect, targetDirect, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
+		_moveDirect = _moveDirect.normalized;
 
-		_player.CaptureMonster.MonsterMove(targetDirect);
+		_player.CaptureMonster.MonsterMove(_moveDirect);
 	}
 	
 

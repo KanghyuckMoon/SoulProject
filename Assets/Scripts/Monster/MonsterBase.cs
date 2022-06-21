@@ -491,31 +491,20 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		IsSelect = false;
 	}
 
-	public bool MonsterMove(Vector3 targetVector)
+	public void MonsterMove(Vector3 targetVector)
 	{
-		if (IsCapture)
+		if (_monsterState == MonsterState.Wait || _monsterState == MonsterState.Damage || _monsterState == MonsterState.Attack)
 		{
-			if(_monsterState == MonsterState.Wait || _monsterState == MonsterState.Damage || _monsterState == MonsterState.Attack)
-			{
-				return false;
-			}
-			ChangeState(MonsterState.Move);
-			float inputX = Input.GetAxis("Horizontal");
-			float inputY = Input.GetAxis("Vertical");
-
-			if (inputY >= 0)
-			{
-				_moveDirect = Vector3.RotateTowards(_moveDirect, targetVector, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
-				_moveDirect = _moveDirect.normalized;
-			}
-
-			Vector3 amount = (targetVector * _moveSpeed * Time.deltaTime) + (_gravityDirect * Time.deltaTime);
-
-			_characterController.Move(amount);
-
-			return false;
+			return;
 		}
-		return true;
+		ChangeState(MonsterState.Move);
+
+		_moveDirect = Vector3.RotateTowards(_moveDirect, targetVector, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
+		_moveDirect = _moveDirect.normalized;
+
+		Vector3 amount = (targetVector * _moveSpeed * Time.deltaTime) + (_gravityDirect * Time.deltaTime);
+
+		_characterController.Move(amount);
 	}
 
 	/// <summary>
