@@ -7,6 +7,13 @@ public class Skeleton : MonsterBase
 	[SerializeField]
 	private GameObject _skillRProjectile;
 
+
+	public override void Start()
+	{
+		base.Start();
+		_name = "스켈레톤";
+	}
+
 	public override bool KeyESkill()
 	{
 		Debug.Log("스킬이 존재하지 않음");

@@ -5,6 +5,12 @@ using UnityEngine;
 public class SkeletonWizard : MonsterBase
 {
 
+	public override void Start()
+	{
+		base.Start();
+		_name = "스켈레톤 위자드";
+	}
+
 	public override bool KeyESkill()
 	{
 		Debug.Log("스킬이 존재하지 않음");

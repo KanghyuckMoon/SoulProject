@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Ghoul : MonsterBase
 {
+	public override void Start()
+	{
+		base.Start();
+		_name = "±¸¿ï";
+	}
+
 	public override bool KeyESkill()
 	{
 		if (base.KeyESkill())

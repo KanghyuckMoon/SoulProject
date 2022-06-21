@@ -28,12 +28,21 @@ public interface IMonster
 		set;
 	}
 
+	public string Name
+	{
+		get;
+		set;
+	}
 	public int HP
 	{
 		get;
 		set;
 	}
-
+	public int MaxHP
+	{
+		get;
+		set;
+	}
 	public int Level
 	{
 		get;

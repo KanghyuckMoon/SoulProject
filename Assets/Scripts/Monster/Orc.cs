@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Orc : MonsterBase
 {
+	public override void Start()
+	{
+		base.Start();
+		_name = "ø¿≈©";
+	}
+
 	public override bool KeyESkill()
 	{
 		if (base.KeyESkill())

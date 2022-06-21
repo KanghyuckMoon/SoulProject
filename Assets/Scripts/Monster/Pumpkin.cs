@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Pumpkin : MonsterBase
 {
+	public override void Start()
+	{
+		base.Start();
+		_name = "∆ﬂ«¡≈≤";
+	}
+
 	public override bool KeyESkill()
 	{
 		if (base.KeyESkill())

@@ -773,6 +773,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skeleton
       objectReference: {fileID: 0}
+    - target: {fileID: 2085715349229982944, guid: 39c87695f052f2b4ba63335b72fd51c1, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39c87695f052f2b4ba63335b72fd51c1, type: 3}
 --- !u!1 &1351133195
@@ -986,6 +990,10 @@ PrefabInstance:
       value: Orc
       objectReference: {fileID: 0}
     - target: {fileID: 1227015581287006358, guid: 8e052c0a680702a4ebd1a5eae96ac371, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1227015581287006358, guid: 8e052c0a680702a4ebd1a5eae96ac371, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1078,13 +1086,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 128389468580101505, guid: e04b404c9cde3b64bbacc0e87f32f7f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 129386177666825227, guid: e04b404c9cde3b64bbacc0e87f32f7f7, type: 3}
       propertyPath: m_Name
       value: SkeletonWizard
       objectReference: {fileID: 0}
     - target: {fileID: 129386177666825227, guid: e04b404c9cde3b64bbacc0e87f32f7f7, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 129386177666825227, guid: e04b404c9cde3b64bbacc0e87f32f7f7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e04b404c9cde3b64bbacc0e87f32f7f7, type: 3}
@@ -1095,9 +1111,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1984584012, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
+      propertyPath: _monsterLayerMask.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984584014, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
+      propertyPath: _playerLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984584014, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
+      propertyPath: _monsterLayer.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 982753854348841312, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
       propertyPath: m_Name
       value: Soul
+      objectReference: {fileID: 0}
+    - target: {fileID: 982753854348841312, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 982753854349080280, guid: 1e758442ff8a04a48adb3790078a223b, type: 3}
       propertyPath: m_RootOrder
@@ -1157,8 +1189,12 @@ PrefabInstance:
       value: Ghoul
       objectReference: {fileID: 0}
     - target: {fileID: 1533023043300311040, guid: c776fed505b652440ad47bf65bb354fa, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1533023043300311040, guid: c776fed505b652440ad47bf65bb354fa, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1533023043300311040, guid: c776fed505b652440ad47bf65bb354fa, type: 3}
       propertyPath: m_TagString
@@ -2326,8 +2362,12 @@ PrefabInstance:
       value: Dragon
       objectReference: {fileID: 0}
     - target: {fileID: 1443327365081416391, guid: 3ff3157c7a648b842826417a7df4e08a, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443327365081416391, guid: 3ff3157c7a648b842826417a7df4e08a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ff3157c7a648b842826417a7df4e08a, type: 3}

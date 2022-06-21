@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerLockOn : MonoBehaviour
 {
 	private Player _player = null;
+	private IMonster _informationMonster = null;
 
 	[SerializeField]
 	private float _monsterDetectRange = 1000f; //몬스터 감지 범위
@@ -21,6 +22,17 @@ public class PlayerLockOn : MonoBehaviour
 		if (_player.IsCantAnything)
 		{
 			return;
+		}
+
+		MonsterInfomationOn();
+		//몬스터 정보 보기
+		if (_informationMonster != null)
+		{
+			_player.BattleUICanvas.SelectMonsterUI(_informationMonster);
+		}
+		else
+		{
+			_player.BattleUICanvas.NoneSelectMonsterUI();
 		}
 
 		//록온 기능
@@ -96,12 +108,36 @@ public class PlayerLockOn : MonoBehaviour
 	}
 
 	/// <summary>
-	/// 카메라 안에 들었는지 판단
+	/// 몬스터 정보 열기
 	/// </summary>
-	/// <param name="_camera"></param>
-	/// <param name="_transform"></param>
-	/// <returns></returns>
-	public bool IsTargetVisible(Camera _camera, Transform _transform)
+	private void MonsterInfomationOn()
+	{
+		Vector3 startPoint = transform.position;
+		Vector3 forward = _player.MainCamera.transform.TransformDirection(Vector3.forward);
+		forward.y = 0;
+		Ray ray = new Ray(startPoint, forward);
+		Debug.DrawRay(startPoint, forward * 100, Color.red);
+
+		RaycastHit raycastHit;
+		int layerMask = 1 << LayerMask.NameToLayer("Monster");  // 몬스터 레이어만 충돌 체크함
+		if (Physics.Raycast(ray, out raycastHit, 100, layerMask))
+		{
+			var monster = raycastHit.collider.gameObject.GetComponent<IMonster>();
+			_informationMonster = monster;
+		}
+		else
+		{
+			_informationMonster = null;
+		}
+	}
+
+		/// <summary>
+		/// 카메라 안에 들었는지 판단
+		/// </summary>
+		/// <param name="_camera"></param>
+		/// <param name="_transform"></param>
+		/// <returns></returns>
+		private bool IsTargetVisible(Camera _camera, Transform _transform)
 	{
 		var planes = GeometryUtility.CalculateFrustumPlanes(_camera);
 		Vector3 viewPos = _player.MainCamera.WorldToViewportPoint(_transform.position);

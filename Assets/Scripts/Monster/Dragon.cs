@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Dragon : MonsterBase
 {
+	public override void Start()
+	{
+		base.Start();
+		_name = "µå·¡°ï";
+	}
+
 	public override bool KeyESkill()
 	{
 		if (base.KeyESkill())

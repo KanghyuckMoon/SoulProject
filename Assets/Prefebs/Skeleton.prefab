@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1256703038
 Transform:
   m_ObjectHideFlags: 0
@@ -1545,6 +1545,7 @@ MonoBehaviour:
   _rotateSpeed: 100
   _bodyRotateSpeed: 50
   velocityChangeSpeed: 0.01
+  _maxhp: 100
   _hp: 100
   _atkRange: 3
   _targetCharacter: {fileID: 0}

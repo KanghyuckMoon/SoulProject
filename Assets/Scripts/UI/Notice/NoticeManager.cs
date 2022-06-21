@@ -36,7 +36,6 @@ public class NoticeManager : MonoBehaviour
 		PoolItemBox().Setting(money);
 	}
 
-
 	private NoticeItem PoolItemBox()
 	{
 		for (int i = 0; i < _noticeParent.childCount; ++i)

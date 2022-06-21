@@ -26,6 +26,17 @@ public class MonsterBase : MonoBehaviour, IMonster
 	}
 
 	//프로퍼티
+	public string Name
+	{
+		get
+		{
+			return _name;
+		}
+		set
+		{
+			_name = value;
+		}
+	}
 	public bool IsSelect
 	{
 		get
@@ -79,6 +90,17 @@ public class MonsterBase : MonoBehaviour, IMonster
 		set
 		{
 			_hp = value;
+		}
+	}
+	public int MaxHP
+	{
+		get
+		{
+			return _maxhp;
+		}
+		set
+		{
+			_maxhp = value;
 		}
 	}
 	public bool IsCapture
@@ -153,6 +175,8 @@ public class MonsterBase : MonoBehaviour, IMonster
 	[SerializeField]
 	private float velocityChangeSpeed = 0.01f; //가변 증가값
 	[SerializeField]
+	private int _maxhp = 100; //최대체력
+	[SerializeField]
 	private int _hp = 100; //체력
 	[SerializeField]
 	private float _atkRange = 1.5f; //몬스터 공격 거리
@@ -178,6 +202,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	protected Vector3 _gravityDirect = Vector3.zero; //중력 벡터
 	protected Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
 	protected Vector3 posTarget = Vector3.zero; //몬스터가 본 타겟 위치
+	protected string _name; //몬스터 이름
 	private bool _isAttack; //공격중일 때
 	private bool _isDie; //죽었을 때
 

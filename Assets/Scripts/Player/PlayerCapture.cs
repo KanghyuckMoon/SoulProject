@@ -75,6 +75,7 @@ public class PlayerCapture : MonoBehaviour
 					{
 						_player.IsCantAnything = true;
 						_player.CaptureMonster = _player.SelectMonster;
+						_player.CaptureMonster.GameObject.layer = LayerMask.NameToLayer("Player");
 						_player.CaptureMonster.Capture();
 						_player.CharacterController.enabled = false;
 						_player.IsCapture = true;
@@ -96,6 +97,7 @@ public class PlayerCapture : MonoBehaviour
 	/// </summary>
 	public void OutCaptureMonster()
 	{
+		_player.CaptureMonster.GameObject.layer = LayerMask.NameToLayer("Monster"); ;
 		_player.IsCapture = false;
 		_player.CaptureMonster.UnCapture();
 		_player.CaptureMonster = null;
