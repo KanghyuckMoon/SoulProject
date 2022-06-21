@@ -27,7 +27,7 @@ public class PlayerCapture : MonoBehaviour
 			{
 				OutCaptureMonster();
 			}
-
+			_player.BattleUICanvas?.SettingSkillUI(_player.CaptureMonster);
 			SkillE();
 			SkillR();
 			SkillMLB();
@@ -40,6 +40,7 @@ public class PlayerCapture : MonoBehaviour
 		}
 		else
 		{
+			_player.BattleUICanvas?.NoneSettingSkillUI();
 			Capture();
 		}
 	}

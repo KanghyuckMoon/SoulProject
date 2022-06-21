@@ -8,69 +8,57 @@ public class Dragon : MonsterBase
 	{
 		base.Start();
 		_name = "µå·¡°ï";
+		_canSkillMLB = true;
+		_canSkillMRB = true;
+		_canSkillE = true;
+		_canSkillR = true;
 	}
 
 	public override bool KeyESkill()
 	{
-		if (base.KeyESkill())
+		if (CheckCoolTimeE())
 		{
 			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.E;
+			_coolTimeE = 0;
 			return true;
 		}
-		else
-		{
-			ChangeState(MonsterState.Attack);
-			_attackState = AttackState.E;
-			return false;
-		}
+		return false;
 	}
 
 	public override bool KeyRSkill()
 	{
-		if (base.KeyRSkill())
+		if (CheckCoolTimeR())
 		{
 			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.R;
+			_coolTimeR = 0;
 			return true;
 		}
-		else
-		{
-			ChangeState(MonsterState.Attack);
-			_attackState = AttackState.R;
-			return false;
-		}
+		return false;
 	}
 
 	public override bool MouseLButtonSkill()
 	{
-		if (base.MouseLButtonSkill())
+		if (CheckCoolTimeMLB())
 		{
 			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.MLB;
+			_coolTimeMLB = 0;
 			return true;
 		}
-		else
-		{
-			ChangeState(MonsterState.Attack);
-			_attackState = AttackState.MLB;
-			return false;
-		}
+		return false;
 	}
 
 	public override bool MouseRButtonSkill()
 	{
-		if (base.MouseRButtonSkill())
+		if (CheckCoolTimeMRB())
 		{
 			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.MRB;
+			_coolTimeMRB = 0;
 			return true;
 		}
-		else
-		{
-			ChangeState(MonsterState.Attack);
-			_attackState = AttackState.MRB;
-			return false;
-		}
+		return false;
 	}
 }

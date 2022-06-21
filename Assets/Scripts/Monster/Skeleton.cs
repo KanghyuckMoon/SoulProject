@@ -12,57 +12,57 @@ public class Skeleton : MonsterBase
 	{
 		base.Start();
 		_name = "스켈레톤";
+		_canSkillMLB = true;
+		_canSkillMRB = true;
+		_canSkillE = true;
+		_canSkillR = true;
 	}
 
 	public override bool KeyESkill()
 	{
-		Debug.Log("스킬이 존재하지 않음");
-		return base.KeyESkill();
+		if (CheckCoolTimeE())
+		{
+			ChangeState(MonsterState.Attack);
+			_attackState = AttackState.E;
+			_coolTimeE = 0;
+			return true;
+		}
+		return false;
 	}
 
 	public override bool KeyRSkill()
 	{
-		if (base.KeyRSkill())
+		if (CheckCoolTimeR())
 		{
-			FollowProjectile followProjectile = Instantiate(_skillRProjectile, transform.position, Quaternion.identity, null).GetComponent<FollowProjectile>();
-			followProjectile.Initialized(IsCapture);
+			ChangeState(MonsterState.Attack);
+			_attackState = AttackState.R;
+			_coolTimeR = 0;
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 
 	public override bool MouseLButtonSkill()
 	{
-		if (base.MouseLButtonSkill())
+		if (CheckCoolTimeMLB())
 		{
 			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.MLB;
+			_coolTimeMLB = 0;
 			return true;
 		}
-		else
-		{
-			ChangeState(MonsterState.Attack);
-			_attackState = AttackState.MLB;
-			return false;
-		}
+		return false;
 	}
 
 	public override bool MouseRButtonSkill()
 	{
-		if (base.MouseRButtonSkill())
+		if (CheckCoolTimeMRB())
 		{
 			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.MRB;
+			_coolTimeMRB = 0;
 			return true;
 		}
-		else
-		{
-			ChangeState(MonsterState.Attack);
-			_attackState = AttackState.MRB;
-			return false;
-		}
+		return false;
 	}
 }

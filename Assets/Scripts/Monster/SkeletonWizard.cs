@@ -9,39 +9,57 @@ public class SkeletonWizard : MonsterBase
 	{
 		base.Start();
 		_name = "스켈레톤 위자드";
+		_canSkillMLB = true;
+		_canSkillMRB = true;
+		_canSkillE = true;
+		_canSkillR = true;
 	}
 
 	public override bool KeyESkill()
 	{
-		Debug.Log("스킬이 존재하지 않음");
-		return base.KeyESkill();
+		if (CheckCoolTimeE())
+		{
+			ChangeState(MonsterState.Attack);
+			_attackState = AttackState.E;
+			_coolTimeE = 0;
+			return true;
+		}
+		return false;
 	}
 
 	public override bool KeyRSkill()
 	{
-		Debug.Log("스킬이 존재하지 않음");
-		return base.KeyRSkill();
+		if (CheckCoolTimeR())
+		{
+			ChangeState(MonsterState.Attack);
+			_attackState = AttackState.R;
+			_coolTimeR = 0;
+			return true;
+		}
+		return false;
 	}
 
 	public override bool MouseLButtonSkill()
 	{
-		if (base.KeyESkill())
+		if (CheckCoolTimeMLB())
 		{
 			ChangeState(MonsterState.Attack);
 			_attackState = AttackState.MLB;
+			_coolTimeMLB = 0;
 			return true;
 		}
-		else
-		{
-			ChangeState(MonsterState.Attack);
-			_attackState = AttackState.MLB;
-			return false;
-		}
+		return false;
 	}
 
 	public override bool MouseRButtonSkill()
 	{
-		Debug.Log("스킬이 존재하지 않음");
-		return base.MouseRButtonSkill();
+		if (CheckCoolTimeMRB())
+		{
+			ChangeState(MonsterState.Attack);
+			_attackState = AttackState.MRB;
+			_coolTimeMRB = 0;
+			return true;
+		}
+		return false;
 	}
 }

@@ -28,11 +28,11 @@ public class PlayerLockOn : MonoBehaviour
 		//몬스터 정보 보기
 		if (_informationMonster != null)
 		{
-			_player.BattleUICanvas.SelectMonsterUI(_informationMonster);
+			_player.BattleUICanvas?.SelectMonsterUI(_informationMonster);
 		}
 		else
 		{
-			_player.BattleUICanvas.NoneSelectMonsterUI();
+			_player.BattleUICanvas?.NoneSelectMonsterUI();
 		}
 
 		//록온 기능

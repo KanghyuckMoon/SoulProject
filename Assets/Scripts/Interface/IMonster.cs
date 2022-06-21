@@ -9,25 +9,21 @@ public interface IMonster
 		get;
 		set;
 	}
-
 	public Transform Transform
 	{
 		get;
 		set;
 	}
-
 	public GameObject GameObject
 	{
 		get;
 		set;
 	}
-
 	public Vector3 Position
 	{
 		get;
 		set;
 	}
-
 	public string Name
 	{
 		get;
@@ -49,6 +45,26 @@ public interface IMonster
 		set;
 	}
 	public bool IsCapture
+	{
+		get;
+		set;
+	}
+	public float CoolTimeMLB
+	{
+		get;
+		set;
+	}
+	public float CoolTimeMRB
+	{
+		get;
+		set;
+	}
+	public float CoolTimeE
+	{
+		get;
+		set;
+	}
+	public float CoolTimeR
 	{
 		get;
 		set;
@@ -107,7 +123,45 @@ public interface IMonster
 	bool KeyRSkill();
 
 	/// <summary>
-	/// 몬스터 AI
+	/// MLB 스킬을 사용할 수 있는지
 	/// </summary>
-	void MonsterAI();
+	/// <returns></returns>
+	bool CheckCanMLB();
+
+	/// <summary>
+	/// MRB 스킬을 사용할 수 있는지
+	/// </summary>
+	/// <returns></returns>
+	bool CheckCanMRB();
+	/// <summary>
+	/// E 스킬을 사용할 수 있는지
+	/// </summary>
+	/// <returns></returns>
+	bool CheckCanE();
+	/// <summary>
+	/// R 스킬을 사용할 수 있는지
+	/// </summary>
+	/// <returns></returns>
+	bool CheckCanR();
+
+	/// <summary>
+	/// MLB 스킬의 쿨타임이 끝났는지
+	/// </summary>
+	/// <returns></returns>
+	bool CheckCoolTimeMLB();
+	/// <summary>
+	/// MRB 스킬의 쿨타임이 끝났는지
+	/// </summary>
+	/// <returns></returns>
+	bool CheckCoolTimeMRB();
+	/// <summary>
+	/// E 스킬의 쿨타임이 끝났는지
+	/// </summary>
+	/// <returns></returns>
+	bool CheckCoolTimeE();
+	/// <summary>
+	/// R 스킬의 쿨타임이 끝났는지
+	/// </summary>
+	/// <returns></returns>
+	bool CheckCoolTimeR();
 }

@@ -18,7 +18,7 @@ public class MonsterInfomationWindow : MonoBehaviour
 	public void Setting(IMonster monster)
 	{
 		_nameText.text = monster.Name;
-		_levelText.text = $"{monster.Level}";
+		_levelText.text = $"LV.{monster.Level}";
 		hpBar.fillAmount = (float)monster.HP / monster.MaxHP;
 		gameObject.SetActive(true);
 	}

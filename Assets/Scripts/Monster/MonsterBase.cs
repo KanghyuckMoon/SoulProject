@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterBase : MonoBehaviour, IMonster
+public abstract class MonsterBase : MonoBehaviour, IMonster
 {
 	//몬스터 상태
 	public enum MonsterState
@@ -118,7 +118,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	{
 		get
 		{
-			if(_moneyInventory == null)
+			if (_moneyInventory == null)
 			{
 				_moneyInventory = FindObjectOfType<MoneyInventory>();
 			}
@@ -129,7 +129,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 	{
 		get
 		{
-			if(_noticeManager == null)
+			if (_noticeManager == null)
 			{
 				_noticeManager = FindObjectOfType<NoticeManager>();
 			}
@@ -149,6 +149,50 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
+	public float CoolTimeMLB
+	{
+		get
+		{
+			return _coolTimeMLB;
+		}
+		set
+		{
+			_coolTimeMLB = value;
+		}
+	}
+	public float CoolTimeMRB
+	{
+		get
+		{
+			return _coolTimeMRB;
+		}
+		set
+		{
+			_coolTimeMRB = value;
+		}
+	}
+	public float CoolTimeE
+	{
+		get
+		{
+			return _coolTimeE;
+		}
+		set
+		{
+			_coolTimeE = value;
+		}
+	}
+	public float CoolTimeR
+	{
+		get
+		{
+			return _coolTimeR;
+		}
+		set
+		{
+			_coolTimeR = value;
+		}
+	}
 
 	//인스펙터에서 확인할 수 있는 속성
 	[SerializeField]
@@ -203,6 +247,18 @@ public class MonsterBase : MonoBehaviour, IMonster
 	protected Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
 	protected Vector3 posTarget = Vector3.zero; //몬스터가 본 타겟 위치
 	protected string _name; //몬스터 이름
+	protected float _coolTimeMLB = 0.0f; //마우스 좌클릭 쿨타임
+	protected float _coolTimeMRB = 0.0f; //마우스 우클릭 쿨타임
+	protected float _coolTimeE = 0.0f; //E 쿨타임
+	protected float _coolTimeR = 0.0f; //R 쿨타임
+	protected float _coolTimeSpeedMLB = 10.0f; //마우스 좌클릭 쿨타임 증가속도
+	protected float _coolTimeSpeedMRB = 10.0f; //마우스 우클릭 쿨타임 증가속도
+	protected float _coolTimeSpeedE = 10.0f; //E 쿨타임 증가속도
+	protected float _coolTimeSpeedR = 10.0f; //R 쿨타임 증가속도
+	protected bool _canSkillMLB = false; //마우스 좌클릭 스킬을 사용 가능한지
+	protected bool _canSkillMRB = false; //마우스 우클릭 스킬을 사용 가능한지
+	protected bool _canSkillE = false; //E 스킬을 사용 가능한지
+	protected bool _canSkillR = false; //R 스킬을 사용 가능한지
 	private bool _isAttack; //공격중일 때
 	private bool _isDie; //죽었을 때
 
@@ -229,6 +285,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 		BodyDirectChange();
 		SetGravity();
 		SetAnimation();
+		UpdateCoolTime();
 	}
 
 	/// <summary>
@@ -327,8 +384,7 @@ public class MonsterBase : MonoBehaviour, IMonster
 					float angle = GetTargetToAngle();
 					if (distance.magnitude < _atkRange && angle < _viewAngle / 2)
 					{
-						ChangeState(MonsterState.Attack);
-						_attackState = AttackState.MLB;
+						MouseLButtonSkill();
 						return;
 					}
 
@@ -398,50 +454,10 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
-	public virtual bool KeyESkill()
-	{
-		Debug.Log("스킬E");
-		if (IsCapture)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	public virtual bool KeyRSkill()
-	{
-		Debug.Log("스킬R");
-		if (IsCapture)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	public virtual bool MouseLButtonSkill()
-	{
-		Debug.Log("스킬MLB");
-		if (IsSelect)
-		{
-			return false;
-		}
-		return true;
-	}
-
-	public virtual bool MouseRButtonSkill()
-	{
-		Debug.Log("스킬MRB");
-		if (IsSelect)
-		{
-			return false;
-		}
-		return true;
-	}
-
-	public void MonsterAI()
-	{
-
-	}
+	public abstract bool KeyESkill();
+	public abstract bool KeyRSkill();
+	public abstract bool MouseLButtonSkill();
+	public abstract bool MouseRButtonSkill();
 
 	public void SelectMonster()
 	{
@@ -685,7 +701,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 			}
 		}
 	}
-
 	/// <summary>
 	/// 타겟을 향한 각도
 	/// </summary>
@@ -700,7 +715,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 		float targetAngle = Mathf.Acos(Vector3.Dot(transform.forward, dirToTarget)) * Mathf.Rad2Deg;
 		return targetAngle;
 	}
-
 	/// <summary>
 	/// 타겟 찾음
 	/// </summary>
@@ -714,7 +728,6 @@ public class MonsterBase : MonoBehaviour, IMonster
 		}
 
 	}
-
 	/// <summary>
 	/// 상태 변경
 	/// </summary>
@@ -722,5 +735,59 @@ public class MonsterBase : MonoBehaviour, IMonster
 	public void ChangeState(MonsterState monsterState)
 	{
 		_monsterState = monsterState;
+	}
+	/// <summary>
+	/// 쿨타임 증가
+	/// </summary>
+	private void UpdateCoolTime()
+	{
+		if(CoolTimeMLB < 1)
+		{
+			_coolTimeMLB += Time.deltaTime * _coolTimeSpeedMLB;
+		}
+		if (CoolTimeMRB < 1)
+		{
+			_coolTimeMRB += Time.deltaTime * _coolTimeSpeedMRB;
+		}
+		if (CoolTimeE < 1)
+		{
+			_coolTimeE += Time.deltaTime * _coolTimeSpeedE;
+		}
+		if (CoolTimeR < 1)
+		{
+			_coolTimeR += Time.deltaTime * _coolTimeSpeedR;
+		}
+	}
+	public bool CheckCanMLB()
+	{
+		return _canSkillMLB;
+	}
+	public bool CheckCanMRB()
+	{
+		return _canSkillMRB;
+	}
+	public bool CheckCanE()
+	{
+		return _canSkillE;
+	}
+	public bool CheckCanR()
+	{
+		return _canSkillR;
+	}
+	public bool CheckCoolTimeMLB()
+	{
+		return _coolTimeMLB > 1;
+	}
+	public bool CheckCoolTimeMRB()
+	{
+		return _coolTimeMRB > 1;
+	}
+	public bool CheckCoolTimeE()
+	{
+		return _coolTimeE > 1;
+	}
+	public bool CheckCoolTimeR()
+	{
+		return _coolTimeR > 1;
 	}
 }
