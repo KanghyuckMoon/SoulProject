@@ -75,6 +75,7 @@ public class OptionManager : MonoBehaviour
 		_optionCanvas.gameObject.SetActive(!_optionCanvas.gameObject.activeSelf);
 		_moneyInventory.SetActiveMoenyCanvas(_optionCanvas.gameObject.activeSelf);
 		Time.timeScale = _optionCanvas.gameObject.activeSelf ? 0 : 1;
+		_moneyInventory.SetActiveMoenyCanvas(_optionCanvas.gameObject.activeSelf);
 
 		if (_optionCanvas.gameObject.activeSelf)
 		{

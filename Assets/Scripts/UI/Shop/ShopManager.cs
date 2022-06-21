@@ -4,19 +4,6 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-	public MoneyInventory MoneyInventory
-	{
-		get
-		{
-			if(_moneyInventory == null)
-			{
-				_moneyInventory = FindObjectOfType<MoneyInventory>();
-			}
-			return _moneyInventory;
-		}
-	}
-
-	private MoneyInventory _moneyInventory;
 	private List<IItem> _buyItems = new List<IItem>();
 	private List<ItemBox> _itemBoxs = new List<ItemBox>();
 
@@ -30,6 +17,8 @@ public class ShopManager : MonoBehaviour
 	private ItemInfomation _itemInfomation;
 	[SerializeField]
 	private ItemSetSO _sellItems;
+	[SerializeField]
+	private MoneyInventory _moneyInventory;
 
 	private Player _player = null;
 	private Merchant _merchant = null;
@@ -47,6 +36,7 @@ public class ShopManager : MonoBehaviour
 
 	public void Setting(Player player, Merchant merchant, ItemSetSO itemSetSO)
 	{
+		_moneyInventory.SetActiveMoenyCanvas(true);
 		_player = player;
 		_merchant = merchant;
 		_buyItems = itemSetSO.GetIItemList();
@@ -57,6 +47,7 @@ public class ShopManager : MonoBehaviour
 	
 	public void NoneSetting()
 	{
+		_moneyInventory.SetActiveMoenyCanvas(false);
 		_merchant.EndTrade();
 		_player.IsCantAnything = false;
 		SetActiveCanvas(false);
@@ -119,7 +110,6 @@ public class ShopManager : MonoBehaviour
 	private void SetActiveCanvas(bool isboolean)
 	{
 		_shopCanvas.gameObject.SetActive(isboolean);
-		MoneyInventory.SetActiveMoenyCanvas(isboolean);
 		if (isboolean)
 		{
 			Cursor.visible = true;

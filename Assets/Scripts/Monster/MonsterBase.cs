@@ -703,9 +703,10 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 			if(_monsterState != MonsterState.Die)
 			{
 				ChangeState(MonsterState.Die);
-				MoneyInventory.AddMoney(10);
 				NoticeManager.Notice(10);
-				_player.GetComponent<PlayerStat>().AddExp(10);
+				PlayerStat playerStat = _player.GetComponent<PlayerStat>();
+				playerStat.AddExp(10);
+				playerStat.AddMoney(10);
 			}
 		}
 	}

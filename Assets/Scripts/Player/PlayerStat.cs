@@ -59,6 +59,8 @@ public class PlayerStat : MonoBehaviour
 	private int _level = 1;
 	[SerializeField]
 	private int _exp = 0;
+	[SerializeField]
+	private MoneySO _moneySO = null;
 
 	private Player _player;
 
@@ -87,6 +89,15 @@ public class PlayerStat : MonoBehaviour
 		{
 			LevelUP();
 		}
+	}
+
+	/// <summary>
+	/// µ· Αυ°΅
+	/// </summary>
+	/// <param name="add"></param>
+	public void AddMoney(int add)
+	{
+		_moneySO.AddMoney(add);
 	}
 
 	/// <summary>

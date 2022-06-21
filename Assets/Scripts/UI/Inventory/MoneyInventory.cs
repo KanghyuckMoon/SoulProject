@@ -13,24 +13,16 @@ public class MoneyInventory : MonoBehaviour
 	private TextMeshProUGUI _moneyText;
 
 	[SerializeField]
-	private int _money;
-	[SerializeField]
-	private int _crystal;
+	private MoneySO _playerMoney;
 
-	[ContextMenu("µ·UI ¾÷µ¥ÀÌÆ®")]
-	private void UpdateUI()
+	public void UpdateUI()
 	{
-		_moneyText.text = $"{_money}";
+		_moneyText.text = $"{_playerMoney._money}";
 	}
 
 	public void SetActiveMoenyCanvas(bool isboolean)
 	{
 		_moneyCanvas.gameObject.SetActive(isboolean);
-	}
-	public void AddMoney(int add)
-	{
-		_money += add;
-
 		UpdateUI();
 	}
 

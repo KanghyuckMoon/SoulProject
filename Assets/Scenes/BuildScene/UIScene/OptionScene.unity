@@ -1224,7 +1224,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 11
   m_TargetDisplay: 0
 --- !u!224 &581228436
 RectTransform:
@@ -2623,8 +2623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moneyCanvas: {fileID: 581228435}
   _moneyText: {fileID: 1465573055}
-  _money: 0
-  _crystal: 0
+  _playerMoney: {fileID: 11400000, guid: d0398193587a92145abd8441ea7a7128, type: 2}
 --- !u!1 &1261581584
 GameObject:
   m_ObjectHideFlags: 0

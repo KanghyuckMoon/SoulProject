@@ -6,21 +6,21 @@ using UnityEngine.UI;
 public class ItemUsePanel : MonoBehaviour
 {
 	[SerializeField]
-	private RectTransform _itemCommandPanel;
+	protected RectTransform _itemCommandPanel;
 	[SerializeField]
-	private Button _panelButton;
+	protected Button _panelButton;
 	[SerializeField]
-	private Button _useButton;
+	protected Button _useButton;
 	[SerializeField]
-	private Button _chunkButton;
+	protected Button _chunkButton;
 	[SerializeField]
-	private Button _cancelButton;
+	protected Button _cancelButton;
 	[SerializeField]
-	private ItemInventory _inventory;
+	protected ItemInventory _inventory;
 	[SerializeField]
-	private ItemInfomation _itemInfomation;
+	protected ItemInfomation _itemInfomation;
 
-	private ItemBox _itemBox;
+	protected ItemBox _itemBox;
 
 	public void Start()
 	{
@@ -38,7 +38,7 @@ public class ItemUsePanel : MonoBehaviour
 		_itemCommandPanel.position = pos;
 		gameObject.SetActive(true);
 	}
-	private void Use()
+	protected virtual void Use()
 	{
 		_itemBox.Item.UseItem(_inventory.Player);
 		_inventory.UpdateUI();
@@ -51,7 +51,7 @@ public class ItemUsePanel : MonoBehaviour
 		}
 	}
 
-	private void Chunk()
+	protected virtual void Chunk()
 	{
 		_inventory.RemoveItem(_itemBox);
 		_inventory.UpdateUI();
@@ -59,7 +59,7 @@ public class ItemUsePanel : MonoBehaviour
 		_itemInfomation.NoneSetting();
 	}
 
-	private void Cancel()
+	protected virtual void Cancel()
 	{
 		gameObject.SetActive(false);
 		_itemInfomation.NoneSetting();

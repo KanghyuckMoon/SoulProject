@@ -1220,7 +1220,7 @@ PrefabInstance:
     - target: {fileID: 5923308756551928017, guid: 0c9d7cf4f3b45444087d5458c7296054, type: 3}
       propertyPath: _inventory
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1571354445}
     - target: {fileID: 5923308756551928017, guid: 0c9d7cf4f3b45444087d5458c7296054, type: 3}
       propertyPath: _itemInfomation
       value: 
@@ -1324,6 +1324,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5923308756551928020, guid: 0c9d7cf4f3b45444087d5458c7296054, type: 3}
   m_PrefabInstance: {fileID: 911724516}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &911724518 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5923308756551928017, guid: 0c9d7cf4f3b45444087d5458c7296054, type: 3}
+  m_PrefabInstance: {fileID: 911724516}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ac042a07ccfe741b0e260b2dd1a46f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &943227855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,6 +1536,7 @@ MonoBehaviour:
   _itemBoxParent: {fileID: 1683787122}
   _itemInfomation: {fileID: 860826496}
   _sellItems: {fileID: 11400000, guid: 23f20060fcfd4244da95488bada08b3e, type: 2}
+  _moneyInventory: {fileID: 1571354444}
 --- !u!1 &1207495774
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,9 +2323,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moneyCanvas: {fileID: 775900925}
-  _moneyText: {fileID: 0}
-  _money: 0
-  _crystal: 0
+  _moneyText: {fileID: 2098899400}
+  _playerMoney: {fileID: 11400000, guid: d0398193587a92145abd8441ea7a7128, type: 2}
 --- !u!114 &1571354445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2327,9 +2338,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemBoxPrefeb: {fileID: 3057876672910139353, guid: a3f56325e40bef84b9ea3cec5c52dde5, type: 3}
-  _itemBoxParent: {fileID: 0}
-  _itemInfomation: {fileID: 0}
-  _itemUsePanel: {fileID: 0}
+  _itemBoxParent: {fileID: 70676714}
+  _itemInfomation: {fileID: 1741745453}
+  _itemUsePanel: {fileID: 911724518}
   _items: {fileID: 11400000, guid: 23f20060fcfd4244da95488bada08b3e, type: 2}
 --- !u!4 &1571354446
 Transform:
