@@ -11,8 +11,6 @@ public class MoneyInventory : MonoBehaviour
 	private Canvas _moneyCanvas;
 	[SerializeField]
 	private TextMeshProUGUI _moneyText;
-	[SerializeField]
-	private TextMeshProUGUI _crystalText;
 
 	[SerializeField]
 	private int _money;
@@ -23,7 +21,6 @@ public class MoneyInventory : MonoBehaviour
 	private void UpdateUI()
 	{
 		_moneyText.text = $"{_money}";
-		_crystalText.text = $"{_crystal}";
 	}
 
 	public void SetActiveMoenyCanvas(bool isboolean)
