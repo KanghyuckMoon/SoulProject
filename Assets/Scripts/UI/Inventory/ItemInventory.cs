@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using MoonLibrary.DesignPattern;
 
-public class ItemInventory : MonoBehaviour
+public class ItemInventory : MonoBehaviour, IObserver
 {
 	public Player Player
 	{
@@ -33,6 +34,11 @@ public class ItemInventory : MonoBehaviour
 	private ItemUsePanel _itemUsePanel;
 	[SerializeField]
 	private ItemSetSO _items;
+
+	private void Start()
+	{
+		_items.AddObserver(this);
+	}
 
 	public void RemoveItem(ItemBox itembox)
 	{
@@ -88,5 +94,10 @@ public class ItemInventory : MonoBehaviour
 			}
 		}
 		return Instantiate(_itemBoxPrefeb, _itemBoxParent).GetComponent<ItemBox>();
+	}
+
+	public void GetNotify()
+	{
+		UpdateUI();
 	}
 }

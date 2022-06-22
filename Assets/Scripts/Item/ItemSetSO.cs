@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using MoonLibrary.DesignPattern;
 
 [CreateAssetMenu(fileName = "ItemSetSO",menuName = "ScriptableObject/ItemSetSO")]
-public class ItemSetSO : ScriptableObject
+public class ItemSetSO : ScriptableObject, IObservable, IInit
 {
 	public List<ItemData> _itemsList;
-	
+	private List<IObserver> _observers = new List<IObserver>();
+
 	public List<IItem> GetIItemList()
 	{
 		var items = new List<IItem>();
@@ -34,13 +37,14 @@ public class ItemSetSO : ScriptableObject
 			itemData._count = count;
 			_itemsList.Add(itemData);
 		}
+		PostNotify();
 	}
 
 	public void RemoveItem(EItem itemType)
 	{
 		_itemsList.Remove(_itemsList.Find(x => x._itemType == itemType));
+		PostNotify();
 	}
-
 	public IItem FindItem(EItem itemType)
 	{
 		return ChangeIItem(_itemsList.Find(x => x._itemType == itemType));
@@ -49,8 +53,6 @@ public class ItemSetSO : ScriptableObject
 	{
 		return _itemsList.Find(x => x._itemType == itemType);
 	}
-
-
 	private IItem ChangeIItem(ItemData itemData)
 	{
 		IItem item = null;
@@ -71,6 +73,25 @@ public class ItemSetSO : ScriptableObject
 		}
 		item.SetItemData(itemData);
 		return item;
+	}
+
+	public void AddObserver(IObserver observer)
+	{
+		_observers.Add(observer);
+		observer.GetNotify();
+	}
+
+	public void PostNotify()
+	{
+		foreach(var observer in _observers)
+		{
+			observer.GetNotify();
+		}
+	}
+
+	public void Init()
+	{
+		_observers.Clear();
 	}
 }
 
