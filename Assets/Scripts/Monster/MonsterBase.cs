@@ -206,6 +206,53 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
+	public int SPD
+	{
+		get
+		{
+			return _speed;
+		}
+		set
+		{
+			_speed = value;
+		}
+	}
+	public int DEF
+	{
+		get
+		{
+			return _defense;
+		}
+		set
+		{
+			_defense = value;
+		}
+	}
+	public int EXP
+	{
+		get
+		{
+			return _exp;
+		}
+		set
+		{
+			_exp = value;
+		}
+	}
+
+	public string Description
+	{
+		get
+		{
+			return _description;
+		}
+		set
+		{
+			_description = value;
+		}
+	}
+
+
 	//인스펙터에서 확인할 수 있는 속성
 	[SerializeField]
 	protected MonsterState _monsterState = MonsterState.None; //몬스터 상태
@@ -252,6 +299,12 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	protected float _coolTimeSpeedE = 10.0f; //E 쿨타임 증가속도
 	[SerializeField]
 	protected float _coolTimeSpeedR = 10.0f; //R 쿨타임 증가속도
+	[SerializeField]
+	protected int _speed = 10; //속도 스탯
+	[SerializeField]
+	protected int _defense = 10; //방어력 스탯
+	[SerializeField]
+	protected int _exp = 10; //경험치
 
 	//참조하는 속성
 	protected Animator _animator = null;
@@ -269,6 +322,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	protected Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
 	protected Vector3 posTarget = Vector3.zero; //몬스터가 본 타겟 위치
 	protected string _name; //몬스터 이름
+	protected string _description; //몬스터 설명;
 	protected float _coolTimeMLB = 0.0f; //마우스 좌클릭 쿨타임
 	protected float _coolTimeMRB = 0.0f; //마우스 우클릭 쿨타임
 	protected float _coolTimeE = 0.0f; //E 쿨타임

@@ -34,6 +34,11 @@ public interface IMonster
 		get;
 		set;
 	}
+	public string Description
+	{
+		get;
+		set;
+	}
 	public int HP
 	{
 		get;
@@ -45,6 +50,21 @@ public interface IMonster
 		set;
 	}
 	public int Level
+	{
+		get;
+		set;
+	}
+	public int SPD
+	{
+		get;
+		set;
+	}
+	public int DEF
+	{
+		get;
+		set;
+	}
+	public int EXP
 	{
 		get;
 		set;

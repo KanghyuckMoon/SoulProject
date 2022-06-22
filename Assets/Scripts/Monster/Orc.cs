@@ -8,6 +8,7 @@ public class Orc : MonsterBase
 	{
 		base.Start();
 		_name = "오크";
+		_description = "인간보다 커다란 체격과 근력을 지닌 몬스터로 덩치에 비해 민첩하며 초록색 피부를 이용하여 풀 속에서 사냥감이 다가오는 것을 기다린다";
 		_canSkillMLB = true;
 		_canSkillMRB = true;
 		_canSkillE = true;

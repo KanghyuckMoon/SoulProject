@@ -12,6 +12,7 @@ public class Skeleton : MonsterBase
 	{
 		base.Start();
 		_name = "스켈레톤";
+		_description = "뼈로 이루어진 몬스터, 자아가 있을거라고 생각하진 않지만 무시하기에는 날카로운 검을 지니고 있다";
 		_canSkillMLB = true;
 		_canSkillMRB = true;
 		_canSkillE = true;

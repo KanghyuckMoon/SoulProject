@@ -8,6 +8,7 @@ public class Ghoul : MonsterBase
 	{
 		base.Start();
 		_name = "구울";
+		_description = "태어나면서부터 살아있는 시체로, 그들의 먹잇감은 사람뿐이다. 사람이 낼 수 없는 동작으로 위협적인 공격을 해온다";
 		_canSkillMLB = true;
 		_canSkillMRB = true;
 		_canSkillE = true;

@@ -9,6 +9,7 @@ public class SkeletonWizard : MonsterBase
 	{
 		base.Start();
 		_name = "스켈레톤 위자드";
+		_description = "스켈레톤으로부터 파생된 몬스터, 뇌없는 머리로 어떻게 마법을 익히게 되었는지는 의문이지만, 몇 없는 마법을 부리는 몬스터이다";
 		_canSkillMLB = true;
 		_canSkillMRB = true;
 		_canSkillE = true;

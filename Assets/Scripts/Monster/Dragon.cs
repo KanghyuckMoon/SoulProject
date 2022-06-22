@@ -8,6 +8,7 @@ public class Dragon : MonsterBase
 	{
 		base.Start();
 		_name = "드래곤";
+		_description = "몬스터들 중 단연코 최강이라 할 수 있는 괴물, 커다란 몸과 날카로운 이빨에 당한 사냥감은 죽음을 피할 수 없다";
 		_canSkillMLB = true;
 		_canSkillMRB = true;
 		_canSkillE = true;

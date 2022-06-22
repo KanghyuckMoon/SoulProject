@@ -8,6 +8,7 @@ public class Pumpkin : MonsterBase
 	{
 		base.Start();
 		_name = "펌프킨";
+		_description = "호박을 머리에 뒤집어 쓴 몬스터, 날카로운 가시로 사냥감을 찔러 죽인다. 호박을 뒤집어 써 그 얼굴은 알 수 없다";
 		_canSkillMLB = true;
 		_canSkillMRB = true;
 		_canSkillE = true;
