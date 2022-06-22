@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
@@ -19,9 +22,23 @@ public class ShopManager : MonoBehaviour
 	private ItemSetSO _sellItems;
 	[SerializeField]
 	private MoneyInventory _moneyInventory;
+	[SerializeField]
+	private ItemInventory _itemInventory;
+	[SerializeField]
+	private GameObject _sellPanel;
+	[SerializeField]
+	private Button _sellButton;
+	[SerializeField]
+	private Button _buyButton;
 
 	private Player _player = null;
 	private Merchant _merchant = null;
+
+	public void Start()
+	{
+		_sellButton.onClick.AddListener(() => SettingSell());
+		_buyButton.onClick.AddListener(() => NoneSettingSell());
+	}
 
 	public void Update()
 	{
@@ -44,30 +61,26 @@ public class ShopManager : MonoBehaviour
 		SetActiveCanvas(true);
 		UpdateUI(true);
 	}
-	
 	public void NoneSetting()
 	{
+		_sellPanel.gameObject.SetActive(false);
 		_moneyInventory.SetActiveMoenyCanvas(false);
 		_merchant.EndTrade();
 		_player.IsCantAnything = false;
 		SetActiveCanvas(false);
 	}
-
 	public void OnBuyTab()
 	{
 		UpdateUI(true);
 	}
-
 	public void OnSellTab()
 	{
 		UpdateUI(false);
 	}
-
 	public void OnItemInfomation(ItemBox itembox)
 	{
 		_itemInfomation.Setting(itembox);
 	}
-
 	public void UpdateUI(bool isBuy)
 	{
 		//아이템 박스 초기화
@@ -106,7 +119,6 @@ public class ShopManager : MonoBehaviour
 		
 		_itemInfomation.UpdateUI();
 	}
-
 	private void SetActiveCanvas(bool isboolean)
 	{
 		_shopCanvas.gameObject.SetActive(isboolean);
@@ -121,15 +133,29 @@ public class ShopManager : MonoBehaviour
 			Cursor.lockState = CursorLockMode.Locked;
 		}
 	}
-
 	private void BuyItem(ItemBox item)
 	{
 		_player.AddItem(item.Item);
 	}
-
 	private void SellItem(ItemBox item)
 	{
 		Debug.Log("아이템 판매");
+	}
+	
+	/// <summary>
+	/// 판매 창을 킨다
+	/// </summary>
+	private void SettingSell()
+	{
+		_sellPanel.gameObject.SetActive(true);
+	}
+
+	/// <summary>
+	/// 판매창을 끈다
+	/// </summary>
+	private void NoneSettingSell()
+	{
+		_sellPanel.gameObject.SetActive(false);
 	}
 
 	/// <summary>

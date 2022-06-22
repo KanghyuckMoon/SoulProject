@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Potion2 : IItem
 {
+	public int Price
+	{
+		get
+		{
+			return _price;
+		}
+		set
+		{
+			_price = value;
+		}
+	}
 	public int Count
 	{
 		get
@@ -48,6 +59,7 @@ public class Potion2 : IItem
 	}
 
 	private ItemData _itemData;
+	private int _price = 100;
 
 	public void UseItem(Player player)
 	{

@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class Potion1 : IItem
 {
+	public int Price
+	{
+		get
+		{
+			return _price;
+		}
+		set
+		{
+			_price = value;
+		}
+	}
 	public int Count
 	{
 		get
@@ -45,7 +56,7 @@ public class Potion1 : IItem
 	}
 
 	private ItemData _itemData = null;
-
+	private int _price = 10;
 	public void UseItem(Player player)
 	{
 		if(Count > 0)

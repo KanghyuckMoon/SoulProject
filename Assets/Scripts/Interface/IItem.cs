@@ -4,6 +4,11 @@ using UnityEngine;
 
 public interface IItem
 {
+	public int Price
+	{
+		get;
+		set;
+	}
 	public int Count
 	{
 		get;

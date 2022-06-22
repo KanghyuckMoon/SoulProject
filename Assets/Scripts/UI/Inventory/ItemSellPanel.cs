@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ItemSellPanel : ItemUsePanel
 {
+	[SerializeField]
+	private MoneySO _moneySO;
+
 	protected override void Use()
 	{
-		_itemBox.Item.UseItem(_inventory.Player);
+		_moneySO.AddMoney(_itemBox.Item.Price);
+		_itemBox.Item.AddCount(-1);
 		_inventory.UpdateUI();
 		gameObject.SetActive(false);
 		_itemInfomation.NoneSetting();
