@@ -15,10 +15,10 @@ public class BattleUICanvas : MonoBehaviour
 	[SerializeField]
 	private SoulInfo _soulInfo;
 
-	public void Setting(IMonster obj)
+	public void Setting(IMonster obj, PlayerStat playerStat)
 	{
 		_lockOnUI.Setting(obj);
-		_monsterInfomationWindow.Setting(obj);
+		_monsterInfomationWindow.Setting(obj, playerStat);
 	}
 
 	/// <summary>
@@ -66,9 +66,9 @@ public class BattleUICanvas : MonoBehaviour
 	}
 
 
-	public void SelectMonsterUI(IMonster obj)
+	public void SelectMonsterUI(IMonster obj, PlayerStat playerStat)
 	{
-		_monsterInfomationWindow.Setting(obj);
+		_monsterInfomationWindow.Setting(obj, playerStat);
 	}
 
 	public void NoneSelectMonsterUI()

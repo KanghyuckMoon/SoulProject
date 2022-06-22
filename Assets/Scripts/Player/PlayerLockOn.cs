@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerLockOn : MonoBehaviour
 {
 	private Player _player = null;
+	private PlayerStat _playerStat = null;
 	private IMonster _informationMonster = null;
 
 	[SerializeField]
@@ -15,6 +16,7 @@ public class PlayerLockOn : MonoBehaviour
 	public void Start()
 	{
 		_player = GetComponent<Player>();
+		_playerStat = GetComponent<PlayerStat>();
 	}
 
 	public void Update()
@@ -28,7 +30,7 @@ public class PlayerLockOn : MonoBehaviour
 		//몬스터 정보 보기
 		if (_informationMonster != null)
 		{
-			_player.BattleUICanvas?.SelectMonsterUI(_informationMonster);
+			_player.BattleUICanvas?.SelectMonsterUI(_informationMonster, _playerStat);
 		}
 		else
 		{
@@ -57,7 +59,7 @@ public class PlayerLockOn : MonoBehaviour
 		//록온 기능 UI
 		if (_player.MainCameraMove.IsLookOn && _player.TargettingMonster != null)
 		{
-			_player.BattleUICanvas?.Setting(_player.TargettingMonster);
+			_player.BattleUICanvas?.Setting(_player.TargettingMonster, _playerStat);
 		}
 		else
 		{

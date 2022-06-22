@@ -8,10 +8,12 @@ using Holoville.HOTween;
 public class PlayerCapture : MonoBehaviour
 {
 	private Player _player;
+	private PlayerStat _playerStat;
 
 	private void Start()
 	{
 		_player = GetComponent<Player>();
+		_playerStat = GetComponent<PlayerStat>();
 	}
 
 	public void Update()
