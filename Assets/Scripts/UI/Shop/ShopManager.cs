@@ -31,6 +31,7 @@ public class ShopManager : MonoBehaviour
 	[SerializeField]
 	private Button _buyButton;
 
+	private bool _isActive = false;
 	private Player _player = null;
 	private Merchant _merchant = null;
 
@@ -42,9 +43,9 @@ public class ShopManager : MonoBehaviour
 
 	public void Update()
 	{
-		if(_shopCanvas.gameObject.activeSelf)
+		if(_isActive)
 		{
-			if (Input.GetKeyDown(KeyCode.Backspace))
+			if (Input.GetKeyDown(KeyCode.F))
 			{
 				NoneSetting();
 			}
@@ -59,6 +60,7 @@ public class ShopManager : MonoBehaviour
 		_merchant = merchant;
 		_buyItems = itemSetSO.GetIItemList();
 		_player.IsCantAnything = true;
+		Invoke("IsActive", 0.1f);
 		SetActiveCanvas(true);
 		UpdateUI(true);
 	}
@@ -68,6 +70,7 @@ public class ShopManager : MonoBehaviour
 		_moneyInventory.SetActiveMoenyCanvas(false);
 		_merchant.EndTrade();
 		_player.IsCantAnything = false;
+		_isActive = false;
 		SetActiveCanvas(false);
 	}
 	public void OnBuyTab()
@@ -144,6 +147,14 @@ public class ShopManager : MonoBehaviour
 		Debug.Log("아이템 판매");
 	}
 	
+	/// <summary>
+	/// 상점 활성화 상태
+	/// </summary>
+	private void IsActive()
+	{
+		_isActive = true;
+	}
+
 	/// <summary>
 	/// 판매 창을 킨다
 	/// </summary>
