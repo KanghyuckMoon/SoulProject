@@ -28,6 +28,7 @@ public class PlayerInteraction : MonoBehaviour
 			if (Input.GetKeyDown(KeyCode.F))
 			{
 				_player.SelectObject.Interaction(_player);
+				_player.OverWorldUIManager?.NoneSetting();
 			}
 		}
 		else
