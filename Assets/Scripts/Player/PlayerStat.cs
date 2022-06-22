@@ -38,6 +38,30 @@ public class PlayerStat : MonoBehaviour
 		}
 	}
 
+	public int SPD
+	{
+		get
+		{
+			return _speed;
+		}
+		set
+		{
+			_speed = value;
+		}
+	}
+
+	public int DEF
+	{
+		get
+		{
+			return _defense;
+		}
+		set
+		{
+			_defense = value;
+		}
+	}
+
 	public int Exp
 	{
 		get
@@ -55,6 +79,10 @@ public class PlayerStat : MonoBehaviour
 	private int _hp = 30;
 	[SerializeField]
 	private int _maxHp = 30;
+	[SerializeField]
+	private int _speed = 30;
+	[SerializeField]
+	private int _defense = 30;
 	[SerializeField]
 	private int _level = 1;
 	[SerializeField]
