@@ -3790,5 +3790,5 @@ MonoBehaviour:
   _chunkButton: {fileID: 5923308755793074502}
   _cancelButton: {fileID: 5923308756133489093}
   _inventory: {fileID: 1571354445}
-  _itemInfomation: {fileID: 0}
+  _itemInfomation: {fileID: 860826496}
   _moneySO: {fileID: 11400000, guid: d0398193587a92145abd8441ea7a7128, type: 2}

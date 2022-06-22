@@ -54,6 +54,7 @@ public class ShopManager : MonoBehaviour
 	public void Setting(Player player, Merchant merchant, ItemSetSO itemSetSO)
 	{
 		_moneyInventory.SetActiveMoenyCanvas(true);
+		_itemInventory.UpdateUI();
 		_player = player;
 		_merchant = merchant;
 		_buyItems = itemSetSO.GetIItemList();
@@ -136,6 +137,7 @@ public class ShopManager : MonoBehaviour
 	private void BuyItem(ItemBox item)
 	{
 		_player.AddItem(item.Item);
+		_itemInventory.UpdateUI();
 	}
 	private void SellItem(ItemBox item)
 	{

@@ -13,11 +13,12 @@ public class ItemSellPanel : ItemUsePanel
 		_itemBox.Item.AddCount(-1);
 		_inventory.UpdateUI();
 		gameObject.SetActive(false);
-		_itemInfomation.NoneSetting();
+		_itemInfomation.Setting(_itemBox);
 
 		if (_itemBox.Item.Count <= 0)
 		{
 			Chunk();
+			_itemInfomation.NoneSetting();
 		}
 	}
 }

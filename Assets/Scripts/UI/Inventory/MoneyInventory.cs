@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using MoonLibrary.DesignPattern;
 
-public class MoneyInventory : MonoBehaviour
+public class MoneyInventory : MonoBehaviour, IObserver
 {
 	//µ·
 	[SerializeField]
@@ -14,6 +15,11 @@ public class MoneyInventory : MonoBehaviour
 
 	[SerializeField]
 	private MoneySO _playerMoney;
+
+	private void Start()
+	{
+		_playerMoney.AddObserver(this);
+	}
 
 	public void UpdateUI()
 	{
@@ -26,4 +32,8 @@ public class MoneyInventory : MonoBehaviour
 		UpdateUI();
 	}
 
+	public void GetNotify()
+	{
+		UpdateUI();
+	}
 }
