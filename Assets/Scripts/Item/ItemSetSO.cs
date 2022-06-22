@@ -98,6 +98,7 @@ public class ItemSetSO : ScriptableObject, IObservable, IInit
 [System.Serializable]
 public class ItemData
 {
+	public GameObject _itemPrefeb;
 	public EItem _itemType;
 	public int _count;
 }
