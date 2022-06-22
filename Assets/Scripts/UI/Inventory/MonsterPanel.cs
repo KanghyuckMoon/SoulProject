@@ -91,6 +91,7 @@ public class MonsterPanel : MonoBehaviour, IObserver
 			_expText.text = $"EXP) {monster.EXP}/{monster.Level * 10}";
 			_monsterImage.sprite = monster.Sprite;
 			_monsterHPImage.sprite = monster.Sprite;
+			_monsterHPImage.fillAmount = (float)(monster.MaxHP - monster.HP) / monster.MaxHP;
 			_expImage.fillAmount = 1 / (monster.Level * 10);
 
 			int needMoney = monster.Level * 10 - monster.EXP;
