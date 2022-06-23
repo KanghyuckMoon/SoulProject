@@ -158,6 +158,15 @@ public class PlayerStat : MonoBehaviour
 	private void Damaged(IAttack iAttack)
 	{
 		_hp -= iAttack.OriginDamage;
+
+		int damage = (iAttack.Damage - _defense);
+		if (damage <= 0)
+		{
+			damage = 1;
+		}
+		_hp -= damage;
+		_player.EffectManagerObj.SetTextEffect(damage, transform.position);
+
 		Instantiate(iAttack.Effect, transform.position, Quaternion.identity);
 		_player.BattleUICanvas?.SettingSoulInfo(this);
 		if (_hp <= 0)

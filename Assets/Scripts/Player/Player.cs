@@ -140,6 +140,18 @@ public class Player : MonoBehaviour
 			return _mainCameraMove;
 		}
 	}
+	public EffectManager EffectManagerObj
+	{
+		get
+		{
+			_effectManager ??= FindObjectOfType<EffectManager>();
+			return _effectManager;
+		}
+		set
+		{
+			_effectManager = value;
+		}
+	}
 	public bool IsCapture
 	{ 
 		get
@@ -183,6 +195,7 @@ public class Player : MonoBehaviour
 	private BattleUICanvas _battleUICanvas; //배틀UI캔버스
 	private OverWorldUIManager _overWorldUIManager; //맵 UI
 	private GameOverUIManager _gameOverUIManager; //게임오버UI
+	private EffectManager _effectManager = null; //이펙트 매니저
 	private IMonster _selectMonster = null; //마우스로 선택한 몬스터
 	private IMonster _captureMonster = null; //빙의한 몬스터
 	private IMonster _targettingMonster; //타겟팅된 몬스터
