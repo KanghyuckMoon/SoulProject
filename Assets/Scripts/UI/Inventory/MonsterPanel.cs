@@ -108,6 +108,12 @@ public class MonsterPanel : MonoBehaviour, IObserver
 			{
 				_fastLevelUPButton.interactable = false;
 			}
+
+			if(monster.CheckMaxLevel())
+			{
+				_fastLevelUPButton.interactable = false;
+				_needMoneyText.text = $"MAX";
+			}
 		}
 	}
 
@@ -120,6 +126,14 @@ public class MonsterPanel : MonoBehaviour, IObserver
 	{
 		if (Player.CaptureMonster != null)
 		{
+			IMonster monster = Player.CaptureMonster;
+			if (monster.CheckMaxLevel())
+			{
+				return;
+			}
+			_playerMoneySO.AddMoney(-(monster.Level * 10 - monster.EXP));
+			monster.LevelUP();
+			Setting(Player);
 		}
 	}
 }
