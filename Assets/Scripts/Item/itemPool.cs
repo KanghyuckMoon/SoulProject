@@ -13,4 +13,5 @@ public class ItemPool : PoolManager
 			queueDictionary.Add(typeof(T).Name, value);
 		}
 	}
+
 }

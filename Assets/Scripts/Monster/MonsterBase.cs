@@ -144,6 +144,19 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
+	public EffectManager EffectManagerObj
+	{
+		get
+		{
+			_effectManager ??= FindObjectOfType<EffectManager>();
+			return _effectManager;
+		}
+		set
+		{
+			_effectManager = value;
+		}
+	}
+
 	public GameObject GameObject
 	{
 		get
@@ -335,6 +348,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	private Player _player = null;
 	private MoneyInventory _moneyInventory = null;
 	private NoticeManager _noticeManager = null;
+	private EffectManager _effectManager = null;
 
 	//속성
 	protected float _moveSpeed = 1.0f; //이동속도
@@ -798,6 +812,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 			damage = 1;
 		}
 		_hp -= damage;
+		EffectManagerObj.SetTextEffect(damage, Position);
 
 		Instantiate(iAttack.Effect, _centerPivot.position, Quaternion.identity);
 		if (_hp > 0)
