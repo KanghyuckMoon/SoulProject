@@ -45,6 +45,7 @@ public class PlayerLockOn : MonoBehaviour
 				_player.MainCameraMove.SetLookOff();
 				_player.BattleUICanvas?.NoneSetting();
 				_player.TargettingMonster = null;
+				_player.IsTarggeting = false;
 			}
 			else
 			{
@@ -52,6 +53,7 @@ public class PlayerLockOn : MonoBehaviour
 				if (_player.TargettingMonster != null)
 				{
 					_player.MainCameraMove.SetLookOn(_player.TargettingMonster.Transform);
+					_player.IsTarggeting = true;
 				}
 			}
 		}
@@ -72,6 +74,7 @@ public class PlayerLockOn : MonoBehaviour
 			_player.MainCameraMove.SetLookOff();
 			_player.BattleUICanvas?.NoneSetting();
 			_player.TargettingMonster = null;
+			_player.IsTarggeting = false;
 		}
 	}
 

@@ -161,7 +161,7 @@ public class PlayerMove : MonoBehaviour
 		_moveDirect = Vector3.RotateTowards(_moveDirect, targetDirect, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
 		_moveDirect = _moveDirect.normalized;
 
-		_player.CaptureMonster.MonsterMove(_moveDirect);
+		_player.CaptureMonster.MonsterMove(_moveDirect, _player.IsTarggeting);
 	}
 	
 

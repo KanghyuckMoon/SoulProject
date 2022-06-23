@@ -131,7 +131,7 @@ public interface IMonster
 	/// 몬스터가 이동할 때
 	/// </summary>
 	/// <returns></returns>
-	void MonsterMove(Vector3 targetVector);
+	void MonsterMove(Vector3 targetVector, bool isTarggeting);
 
 	/// <summary>
 	/// 왼쪽 마우스 버튼 스킬

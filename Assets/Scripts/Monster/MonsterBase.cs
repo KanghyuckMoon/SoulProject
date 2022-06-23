@@ -317,7 +317,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	[SerializeField]
 	protected int _defense = 10; //방어력 스탯
 	[SerializeField]
-	protected int _exp = 10; //경험치
+	protected int _exp = 0; //경험치
 
 	//참조하는 속성
 	protected Animator _animator = null;
@@ -558,7 +558,11 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		IsSelect = false;
 	}
 
-	public void MonsterMove(Vector3 targetVector)
+	/// <summary>
+	/// 빙의 됐을 때 움직임
+	/// </summary>
+	/// <param name="targetVector"></param>
+	public void MonsterMove(Vector3 targetVector, bool isTarggeting)
 	{
 		if (_monsterState == MonsterState.Wait || _monsterState == MonsterState.Damage || _monsterState == MonsterState.Attack)
 		{
@@ -566,12 +570,27 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		}
 		ChangeState(MonsterState.Move);
 
-		_moveDirect = Vector3.RotateTowards(_moveDirect, targetVector, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
-		_moveDirect = _moveDirect.normalized;
+		if(isTarggeting)
+		{
+			Vector3 forwardVector = Camera.main.transform.forward;
+			forwardVector.y = 0;
+			transform.forward = forwardVector;
+			_moveDirect = Vector3.RotateTowards(_moveDirect, forwardVector, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
+			_moveDirect = _moveDirect.normalized;
 
-		Vector3 amount = (targetVector * _moveSpeed * Time.deltaTime) + (_gravityDirect * Time.deltaTime);
+			Vector3 amount = (targetVector * _moveSpeed * Time.deltaTime) + (_gravityDirect * Time.deltaTime);
 
-		_characterController.Move(amount);
+			_characterController.Move(amount);
+		}
+		else
+		{
+			_moveDirect = Vector3.RotateTowards(_moveDirect, targetVector, _rotateSpeed * Mathf.Deg2Rad * Time.deltaTime, 1000.0f);
+			_moveDirect = _moveDirect.normalized;
+
+			Vector3 amount = (targetVector * _moveSpeed * Time.deltaTime) + (_gravityDirect * Time.deltaTime);
+
+			_characterController.Move(amount);
+		}
 	}
 
 	/// <summary>
@@ -767,16 +786,25 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		}
 		else
 		{
-			if(_monsterState != MonsterState.Die)
-			{
-				ChangeState(MonsterState.Die);
-				NoticeManager.Notice(10);
-				PlayerStat playerStat = _player.GetComponent<PlayerStat>();
-				playerStat.AddExp(10);
-				playerStat.AddMoney(10);
-			}
+			Die();
 		}
 	}
+
+	/// <summary>
+	/// 죽음
+	/// </summary>
+	private void Die()
+	{
+		if (_monsterState != MonsterState.Die)
+		{
+			ChangeState(MonsterState.Die);
+			NoticeManager.Notice(10);
+			PlayerStat playerStat = _player.GetComponent<PlayerStat>();
+			playerStat.AddExp(10);
+			playerStat.AddMoney(10);
+		}
+	}
+
 	/// <summary>
 	/// 타겟을 향한 각도
 	/// </summary>
@@ -891,6 +919,16 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 
 	public void AddEXP(int exp)
 	{
+		if(_monsterState == MonsterState.Die)
+		{
+			return;
+		}
+
 		_exp += exp;
+
+		if(_exp > _level * 10)
+		{
+			LevelUP();
+		}
 	}
 }

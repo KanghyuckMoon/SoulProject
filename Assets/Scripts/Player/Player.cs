@@ -162,9 +162,22 @@ public class Player : MonoBehaviour
 			_isCantAnything = value;
 		}
 	}
+
+	public bool IsTarggeting
+	{
+		get
+		{
+			return _isTarggeting;
+		}
+		set
+		{
+			_isTarggeting = value;
+		}
+	}
 	
 	private bool _isCantAnything = false; //아무 것도 할 수 없는 상태
 	private bool _isCapture = false; //빙의중인 상태
+	private bool _isTarggeting = false; //상대 주목중인 상태
 	private ItemInventory _itemInventory; //아이템 인벤토리
 	private NoticeManager _noticeManager; //발견 매니저
 	private BattleUICanvas _battleUICanvas; //배틀UI캔버스

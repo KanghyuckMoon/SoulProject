@@ -117,6 +117,11 @@ public class PlayerStat : MonoBehaviour
 		{
 			LevelUP();
 		}
+
+		if(_player.CaptureMonster != null)
+		{
+			_player.CaptureMonster.AddEXP(exp);
+		}
 	}
 
 	/// <summary>
