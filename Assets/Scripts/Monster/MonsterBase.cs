@@ -650,13 +650,13 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 			case MonsterState.GoTarget:
 			case MonsterState.Move:
 				_isAttack = false;
-				if (GetVelocitySpd() <= 0)
+				if (GetVelocitySpd() > 0.0f)
 				{
-					_animator.SetBool("IsWalk", false);
+					_animator.SetBool("IsWalk", true);
 				}
 				else
 				{
-					_animator.SetBool("IsWalk", true);
+					_animator.SetBool("IsWalk", false);
 				}
 				break;
 			case MonsterState.Attack:
@@ -751,7 +751,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	/// </summary>
 	private float GetVelocitySpd()
 	{
-		if (_characterController.velocity.normalized == Vector3.zero)
+		if (_characterController.velocity == Vector3.zero)
 		{
 			currentVelocitySpeed = Vector3.zero;
 		}
@@ -761,7 +761,6 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 			retVelocity.y = 0;
 			currentVelocitySpeed = Vector3.Lerp(currentVelocitySpeed, retVelocity, velocityChangeSpeed * Time.fixedDeltaTime);
 		}
-		Debug.Log(currentVelocitySpeed);
 
 		return currentVelocitySpeed.magnitude;
 	}
@@ -964,5 +963,18 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		{
 			LevelUP();
 		}
+	}
+
+	public void OnGUI()
+	{
+		if(!IsCapture)
+		{
+			return;
+		}
+		GUI.Label(new Rect(5, 5, 1920, 20), $"캐릭터 컨트롤러 속도 : {_characterController.velocity}");
+		GUI.Label(new Rect(5, 25, 1920, 20), $"캐릭터 컨트롤러 속도매그니: {_characterController.velocity.magnitude}");
+		GUI.Label(new Rect(5, 45, 1920, 20), $"현재 속도: {currentVelocitySpeed}");
+		GUI.Label(new Rect(5, 65, 1920, 20), $"현재 속도매그니: {currentVelocitySpeed.magnitude}");
+		
 	}
 }
