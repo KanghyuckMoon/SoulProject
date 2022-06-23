@@ -97,6 +97,14 @@ public class PlayerStat : MonoBehaviour
 		_player = GetComponent<Player>();
 	}
 
+	public void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.G))
+		{
+			Die();
+		}
+	}
+
 	/// <summary>
 	/// 체력 증가
 	/// </summary>
@@ -154,9 +162,14 @@ public class PlayerStat : MonoBehaviour
 		_player.BattleUICanvas?.SettingSoulInfo(this);
 		if (_hp <= 0)
 		{
-			_player.GameOverUIManager.Setting();
-			gameObject.SetActive(false);
+			Die();
 		}
+	}
+
+	private void Die()
+	{
+		_player.GameOverUIManager.Setting();
+		gameObject.SetActive(false);
 	}
 
 	private void OnTriggerEnter(Collider other)
