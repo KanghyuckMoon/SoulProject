@@ -19,22 +19,27 @@ public class TextAtkEffect : MonoBehaviour
 		if(damage <= 3)
 		{
 			_text.fontSize = 5;
+			_text.color = new Color(0.79f,0.8f,0.87f);
 		}
 		else if(damage <= 20)
 		{
 			_text.fontSize = 10;
+			_text.color = new Color(1,1,1);
 		}
 		else if (damage <= 50)
 		{
 			_text.fontSize = 12;
+			_text.color = new Color(0.96f, 0.92f, 0.48f);
 		}
 		else if (damage <= 100)
 		{
 			_text.fontSize = 15;
+			_text.color = new Color(0.96f, 0.5f, 0.03f);
 		}
 		else
 		{
 			_text.fontSize = 20;
+			_text.color = new Color(0.96f, 0.27f, 0.09f);
 		}
 
 		transform.LookAt(Camera.main.transform);
