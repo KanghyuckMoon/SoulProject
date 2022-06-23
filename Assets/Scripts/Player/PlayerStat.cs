@@ -157,7 +157,7 @@ public class PlayerStat : MonoBehaviour
 	/// <param name="iAttack"></param>
 	private void Damaged(IAttack iAttack)
 	{
-		_hp -= iAttack.Damage;
+		_hp -= iAttack.OriginDamage;
 		Instantiate(iAttack.Effect, transform.position, Quaternion.identity);
 		_player.BattleUICanvas?.SettingSoulInfo(this);
 		if (_hp <= 0)

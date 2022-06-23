@@ -285,7 +285,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	[SerializeField]
 	private Transform _centerPivot; //중심점 트랜스폼
 	[SerializeField]
-	private float _moveSpeed = 0f; //이동속도
+	private float _originMoveSpeed = 0f; //기본 이동속도
 	[SerializeField]
 	private float _gravitySpeed = 0f; //중력속도
 	[SerializeField]
@@ -337,6 +337,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	private NoticeManager _noticeManager = null;
 
 	//속성
+	protected float _moveSpeed = 1.0f; //이동속도
 	protected bool _isSelect = false; //선택되었는지
 	protected bool _isCapture = false; //빙의 되었는지
 	protected Vector3 _moveDirect = Vector3.zero; //이동방향
@@ -366,6 +367,9 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		_iAttacks = GetComponentsInChildren<IAttack>(true);
 		_player = FindObjectOfType<Player>();
 		ChangeState(MonsterState.Idle);
+		
+		SetSpd();
+		SetAtk();
 	}
 
 	public void Update()
@@ -788,7 +792,13 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	/// <param name="iAttack"></param>
 	private void Damaged(IAttack iAttack)
 	{
-		_hp -= iAttack.Damage;
+		int damage = (iAttack.Damage - _defense);
+		if(damage <= 0)
+		{
+			damage = 1;
+		}
+		_hp -= damage;
+
 		Instantiate(iAttack.Effect, _centerPivot.position, Quaternion.identity);
 		if (_hp > 0)
 		{
@@ -936,13 +946,44 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	public void LevelUP()
 	{
 		++_level;
-		_maxhp = _maxhp + 5;
-		_hp = _maxhp;
-		_atk = _atk + 1;
-		_defense = _defense + 1;
-		_speed = _speed + 1;
-
+		AddMaxHP(5);
+		AddAtk(1);
+		AddDef(1);
+		AddSpd(1);
 		SetEXP(0);
+	}
+
+	public void AddMaxHP(int add)
+	{
+		_maxhp = _maxhp + add;
+		_hp = _maxhp;
+	}
+	public void AddAtk(int add)
+	{
+		_atk = _atk + add;
+		SetAtk();
+	}
+	public void SetAtk()
+	{
+		int count = _iAttacks.Length;
+		for (int i = 0; i < count; i++)
+		{
+			_iAttacks[i].AddDamage = _atk;
+		}
+	}
+
+	public void AddDef(int add)
+	{
+		_defense = _defense + add;
+	}
+	public void AddSpd(int add)
+	{
+		_speed = _speed + add;
+		SetSpd();
+	}
+	private void SetSpd()
+	{
+		_moveSpeed = _originMoveSpeed + (float)_speed / 20;
 	}
 
 	public void SetEXP(int exp)

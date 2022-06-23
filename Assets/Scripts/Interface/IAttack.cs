@@ -16,9 +16,20 @@ interface IAttack
 		set;
 	}
 
-	public int Damage
+	public int OriginDamage
 	{
 		get;
 		set;
+	}
+
+	public int AddDamage
+	{
+		get;
+		set;
+	}
+
+	public int Damage
+	{
+		get;
 	}
 }
