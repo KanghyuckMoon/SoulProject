@@ -98,7 +98,28 @@ public class ItemSetSO : ScriptableObject, IObservable, IInit
 [System.Serializable]
 public class ItemData
 {
-	public GameObject _itemPrefeb;
 	public EItem _itemType;
 	public int _count;
+
+	public IItem ChangeIItem()
+	{
+		IItem item = null;
+		switch (_itemType)
+		{
+			case EItem.None:
+				Debug.LogError("잘못된 타입");
+				break;
+			case EItem.Postion1:
+				item = new Potion1();
+				break;
+			case EItem.Postion2:
+				item = new Potion2();
+				break;
+			case EItem.Postion3:
+				item = new Potion3();
+				break;
+		}
+		item.SetItemData(this);
+		return item;
+	}
 }

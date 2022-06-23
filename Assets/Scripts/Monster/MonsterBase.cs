@@ -136,6 +136,13 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 			return _noticeManager;
 		}
 	}
+	public ItemPool ItemPoolFind
+	{
+		get
+		{
+			return FindObjectOfType<ItemPool>();
+		}
+	}
 
 	public GameObject GameObject
 	{
@@ -318,6 +325,8 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	protected int _defense = 10; //방어력 스탯
 	[SerializeField]
 	protected int _exp = 0; //경험치
+	[SerializeField]
+	protected ItemSetSO _dropItemSet = null; //드랍하는 아이템 리스트
 
 	//참조하는 속성
 	protected Animator _animator = null;
@@ -802,7 +811,30 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 			PlayerStat playerStat = _player.GetComponent<PlayerStat>();
 			playerStat.AddExp(10);
 			playerStat.AddMoney(10);
+			ItemDrop();
 		}
+	}
+
+	/// <summary>
+	/// 아이템 드랍
+	/// </summary>
+	private void ItemDrop()
+	{
+		if(_dropItemSet == null)
+		{
+			return;
+		}
+		ItemPool itemPool = ItemPoolFind;
+		ItemObject itemObject = itemPool.GetObject<ItemObject>();
+		if (itemObject == null)
+		{
+			itemObject = new GameObject().AddComponent<ItemObject>();
+		}
+		
+		int random = Random.Range(0, _dropItemSet._itemsList.Count - 1);
+		ItemData itemData = _dropItemSet._itemsList[random];
+
+		itemObject.Setting(itemData.ChangeIItem(), itemData, Position);
 	}
 
 	/// <summary>

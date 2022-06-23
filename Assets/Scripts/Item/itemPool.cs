@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using MoonLibrary.Pool;
 
-public class itemPool : PoolManager
+public class ItemPool : PoolManager
 {
 	public void AddQueue<T>()
 	{
