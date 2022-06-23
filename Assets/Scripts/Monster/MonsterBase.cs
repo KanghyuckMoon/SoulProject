@@ -880,5 +880,17 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		_atk = _atk + 1;
 		_defense = _defense + 1;
 		_speed = _speed + 1;
+
+		SetEXP(0);
+	}
+
+	public void SetEXP(int exp)
+	{
+		_exp = exp;
+	}
+
+	public void AddEXP(int exp)
+	{
+		_exp += exp;
 	}
 }

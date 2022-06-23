@@ -201,4 +201,16 @@ public interface IMonster
 	/// 몬스터 레벨업
 	/// </summary>
 	void LevelUP();
+
+	/// <summary>
+	/// 경험치 설정
+	/// </summary>
+	/// <param name="exp"></param>
+	void SetEXP(int exp);
+
+	/// <summary>
+	/// 경험치 추가
+	/// </summary>
+	/// <param name="exp"></param>
+	void AddEXP(int exp);
 }
