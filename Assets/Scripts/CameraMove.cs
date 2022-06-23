@@ -23,7 +23,7 @@ public class CameraMove : MonoBehaviour
     public float heightDamp = 6f;
     public float rotateDamp = 3f;
     //¶³¾îÁø °Å¸®
-    public float distance = 6f;
+    public float _distance = 6f;
 
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
@@ -73,7 +73,9 @@ public class CameraMove : MonoBehaviour
 			{
                 ThirdCamera();
 			}
-		}
+            SetDistance();
+
+        }
     }
 
     public void AnimationCamera(Vector3 position, Vector3 forward)
@@ -115,7 +117,7 @@ public class CameraMove : MonoBehaviour
         Quaternion nowRotate = Quaternion.Euler(0f, nowRotationAngle, 0f);
 
         cameraTransform.position = objTargetTransform.position;
-        cameraTransform.position -= nowRotate * Vector3.forward * distance;
+        cameraTransform.position -= nowRotate * Vector3.forward * _distance;
         cameraTransform.position = new Vector3(cameraTransform.position.x, nowHeight, cameraTransform.position.z);
 
         cameraTransform.LookAt(objTargetTransform);
@@ -156,8 +158,29 @@ public class CameraMove : MonoBehaviour
         Vector3 velocity = Vector3.zero;
         cameraTransform.forward = Vector3.SmoothDamp(cameraTransform.forward, rotationVector,ref velocity, _lookOnSpeed * Time.deltaTime);
         cameraTransform.position = objTargetTransform.position;
-        cameraTransform.position -= rotationVector * distance;
+        cameraTransform.position -= rotationVector * _distance;
         cameraTransform.position = new Vector3(cameraTransform.position.x, nowHeight, cameraTransform.position.z);
+
+    }
+
+    private void SetDistance()
+	{
+        float wheelInput = Input.GetAxis("Mouse ScrollWheel"); 
+        
+        if (wheelInput > 0)
+		{
+            if(_distance > 2)
+			{
+                _distance -= Time.deltaTime * 50;
+			}
+		}
+        else if(wheelInput < 0)
+        {
+            if(_distance < 10)
+			{
+                _distance += Time.deltaTime * 50;
+			}
+        }
 
     }
 }
