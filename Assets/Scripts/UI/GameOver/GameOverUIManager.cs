@@ -59,7 +59,7 @@ public class GameOverUIManager : MonoBehaviour
 	/// </summary>
 	private void Retry()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		LoadingManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 	
 	/// <summary>

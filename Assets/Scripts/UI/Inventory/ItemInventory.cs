@@ -21,7 +21,7 @@ public class ItemInventory : MonoBehaviour, IObserver
 	}
 
 	private List<ItemBox> _itemBoxs = new List<ItemBox>();
-	private Player _playerMove = new Player();
+	private Player _playerMove = null;
 
 	//인벤토리 패널 관련
 	[SerializeField]

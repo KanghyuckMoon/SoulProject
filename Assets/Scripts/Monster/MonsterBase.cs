@@ -361,6 +361,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	public virtual void Start()
 	{
 		_characterController = GetComponent<CharacterController>();
+		_characterController.SimpleMove(Vector3.zero);
 		_animator = GetComponentInChildren<Animator>();
 		_iAttacks = GetComponentsInChildren<IAttack>(true);
 		_player = FindObjectOfType<Player>();
@@ -750,7 +751,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	/// </summary>
 	private float GetVelocitySpd()
 	{
-		if (_characterController.velocity == Vector3.zero)
+		if (_characterController.velocity.normalized == Vector3.zero)
 		{
 			currentVelocitySpeed = Vector3.zero;
 		}
@@ -760,6 +761,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 			retVelocity.y = 0;
 			currentVelocitySpeed = Vector3.Lerp(currentVelocitySpeed, retVelocity, velocityChangeSpeed * Time.fixedDeltaTime);
 		}
+		Debug.Log(currentVelocitySpeed);
 
 		return currentVelocitySpeed.magnitude;
 	}
