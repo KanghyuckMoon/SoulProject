@@ -31,6 +31,8 @@ public class MonsterPanel : MonoBehaviour, IObserver
 	[SerializeField]
 	private TextMeshProUGUI _spdText = null;
 	[SerializeField]
+	private TextMeshProUGUI _atkText = null;
+	[SerializeField]
 	private TextMeshProUGUI _defText = null;
 	[SerializeField]
 	private TextMeshProUGUI _expText = null;
@@ -70,6 +72,7 @@ public class MonsterPanel : MonoBehaviour, IObserver
 			_descriptionText.text = "빙의한 몬스터가 없습니다";
 			_levelText.text = "LV.0";
 			_hpText.text = "HP: 0";
+			_atkText.text = "ATK: 0";
 			_spdText.text = "SPD: 0";
 			_defText.text = "DEF: 0";
 			_expText.text = "EXP) 0/0";
@@ -86,6 +89,7 @@ public class MonsterPanel : MonoBehaviour, IObserver
 			_descriptionText.text = monster.Description;
 			_levelText.text = $"LV.{monster.Level}";
 			_hpText.text = $"HP: {monster.MaxHP}";
+			_atkText.text = $"ATK: {monster.ATK}";
 			_spdText.text = $"SPD: {monster.SPD}";
 			_defText.text = $"DEF: {monster.DEF}";
 			_expText.text = $"EXP) {monster.EXP}/{monster.Level * 10}";
@@ -114,6 +118,8 @@ public class MonsterPanel : MonoBehaviour, IObserver
 
 	public void OnFastLevelUP()
 	{
-
+		if (Player.CaptureMonster != null)
+		{
+		}
 	}
 }

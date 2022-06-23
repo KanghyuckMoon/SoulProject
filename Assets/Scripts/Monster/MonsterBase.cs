@@ -252,6 +252,17 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		}
 	}
 
+	public int ATK
+	{
+		get
+		{
+			return _atk;
+		}
+		set
+		{
+			_atk = value;
+		}
+	}
 
 	//인스펙터에서 확인할 수 있는 속성
 	[SerializeField]
@@ -299,6 +310,8 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	protected float _coolTimeSpeedE = 10.0f; //E 쿨타임 증가속도
 	[SerializeField]
 	protected float _coolTimeSpeedR = 10.0f; //R 쿨타임 증가속도
+	[SerializeField]
+	protected int _atk = 10; //공격 스탯
 	[SerializeField]
 	protected int _speed = 10; //속도 스탯
 	[SerializeField]
@@ -852,5 +865,20 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	public bool CheckCoolTimeR()
 	{
 		return _coolTimeR > 1;
+	}
+
+	public bool CheckMaxLevel()
+	{
+		return _level >= 100;
+	}
+
+	public void LevelUP()
+	{
+		++_level;
+		_maxhp = _maxhp + 5;
+		_hp = _maxhp;
+		_atk = _atk + 1;
+		_defense = _defense + 1;
+		_speed = _speed + 1;
 	}
 }

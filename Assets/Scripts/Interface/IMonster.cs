@@ -54,6 +54,12 @@ public interface IMonster
 		get;
 		set;
 	}
+
+	public int ATK
+	{
+		get;
+		set;
+	}
 	public int SPD
 	{
 		get;
@@ -146,13 +152,11 @@ public interface IMonster
 	/// R키 스킬
 	/// </summary>
 	bool KeyRSkill();
-
 	/// <summary>
 	/// MLB 스킬을 사용할 수 있는지
 	/// </summary>
 	/// <returns></returns>
 	bool CheckCanMLB();
-
 	/// <summary>
 	/// MRB 스킬을 사용할 수 있는지
 	/// </summary>
@@ -168,7 +172,6 @@ public interface IMonster
 	/// </summary>
 	/// <returns></returns>
 	bool CheckCanR();
-
 	/// <summary>
 	/// MLB 스킬의 쿨타임이 끝났는지
 	/// </summary>
@@ -189,4 +192,13 @@ public interface IMonster
 	/// </summary>
 	/// <returns></returns>
 	bool CheckCoolTimeR();
+	/// <summary>
+	/// 현재 최대 레벨인지 체크한다
+	/// </summary>
+	/// <returns></returns>
+	bool CheckMaxLevel();
+	/// <summary>
+	/// 몬스터 레벨업
+	/// </summary>
+	void LevelUP();
 }
