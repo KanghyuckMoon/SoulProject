@@ -10,6 +10,12 @@ interface IAttack
 		set;
 	}
 
+	public GameObject Attacker
+	{
+		get;
+		set;
+	}
+
 	public GameObject Effect
 	{
 		get;

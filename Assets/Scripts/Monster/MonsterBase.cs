@@ -357,7 +357,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 	protected Vector3 _moveDirect = Vector3.zero; //이동방향
 	protected Vector3 _gravityDirect = Vector3.zero; //중력 벡터
 	protected Vector3 currentVelocitySpeed = Vector3.zero; //캐릭터 현재 이동 속도
-	protected Vector3 posTarget = Vector3.zero; //몬스터가 본 타겟 위치
+	protected Vector3 _posTarget = Vector3.zero; //몬스터가 본 타겟 위치
 	protected string _name; //몬스터 이름
 	protected string _description; //몬스터 설명;
 	protected float _coolTimeMLB = 0.0f; //마우스 좌클릭 쿨타임
@@ -437,19 +437,19 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		if (_targetCharacter == null)
 		{
 			//임의의 이동 목표점
-			posTarget = new Vector3(transform.position.x + Random.Range(-10f, 10f),
+			_posTarget = new Vector3(transform.position.x + Random.Range(-10f, 10f),
 									transform.position.y + 1000f,
 									transform.position.z + Random.Range(-10f, 10f));
 
 
 			//레이캐스트 시작점 목표방향
-			Ray ray = new Ray(posTarget, Vector3.down);
+			Ray ray = new Ray(_posTarget, Vector3.down);
 			RaycastHit info = new RaycastHit();
 			//충돌체가 있다면
 			if (Physics.Raycast(ray, out info, Mathf.Infinity))
 			{
 				//임의의 목표 벡터에 높이 값 추가
-				posTarget.y = info.point.y;
+				_posTarget.y = info.point.y;
 			}
 			//해골 상태를 Move로
 			ChangeState(MonsterState.Move);
@@ -475,10 +475,10 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		{
 			case MonsterState.Move:
 				//목표 위치가 있을 때
-				if (posTarget != Vector3.zero)
+				if (_posTarget != Vector3.zero)
 				{
 					//목표 위치와 해골 위치 차이 구하기
-					distance = posTarget - transform.position;
+					distance = _posTarget - transform.position;
 
 					if (distance.magnitude < _atkRange)
 					{
@@ -487,7 +487,7 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 					}
 
 					//바라보는 방향
-					posLookAt = new Vector3(posTarget.x, transform.position.y, posTarget.z);
+					posLookAt = new Vector3(_posTarget.x, transform.position.y, _posTarget.z);
 				}
 				break;
 			case MonsterState.GoTarget:
@@ -792,10 +792,11 @@ public abstract class MonsterBase : MonoBehaviour, IMonster
 		if (other.gameObject.CompareTag("ATK"))
 		{
 			var iAttack = other.GetComponent<IAttack>();
-			if(iAttack.IsPlayer != _isCapture)
+			if(iAttack.Attacker != gameObject)
 			{
 				//공격받음
 				Damaged(iAttack);
+				_targetCharacter = iAttack.Attacker;
 			}
 		}
 	}
