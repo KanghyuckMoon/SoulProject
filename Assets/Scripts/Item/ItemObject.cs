@@ -73,7 +73,7 @@ public class ItemObject : MonoBehaviour, IInteraction
 			spriteRenderer = gameObject.AddComponent<SpriteRenderer>();
 		}
 		spriteRenderer.sprite = Resources.Load<Sprite>($"Item/{item.Name}");
-		transform.DORotate(new Vector3(0, -360, 0), 5f, RotateMode.FastBeyond360);
+		transform.DORotate(new Vector3(0, -360, 0), 5f, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Incremental);
 		transform.localScale = Vector3.one * 0.5f;
 		gameObject.tag = "Item";
 
